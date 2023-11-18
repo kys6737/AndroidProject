@@ -86,7 +86,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="55dp"
         android:layout_marginTop="15dp"
-        android:text="백 서 영"
+        android:text="강 동 기"
         android:textColor="@color/black"
         android:textSize="22sp"
         android:textStyle="bold"
@@ -142,21 +142,6 @@
         app:layout_constraintTop_toTopOf="@+id/linearLayout2" />
 
     <Button
-        android:id="@+id/Consultation"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/request"
-        android:text="상담 신청하기"
-        android:textColor="#82CBC4"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout2" />
-
-    <Button
         android:id="@+id/IljeongButton"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
@@ -167,61 +152,9 @@
         android:textColor="#82CBC4"
         android:textSize="14sp"
         android:textStyle="bold"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="@+id/linearLayout2" />
-
-    <TextView
-        android:id="@+id/Date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="55dp"
-        android:layout_marginBottom="30dp"
-        android:text="날짜 : "
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout2" />
-
-    <TextView
-        android:id="@+id/Date_FB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="95dp"
-        android:layout_marginBottom="30dp"
-        android:text="2023.11.20(월)"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout2" />
-
-    <TextView
-        android:id="@+id/Time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="55dp"
-        android:layout_marginBottom="13dp"
-        android:text="시간 :"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout2" />
-
-    <TextView
-        android:id="@+id/Time_FB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="95dp"
-        android:layout_marginBottom="13dp"
-        android:text="09 : 00"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout2" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -251,28 +184,49 @@
             android:layout_marginBottom="5dp"
             android:background="@drawable/radiusbottom"
             android:gravity="left|center_vertical"
-            android:text="    상담 일정 확인하기"
+            android:text="    상담 후기 확인하기"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/MyProfessor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/radius"
+            android:background="@drawable/radiustop"
             android:gravity="left|center_vertical"
-            android:text="    나의 교수님"
+            android:text="    나의 학생 목록"
             android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/Schedule"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/radiusbottom"
+            android:gravity="left|center_vertical"
+            android:text="    스케줄 관리"
+            android:textStyle="bold"/>
     </LinearLayout>
 
     <View
         android:id="@+id/line2"
         android:layout_width="360dp"
         android:layout_height="2dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="96dp"
         android:background="#F0F0F0"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="@+id/linearLayout"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout" />
+        app:layout_constraintStart_toStartOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout" />
+
+    <View
+        android:id="@+id/line5"
+        android:layout_width="360dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="104dp"
+        android:background="#F0F0F0"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout" />
 
     <TextView
         android:id="@+id/MakePeoples"

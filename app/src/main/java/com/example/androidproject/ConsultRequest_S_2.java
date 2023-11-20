@@ -32,7 +32,7 @@ public class ConsultRequest_S_2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.consultrequest_s_2);
 
         reservation = getIntent().getParcelableExtra("reservation");
         Log.d("reservationDebug", "studentName: " + reservation.getStudentName() + ", Date: " + reservation.getDate() + ", Time: " + reservation.getTime());

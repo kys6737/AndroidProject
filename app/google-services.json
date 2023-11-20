@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "260216990266",
+    "firebase_url": "https://mypage-d913d-default-rtdb.firebaseio.com",
+    "project_id": "mypage-d913d",
+    "storage_bucket": "mypage-d913d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:260216990266:android:3a26a9f27aeb34e5d7a303",
+        "android_client_info": {
+          "package_name": "com.example.mypg_p"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMbQcJydmfQBTj0IiSajYLz1FTmvmG_FU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:260216990266:android:c9d46464417b722ed7a303",
+        "android_client_info": {
+          "package_name": "com.example.mypg_s"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMbQcJydmfQBTj0IiSajYLz1FTmvmG_FU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:260216990266:android:aef2b6d72829264dd7a303",
+        "android_client_info": {
+          "package_name": "com.example.myprofessor_s"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMbQcJydmfQBTj0IiSajYLz1FTmvmG_FU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

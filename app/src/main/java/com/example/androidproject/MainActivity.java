@@ -1,14 +1,125 @@
 package com.example.androidproject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
+
+    TextView message, name;
+    Button alert, myPage, consul, iljeongCheck, history, ilJeong, myProfessor, schedule;
+
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        name = (TextView) findViewById(R.id.Name);
+
+        message = (TextView) findViewById(R.id.Message);
+        alert = findViewById(R.id.alert);
+        iljeongCheck = findViewById(R.id.IljeongButton);
+        history = findViewById(R.id.History);
+        ilJeong = findViewById(R.id.Iljeong);
+        myProfessor = findViewById(R.id.MyProfessor);
+        myPage = findViewById(R.id.MyPage);
+        schedule = findViewById(R.id.Schedule);
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("example/ex1");
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    String firebaseName = snapshot.child("name").getValue(String.class);
+
+                    name.setText(firebaseName);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        alert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Example.class);
+                startActivity(intent);
+
+            }
+        });
+
+        iljeongCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Example.class);
+                startActivity(intent);
+
+            }
+        });
+
+        history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Example.class);
+                startActivity(intent);
+
+            }
+        });
+
+        ilJeong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Example.class);
+                startActivity(intent);
+
+            }
+        });
+
+        myProfessor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Example.class);
+                startActivity(intent);
+
+            }
+        });
+
+        myPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Example.class);
+                startActivity(intent);
+
+            }
+        });
+
+        schedule.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Example.class);
+                startActivity(intent);
+            }
+        });
     }
 }

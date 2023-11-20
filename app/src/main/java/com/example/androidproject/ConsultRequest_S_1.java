@@ -3,6 +3,7 @@ package com.example.androidproject;
 import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
@@ -12,17 +13,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.app.Reservation;
-import com.google.firebase.firestore.auth.User;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 
 
-public class MainActivity extends AppCompatActivity {
-
-    private boolean button0900Pressed = false;
+public class ConsultRequest_S_1 extends AppCompatActivity {
+    private Calendar selectedCalendar;
+    private Calendar currentCalendar;
     private String selectedDate;
     private String selectedTime;
     private CalendarView calendarView;
@@ -46,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private Button button1730;
     private Button lastClickedButton;
     private Button nextButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,23 +93,128 @@ public class MainActivity extends AppCompatActivity {
         button1730.setVisibility(View.INVISIBLE);
 
         // 과거의 날짜 모두 비활성화
-        Calendar currentDate = Calendar.getInstance(); // 현재 날짜 가져오는 메서드
-        calendarView.setMinDate(currentDate.getTimeInMillis()); // 현재 날짜 이전 날짜 비활성화
+        currentCalendar = Calendar.getInstance(); // 현재 날짜 가져오는 메서드
+        calendarView.setMinDate(currentCalendar.getTimeInMillis()); // 현재 날짜 이전 날짜 비활성화
 
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 showTimeButtons();
+
                 // 선택한 날짜를 문자열로 변환
                 selectedDate = String.format(Locale.getDefault(), "%04d-%02d-%02d", year, month + 1, dayOfMonth);
-                lastClickedButtonState(lastClickedButton);
-                nextButton.setEnabled(false);
-                nextButton.setBackgroundResource(R.drawable.unavailablenextbutton);
 
+                // 캘린더 객체 생성 및 선택한 날짜 설정
+                selectedCalendar = Calendar.getInstance();
+                selectedCalendar.set(year, month, dayOfMonth);
 
+                // 현재 날짜와 선택한 날짜 비교
+                if (isSameDate(selectedCalendar, currentCalendar)) {
+                    // 현재 날짜와 선택한 날짜가 같은 경우의 동작 추가
+                    Log.d("DateComparison", "Selected date is the same as the current date.");
+                    button0900.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    button0900.setEnabled(false);
+                    button0930.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    button0930.setEnabled(false);
+                    button1000.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    button1000.setEnabled(false);
+                    button1030.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    button1030.setEnabled(false);
+                    button1100.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    button1100.setEnabled(false);
+                    button1130.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    button1130.setEnabled(false);
+                    button1200.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    button1200.setEnabled(false);
+                    button1230.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    button1230.setEnabled(false);
+                    button1300.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    button1300.setEnabled(false);
+                    button1330.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    button1330.setEnabled(false);
+                    button1400.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    button1400.setEnabled(false);
+                    button1430.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    button1430.setEnabled(false);
+                    button1500.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    button1500.setEnabled(false);
+                    button1530.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    button1530.setEnabled(false);
+                    button1600.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    button1600.setEnabled(false);
+                    button1630.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    button1630.setEnabled(false);
+                    button1700.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    button1700.setEnabled(false);
+                    button1730.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    button1730.setEnabled(false);
+
+                    nextButton.setBackgroundResource(R.drawable.unavailablenextbutton);
+                    nextButton.setEnabled(false);
+
+                    // 여기에 특정 동작을 수행하면 됩니다.
+                    // 예: 다른 버튼을 활성화하거나 메시지를 출력하는 등의 동작
+                } else {
+                    button0900.setBackgroundResource(R.drawable.timebutton);
+                    button0900.setEnabled(true);
+                    button0930.setBackgroundResource(R.drawable.timebutton);
+                    button0930.setEnabled(true);
+                    button1000.setBackgroundResource(R.drawable.timebutton);
+                    button1000.setEnabled(true);
+                    button1030.setBackgroundResource(R.drawable.timebutton);
+                    button1030.setEnabled(true);
+                    button1100.setBackgroundResource(R.drawable.timebutton);
+                    button1100.setEnabled(true);
+                    button1130.setBackgroundResource(R.drawable.timebutton);
+                    button1130.setEnabled(true);
+                    button1200.setBackgroundResource(R.drawable.timebutton);
+                    button1200.setEnabled(true);
+                    button1230.setBackgroundResource(R.drawable.timebutton);
+                    button1230.setEnabled(true);
+                    button1300.setBackgroundResource(R.drawable.timebutton);
+                    button1300.setEnabled(true);
+                    button1330.setBackgroundResource(R.drawable.timebutton);
+                    button1330.setEnabled(true);
+                    button1400.setBackgroundResource(R.drawable.timebutton);
+                    button1400.setEnabled(true);
+                    button1430.setBackgroundResource(R.drawable.timebutton);
+                    button1430.setEnabled(true);
+                    button1500.setBackgroundResource(R.drawable.timebutton);
+                    button1500.setEnabled(true);
+                    button1530.setBackgroundResource(R.drawable.timebutton);
+                    button1530.setEnabled(true);
+                    button1600.setBackgroundResource(R.drawable.timebutton);
+                    button1600.setEnabled(true);
+                    button1630.setBackgroundResource(R.drawable.timebutton);
+                    button1630.setEnabled(true);
+                    button1700.setBackgroundResource(R.drawable.timebutton);
+                    button1700.setEnabled(true);
+                    button1730.setBackgroundResource(R.drawable.timebutton);
+                    button1730.setEnabled(true);
+
+                    // 현재 날짜와 선택한 날짜가 다른 경우의 동작 추가
+                    Log.d("DateComparison", "Selected date is different from the current date.");
+
+                    // 여기에 다른 특정 동작을 수행하면 됩니다.
+                }
+
+                // 마지막에 클릭된 버튼 상태 원래대로 돌려놓음
+                //lastClickedButtonState(lastClickedButton);
+                // Next 버튼 상태 업데이트
+                //updateNextButtonState();
             }
         });
+
+
+
+
+
+
+
+
+
+
         button0900.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -266,7 +369,7 @@ public class MainActivity extends AppCompatActivity {
                 reservation.setTime(selectedTime);
                 reservation.setStudentName("Christiano Ronaldo");
 
-                Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+                Intent intent = new Intent(ConsultRequest_S_1.this, ConsultRequest_S_2.class);
                 intent.putExtra("reservation", reservation);
                 startActivity(intent);
             }
@@ -317,6 +420,16 @@ public class MainActivity extends AppCompatActivity {
         nextButton.setEnabled(lastClickedButton != null);
         nextButton.setBackgroundResource(R.drawable.availablenextbutton);
     }
+
+    private boolean isSameDate(Calendar calendar1, Calendar calendar2) {
+        return calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR) &&
+                calendar1.get(Calendar.MONTH) == calendar2.get(Calendar.MONTH) &&
+                calendar1.get(Calendar.DAY_OF_MONTH) == calendar2.get(Calendar.DAY_OF_MONTH);
+    }
+
+
+
+
 
 
 

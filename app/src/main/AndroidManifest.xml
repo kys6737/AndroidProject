@@ -14,10 +14,10 @@
         android:theme="@style/Theme.AndroidProject"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity2"
+            android:name=".ConsultRequest_S_2"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ConsultRequest_S_1"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

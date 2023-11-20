@@ -4,28 +4,21 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.app.TimePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import com.example.app.CustomApplication;
 import com.example.app.Reservation;
 
-public class MainActivity2 extends AppCompatActivity {
+public class ConsultRequest_S_2 extends AppCompatActivity {
     EditText questionEditText;
     private String selectedType;
     private Reservation reservation;
@@ -80,7 +73,7 @@ public class MainActivity2 extends AppCompatActivity {
         beforeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity2.this, MainActivity.class);
+                Intent intent = new Intent(ConsultRequest_S_2.this, ConsultRequest_S_1.class);
                 startActivity(intent);
             }
         });

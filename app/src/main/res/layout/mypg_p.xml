@@ -16,8 +16,7 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:title="마이페이지" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/backBtn"
@@ -30,8 +29,7 @@
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar"
         app:layout_constraintStart_toStartOf="@id/toolbar"
-        app:layout_constraintTop_toTopOf="@id/toolbar"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toTopOf="@id/toolbar" />
 
     <View
         android:id="@+id/semiBG"

@@ -13,6 +13,18 @@
         android:theme="@style/Theme.AndroidProject"
         tools:targetApi="31">
         <activity
+            android:name=".Record_p"
+            android:exported="false" />
+        <activity
+            android:name=".feedback_p"
+            android:exported="false" />
+        <activity
+            android:name=".feedback_s"
+            android:exported="false" />
+        <activity
+            android:name=".Record_s"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

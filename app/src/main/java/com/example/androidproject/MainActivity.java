@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         consul.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Example.class);
+                Intent intent = new Intent(MainActivity.this, ConsultRequest_S_1.class);
                 startActivity(intent);
 
             }

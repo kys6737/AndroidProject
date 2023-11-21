@@ -9,12 +9,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class MainActivity extends AppCompatActivity {
+public class temporary_main extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_temporary_main);
 
         Toolbar main_toolbar=findViewById(R.id.main_toolbar);
         main_toolbar.setTitleTextColor(Color.WHITE);

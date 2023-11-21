@@ -27,12 +27,11 @@ import java.util.ArrayList;
 
 public class Record_s extends AppCompatActivity {
 
-    private ArrayList<Record_list_new> mArrayList;
+    private ArrayList<Record_list> mArrayList;
     private CustomAdapter mAdapter;
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference databaseReference = database.getReference();
-
+    private DatabaseReference databaseReference = database.getReference("counsel_record");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,15 +65,18 @@ public class Record_s extends AppCompatActivity {
 
         mRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), mRecyclerView, new ClickListener(){
             public void onClick(View view, int position){
-                Record_list_new list_click=mArrayList.get(position);
+                Record_list list_click=mArrayList.get(position);
+//                        Toast.makeText(getApplicationContext(),
+//                                list_click.getC_when() + ' ' + list_click.getC_who() + ' ' +
+//                                list_click.getC_what(), Toast.LENGTH_LONG).show();
 
                 Intent intent=new Intent(getBaseContext(), feedback_s.class);
 
-//                intent.putExtra("t", list_click.getC_when());
-//                intent.putExtra("p", list_click.getC_who());
-//                intent.putExtra("k", list_click.getC_what());
-//                intent.putExtra("n", list_click.getCount());
-//                intent.putExtra("f", list_click.getFeedback());
+                intent.putExtra("t", list_click.getC_when());
+                intent.putExtra("p", list_click.getC_who());
+                intent.putExtra("k", list_click.getC_what());
+                intent.putExtra("n", list_click.getCount());
+                intent.putExtra("f", list_click.getFeedback());
 
                 startActivity(intent);
             }
@@ -83,15 +85,19 @@ public class Record_s extends AppCompatActivity {
         }));
 //        ---------------------------recyclerView---------------------------
 
-        databaseReference.child("187740328").child("history").child("2023_2").child("content").addValueEventListener(new ValueEventListener() {
+
+        Query myTopPOstsQuery=databaseReference.orderByChild("counsel").equalTo("complete");
+        myTopPOstsQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                    Record_list_new read_list = snapshot.getValue(Record_list_new.class);
-                    Record_list_new call_list = new Record_list_new(read_list.getDate_day(), read_list.getDate_hour(), read_list.getDate_month(), read_list.getDate_year(), read_list.getProfessor_name(), read_list.getProfessor_number(), read_list.getClassification(), read_list.getCounseling_content(), read_list.getCounseling_form(), read_list.getCounseling_group());
+                mArrayList.clear();
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Record_list read_list = dataSnapshot.getValue(Record_list.class);
+                    Record_list call_list = new Record_list(read_list.getC_when(), read_list.getC_who(), read_list.getC_what(), read_list.getCount(), read_list.getFeedback(), read_list.getP_who());
                     mArrayList.add(call_list);
                     mAdapter.notifyDataSetChanged();
-
+                }
+//                mAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -99,25 +105,6 @@ public class Record_s extends AppCompatActivity {
 
             }
         });
-
-//        Query myTopPOstsQuery=databaseReference.orderByChild("counsel").equalTo("complete");
-//        myTopPOstsQuery.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                mArrayList.clear();
-//                for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
-//                    Record_list read_list = dataSnapshot.getValue(Record_list.class);
-//                    Record_list call_list = new Record_list(read_list.getC_when(), read_list.getC_who(), read_list.getC_what(), read_list.getCount(), read_list.getFeedback(), read_list.getP_who());
-//                    mArrayList.add(call_list);
-//                    mAdapter.notifyDataSetChanged();
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
 
 
 //        btnInsert.setOnClickListener(new View.OnClickListener(){

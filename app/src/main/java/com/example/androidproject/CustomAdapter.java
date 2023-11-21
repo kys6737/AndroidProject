@@ -15,7 +15,7 @@ import java.util.Dictionary;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder>{
 
-    private ArrayList<Record_list> cList;
+    private ArrayList<Record_list_new> cList;
 
     //===== 뷰홀더 클래스 =====================================================
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -34,7 +34,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     //----- 생성자 --------------------------------------
     // 생성자를 통해서 데이터를 전달받도록 함
-    public CustomAdapter (ArrayList<Record_list> dataSet) {
+    public CustomAdapter (ArrayList<Record_list_new> dataSet) {
         this.cList=dataSet;
     }
     //--------------------------------------------------
@@ -61,9 +61,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         holder.who.setGravity(Gravity.LEFT);
         holder.what.setGravity(Gravity.LEFT);
 
-        holder.when.setText(cList.get(position).getC_when());
-        holder.who.setText(cList.get(position).getC_who());
-        holder.what.setText(cList.get(position).getC_what());
+        holder.when.setText(cList.get(position).getDate_day());
+        holder.who.setText(cList.get(position).getProfessor_name());
+        holder.what.setText(cList.get(position).getCounseling_form());
     }
 
     @Override   // 전체 데이터의 갯수를 리턴한다.

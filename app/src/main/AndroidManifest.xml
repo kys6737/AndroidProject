@@ -21,7 +21,23 @@
             android:name=".ConsultRequest_S_2"
             android:exported="false" />
         <activity
-            android:name=".MainScreen"
+
+            android:name=".Record_p"
+            android:exported="false" />
+        <activity
+            android:name=".feedback_p"
+            android:exported="false" />
+        <activity
+            android:name=".feedback_s"
+            android:exported="false" />
+        <activity
+            android:name=".Record_s"
+            android:exported="false" />
+        <activity
+            android:name=".temporary_main"
+            android:exported="false"/>
+======= <activity
+            android:name=".MainScreen"/>
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

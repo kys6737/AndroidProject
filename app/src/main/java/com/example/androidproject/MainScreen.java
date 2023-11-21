@@ -15,7 +15,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class MainActivity extends AppCompatActivity {
+public class MainScreen extends AppCompatActivity {
 
     TextView message, name, date_FB, time_FB;
     Button alert, myPage, consul, iljeongCheck, history, ilJeong, myProfessor;
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.d);
+        setContentView(R.layout.mainscreen);
 
         name = findViewById(R.id.Name);
         date_FB = findViewById(R.id.Date_FB);
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         alert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Example.class);
+                Intent intent = new Intent(MainScreen.this, Example.class);
                 startActivity(intent);
 
             }
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         consul.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ConsultRequest_S_1.class);
+                Intent intent = new Intent(MainScreen.this, ConsultRequest_S_1.class);
                 startActivity(intent);
 
             }
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         iljeongCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Example.class);
+                Intent intent = new Intent(MainScreen.this, Example.class);
                 startActivity(intent);
 
             }
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Example.class);
+                Intent intent = new Intent(MainScreen.this, Example.class);
                 startActivity(intent);
 
             }
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         ilJeong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Example.class);
+                Intent intent = new Intent(MainScreen.this, Example.class);
                 startActivity(intent);
 
             }
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         myProfessor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Example.class);
+                Intent intent = new Intent(MainScreen.this, Example.class);
                 startActivity(intent);
 
             }
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         myPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Example.class);
+                Intent intent = new Intent(MainScreen.this, Example.class);
                 startActivity(intent);
 
             }

@@ -1,7 +1,9 @@
-package com.example.androidproject;
+package com.example.realtime_alpha;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
 
@@ -10,17 +12,21 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.IgnoreExtraProperties;
 import android.view.View;
 
+import java.io.ByteArrayOutputStream;
 import java.sql.Timestamp;
 
-public class database_reference extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_database_reference);
-        pushdata();
+        setContentView(R.layout.activity_main);
+        //pushdata();
     }
 
+    public void Buttonclick(View v){
+        pushdata();
+    }
     public class professor_information{
         public int private_key;
         public String name;
@@ -218,12 +224,11 @@ public class database_reference extends AppCompatActivity {
     //}
 
     public class question_group{
+        public String question1; public String question2; public String question3; public String question4;
+        public String question5; public String question6; public String question7; public String question8;
 
-        String question1; String question2; String question3; String question4;
-        String question5; String question6; String question7; String question8;
-
-        String answer1 ; String answer2; String answer3; String answer4;
-        String answer5; String answer6; String answer7; String answer8;
+        public String answer1 ; public String answer2; public String answer3; public String answer4;
+        public String answer5; public String answer6; public String answer7; public String answer8;
         public question_group(String question1, String answer1, String question2, String answer2
                 , String question3, String answer3, String question4, String answer4
                 , String question5, String answer5, String question6, String answer6
@@ -243,8 +248,8 @@ public class database_reference extends AppCompatActivity {
             question_group data = new question_group("question1","answer1","question2","answer2"
                     ,"question3","answer3","question4","answer4","question5","answer5"
                     ,"null","null","null","null","null","null");
-            database.child("2021145818").child("history").child("2023_2")
-                    .child("187740328").child("question").setValue(data);
+            database.child("187740328").child("history").child("2023_2")
+                    .child("question").setValue(data);
         }
 
     }
@@ -289,13 +294,44 @@ public class database_reference extends AppCompatActivity {
         }
     }
 
+    public class image{
+        public byte[] byteArray;
+
+        public image(byte[] byteArray){
+            this.byteArray = byteArray;
+        }
+
+
+    }
+
+    public static String byteArrayToBinaryString(byte[] b) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < b.length; ++i) {
+            sb.append(byteToBinaryString(b[i]));
+        }
+        return sb.toString();
+    }
+    public static String byteToBinaryString(byte n) {
+        StringBuilder sb = new StringBuilder("00000000");
+        for (int bit = 0; bit < 8; bit++) {
+            if (((n >> bit) & 1) > 0) {
+                sb.setCharAt(7 - bit, '1');
+            }
+        }
+        return sb.toString();
+    }
+    //출처: https://billcorea.tistory.com/75 [생각저장소 (배움의길에서 만나는 이야기들):티스토리]
     public void pushdata(){
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-        student_information data = new student_information(187740328, "A", 000000000
-                ,3, "2021-03-01","전북대학교 --학과", "--학과","--학과"
-                ,"00000000000","A@jbnu.ac.kr", false );
-        database.child("187740328").child("student_information").setValue(data);
+
+        //Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.image01);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        //bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        String data = byteArrayToBinaryString(byteArray);
+        //database.child("test").child("image").setValue(data);
     }
+
 
     public void test(){
         // Write a message to the database

@@ -17,7 +17,7 @@
         android:theme="@style/Theme.MyPg_s"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".MyPg_S"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

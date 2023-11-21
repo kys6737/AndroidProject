@@ -38,7 +38,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class MainActivity extends AppCompatActivity {
+public class MyPg_S extends AppCompatActivity {
     Button backBtn, editBtn, editCompleteBtn, logoutBtn;
     ImageButton changeImgBtn;
     ImageView myImg;
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.mypg_s);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("myInfo");
@@ -80,13 +80,13 @@ public class MainActivity extends AppCompatActivity {
         editMail=findViewById(R.id.editMail);
         onOff=findViewById(R.id.onOff);
 
-        editdialog=new Dialog(MainActivity.this);
+        editdialog=new Dialog(MyPg_S.this);
         editdialog.setContentView(R.layout.editdialog);
-        logoutdialog=new Dialog(MainActivity.this);
+        logoutdialog=new Dialog(MyPg_S.this);
         logoutdialog.setContentView(R.layout.logoutdialog);
-        logoutcheckdialog=new Dialog(MainActivity.this);
+        logoutcheckdialog=new Dialog(MyPg_S.this);
         logoutcheckdialog.setContentView(R.layout.logoutcheckdialog);
-        imgselectdialog=new Dialog(MainActivity.this);
+        imgselectdialog=new Dialog(MyPg_S.this);
         imgselectdialog.setContentView(R.layout.imgselectdialog);
 
 
@@ -172,11 +172,11 @@ public class MainActivity extends AppCompatActivity {
         onOff.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener(){
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked){
                 if(isChecked){
-                    Toast.makeText(MainActivity.this,"알림 ON",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MyPg_S.this,"알림 ON",Toast.LENGTH_SHORT).show();
                     databaseReference.child("alarm").setValue(true);
                 }
                 else {
-                    Toast.makeText(MainActivity.this,"알림 OFF",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MyPg_S.this,"알림 OFF",Toast.LENGTH_SHORT).show();
                     databaseReference.child("alarm").setValue(false);
                 }
             }
@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> {
                     // 이미지 다운로드 실패
-                    Toast.makeText(MainActivity.this, "이미지 다운로드에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MyPg_S.this, "이미지 다운로드에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 });
     }
 
@@ -351,7 +351,7 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> {
                     // 이미지 업로드 실패
-                    Toast.makeText(MainActivity.this, "이미지 업로드에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MyPg_S.this, "이미지 업로드에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 });
     }
 
@@ -393,7 +393,7 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> {
                     // 이미지 업로드 실패
-                    Toast.makeText(MainActivity.this, "이미지 업로드에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MyPg_S.this, "이미지 업로드에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 });
     }
 

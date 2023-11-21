@@ -36,8 +36,8 @@
         <activity
             android:name=".temporary_main"
             android:exported="false"/>
-======= <activity
-            android:name=".MainScreen"/>
+        <activity
+            android:name=".MainScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,7 +45,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Example" ></activity>
+
     </application>
 
 </manifest>

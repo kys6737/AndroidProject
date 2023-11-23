@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class MainActivity extends AppCompatActivity {
+public class FixedSchedule_P extends AppCompatActivity {
     private Button nextButton;
     private Button monButton;
     private Button tueButton;
@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.fixed_schedule_p);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -409,9 +409,7 @@ public class MainActivity extends AppCompatActivity {
         friButton1700.setVisibility(View.INVISIBLE);
         friButton1730.setVisibility(View.INVISIBLE);
 
-
-
-
+        nextButton.setEnabled(false);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1546,20 +1544,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        if(monButton0900Clicked||monButton0930Clicked||monButton1000Clicked){
-            nextButton.setEnabled(true);
-            nextButton.setBackgroundResource(R.drawable.availablenextbutton);
-        }else{
-            nextButton.setEnabled(false);
-        }
-
-
-
-
-
-
-
-
     }
 
 
@@ -1811,6 +1795,13 @@ public class MainActivity extends AppCompatActivity {
             showThuTimeButtons();
         } else if (clickedButton == friButton) {
             showFriTimeButtons();
+        }
+    }
+
+    private void updateNextButtonState(){
+        if(monButton0900Clicked){
+            nextButton.setEnabled(true);
+            nextButton.setBackgroundResource(R.drawable.availablenextbutton);
         }
     }
 

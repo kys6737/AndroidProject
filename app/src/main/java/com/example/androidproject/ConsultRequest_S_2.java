@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.app.CustomApplication;
+import com.example.app.ReservationApplication;
 import com.example.app.Reservation;
 
 public class ConsultRequest_S_2 extends AppCompatActivity {
@@ -133,8 +133,8 @@ public class ConsultRequest_S_2 extends AppCompatActivity {
                 reservation.setQuestion(question);
                 Log.d("ReservationDebug", "studentName: " + reservation.getStudentName() + ", Date: " + reservation.getDate() + ", Time: " + reservation.getTime() +
                         ", Type: " + reservation.getType() + ", Question: " + reservation.getQuestion());
-                CustomApplication customApplication = (CustomApplication) getApplication();
-                customApplication.setCurrentReservation(reservation);
+                ReservationApplication reservationApplication = (ReservationApplication) getApplication();
+                reservationApplication.setCurrentReservation(reservation);
                 showCompleteDialog();
                 dialog.dismiss();
             }

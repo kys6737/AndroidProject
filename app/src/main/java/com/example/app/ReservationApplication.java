@@ -4,7 +4,7 @@ import android.app.Application;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class CustomApplication extends Application {
+public class ReservationApplication extends Application {
     private Reservation currentReservation;
     private DatabaseReference databaseReference;
 

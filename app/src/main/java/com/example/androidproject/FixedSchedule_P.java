@@ -4,16 +4,36 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class FixedSchedule_P extends AppCompatActivity {
+    private DatabaseReference databaseReference;
+
     private Button nextButton;
     private Button monButton;
     private Button tueButton;
     private Button wedButton;
     private Button thuButton;
     private Button friButton;
+
+
+
+    private String monBitString = "111111111111111111";
+    private String tueBitString = "111111111111111111";
+    private String wedBitString = "111111111111111111";
+    private String thuBitString = "111111111111111111";
+    private String friBitString = "111111111111111111";
+
+
+
+
+
+
     private Button monButton0900;
     private Button monButton0930;
     private Button monButton1000;
@@ -409,11 +429,23 @@ public class FixedSchedule_P extends AppCompatActivity {
         friButton1700.setVisibility(View.INVISIBLE);
         friButton1730.setVisibility(View.INVISIBLE);
 
-        nextButton.setEnabled(false);
+
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("checkBitString", "monBitString : " + monBitString);
+                Log.d("checkBitString", "tueBitString : " + tueBitString);
+                Log.d("checkBitString", "wedBitString : " + wedBitString);
+                Log.d("checkBitString", "thuBitString : " + thuBitString);
+                Log.d("checkBitString", "friBitString : " + friBitString);
 
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                databaseReference = database.getReference("2021145818/Timetable/fixation");
+                databaseReference.child("monday").setValue(monBitString);
+                databaseReference.child("tuesday").setValue(tueBitString);
+                databaseReference.child("wednesday").setValue(wedBitString);
+                databaseReference.child("thursday").setValue(thuBitString);
+                databaseReference.child("friday").setValue(friBitString);
             }
         });
 
@@ -470,8 +502,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 monButton0900Clicked = !monButton0900Clicked;
                 if(monButton0900Clicked) {
                     monButton0900.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(0, '0');
+                    monBitString = modifiedBitString.toString();
                 } else {
                     monButton0900.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(0, '1');
+                    monBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -482,8 +520,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 monButton0930Clicked = !monButton0930Clicked;
                 if(monButton0930Clicked) {
                     monButton0930.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(1, '0');
+                    monBitString = modifiedBitString.toString();
                 } else {
                     monButton0930.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(1, '1');
+                    monBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -494,8 +538,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 monButton1000Clicked = !monButton1000Clicked;
                 if (monButton1000Clicked) {
                     monButton1000.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(2, '0');
+                    monBitString = modifiedBitString.toString();
                 } else {
                     monButton1000.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(2, '1');
+                    monBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -506,8 +556,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 monButton1030Clicked = !monButton1030Clicked;
                 if (monButton1030Clicked) {
                     monButton1030.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(3, '0');
+                    monBitString = modifiedBitString.toString();
                 } else {
                     monButton1030.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(3, '1');
+                    monBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -518,8 +574,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 monButton1100Clicked = !monButton1100Clicked;
                 if (monButton1100Clicked) {
                     monButton1100.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(4, '0');
+                    monBitString = modifiedBitString.toString();
                 } else {
                     monButton1100.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(4, '1');
+                    monBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -530,8 +592,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 monButton1130Clicked = !monButton1130Clicked;
                 if (monButton1130Clicked) {
                     monButton1130.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(5, '0');
+                    monBitString = modifiedBitString.toString();
                 } else {
                     monButton1130.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(5, '1');
+                    monBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -542,8 +610,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 monButton1200Clicked = !monButton1200Clicked;
                 if (monButton1200Clicked) {
                     monButton1200.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(6, '0');
+                    monBitString = modifiedBitString.toString();
                 } else {
                     monButton1200.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(6, '1');
+                    monBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -554,8 +628,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 monButton1230Clicked = !monButton1230Clicked;
                 if (monButton1230Clicked) {
                     monButton1230.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(7, '0');
+                    monBitString = modifiedBitString.toString();
                 } else {
                     monButton1230.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(7, '1');
+                    monBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -566,8 +646,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 monButton1300Clicked = !monButton1300Clicked;
                 if (monButton1300Clicked) {
                     monButton1300.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(8, '0');
+                    monBitString = modifiedBitString.toString();
                 } else {
                     monButton1300.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(8, '1');
+                    monBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -578,8 +664,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 monButton1330Clicked = !monButton1330Clicked;
                 if (monButton1330Clicked) {
                     monButton1330.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(9, '0');
+                    monBitString = modifiedBitString.toString();
                 } else {
                     monButton1330.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(9, '1');
+                    monBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -590,8 +682,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 monButton1400Clicked = !monButton1400Clicked;
                 if (monButton1400Clicked) {
                     monButton1400.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(10, '0');
+                    monBitString = modifiedBitString.toString();
                 } else {
                     monButton1400.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(10, '1');
+                    monBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -602,8 +700,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 monButton1430Clicked = !monButton1430Clicked;
                 if (monButton1430Clicked) {
                     monButton1430.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(11, '0');
+                    monBitString = modifiedBitString.toString();
                 } else {
                     monButton1430.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(11, '1');
+                    monBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -614,8 +718,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 monButton1500Clicked = !monButton1500Clicked;
                 if (monButton1500Clicked) {
                     monButton1500.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(12, '0');
+                    monBitString = modifiedBitString.toString();
                 } else {
                     monButton1500.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(12, '1');
+                    monBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -626,8 +736,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 monButton1530Clicked = !monButton1530Clicked;
                 if (monButton1530Clicked) {
                     monButton1530.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(13, '0');
+                    monBitString = modifiedBitString.toString();
                 } else {
                     monButton1530.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(13, '1');
+                    monBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -638,8 +754,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 monButton1600Clicked = !monButton1600Clicked;
                 if (monButton1600Clicked) {
                     monButton1600.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(14, '0');
+                    monBitString = modifiedBitString.toString();
                 } else {
                     monButton1600.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(14, '1');
+                    monBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -650,8 +772,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 monButton1630Clicked = !monButton1630Clicked;
                 if (monButton1630Clicked) {
                     monButton1630.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(15, '0');
+                    monBitString = modifiedBitString.toString();
                 } else {
                     monButton1630.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(15, '1');
+                    monBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -662,8 +790,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 monButton1700Clicked = !monButton1700Clicked;
                 if (monButton1700Clicked) {
                     monButton1700.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(16, '0');
+                    monBitString = modifiedBitString.toString();
                 } else {
                     monButton1700.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(16, '1');
+                    monBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -674,8 +808,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 monButton1730Clicked = !monButton1730Clicked;
                 if (monButton1730Clicked) {
                     monButton1730.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(17, '0');
+                    monBitString = modifiedBitString.toString();
                 } else {
                     monButton1730.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(monBitString);
+                    modifiedBitString.setCharAt(17, '1');
+                    monBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -686,8 +826,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 tueButton0900Clicked = !tueButton0900Clicked;
                 if(tueButton0900Clicked) {
                     tueButton0900.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(0, '0');
+                    tueBitString = modifiedBitString.toString();
                 } else {
                     tueButton0900.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(0, '1');
+                    tueBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -698,8 +844,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 tueButton0930Clicked = !tueButton0930Clicked;
                 if(tueButton0930Clicked) {
                     tueButton0930.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(1, '0');
+                    tueBitString = modifiedBitString.toString();
                 } else {
                     tueButton0930.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(1, '1');
+                    tueBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -710,8 +862,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 tueButton1000Clicked = !tueButton1000Clicked;
                 if (tueButton1000Clicked) {
                     tueButton1000.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(2, '0');
+                    tueBitString = modifiedBitString.toString();
                 } else {
                     tueButton1000.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(2, '1');
+                    tueBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -722,8 +880,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 tueButton1030Clicked = !tueButton1030Clicked;
                 if (tueButton1030Clicked) {
                     tueButton1030.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(3, '0');
+                    tueBitString = modifiedBitString.toString();
                 } else {
                     tueButton1030.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(3, '1');
+                    tueBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -734,8 +898,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 tueButton1100Clicked = !tueButton1100Clicked;
                 if (tueButton1100Clicked) {
                     tueButton1100.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(4, '0');
+                    tueBitString = modifiedBitString.toString();
                 } else {
                     tueButton1100.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(4, '1');
+                    tueBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -746,8 +916,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 tueButton1130Clicked = !tueButton1130Clicked;
                 if (tueButton1130Clicked) {
                     tueButton1130.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(5, '0');
+                    tueBitString = modifiedBitString.toString();
                 } else {
                     tueButton1130.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(5, '1');
+                    tueBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -758,8 +934,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 tueButton1200Clicked = !tueButton1200Clicked;
                 if (tueButton1200Clicked) {
                     tueButton1200.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(6, '0');
+                    tueBitString = modifiedBitString.toString();
                 } else {
                     tueButton1200.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(6, '1');
+                    tueBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -770,8 +952,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 tueButton1230Clicked = !tueButton1230Clicked;
                 if (tueButton1230Clicked) {
                     tueButton1230.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(7, '0');
+                    tueBitString = modifiedBitString.toString();
                 } else {
                     tueButton1230.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(7, '1');
+                    tueBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -782,8 +970,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 tueButton1300Clicked = !tueButton1300Clicked;
                 if (tueButton1300Clicked) {
                     tueButton1300.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(8, '0');
+                    tueBitString = modifiedBitString.toString();
                 } else {
                     tueButton1300.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(8, '1');
+                    tueBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -794,8 +988,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 tueButton1330Clicked = !tueButton1330Clicked;
                 if (tueButton1330Clicked) {
                     tueButton1330.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(9, '0');
+                    tueBitString = modifiedBitString.toString();
                 } else {
                     tueButton1330.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(9, '1');
+                    tueBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -806,8 +1006,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 tueButton1400Clicked = !tueButton1400Clicked;
                 if (tueButton1400Clicked) {
                     tueButton1400.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(10, '0');
+                    tueBitString = modifiedBitString.toString();
                 } else {
                     tueButton1400.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(10, '1');
+                    tueBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -818,8 +1024,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 tueButton1430Clicked = !tueButton1430Clicked;
                 if (tueButton1430Clicked) {
                     tueButton1430.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(11, '0');
+                    tueBitString = modifiedBitString.toString();
                 } else {
                     tueButton1430.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(11, '1');
+                    tueBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -830,8 +1042,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 tueButton1500Clicked = !tueButton1500Clicked;
                 if (tueButton1500Clicked) {
                     tueButton1500.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(12, '0');
+                    tueBitString = modifiedBitString.toString();
                 } else {
                     tueButton1500.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(12, '1');
+                    tueBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -842,8 +1060,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 tueButton1530Clicked = !tueButton1530Clicked;
                 if (tueButton1530Clicked) {
                     tueButton1530.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(13, '0');
+                    tueBitString = modifiedBitString.toString();
                 } else {
                     tueButton1530.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(13, '1');
+                    tueBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -854,8 +1078,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 tueButton1600Clicked = !tueButton1600Clicked;
                 if (tueButton1600Clicked) {
                     tueButton1600.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(14, '0');
+                    tueBitString = modifiedBitString.toString();
                 } else {
                     tueButton1600.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(14, '1');
+                    tueBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -866,8 +1096,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 tueButton1630Clicked = !tueButton1630Clicked;
                 if (tueButton1630Clicked) {
                     tueButton1630.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(15, '0');
+                    tueBitString = modifiedBitString.toString();
                 } else {
                     tueButton1630.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(15, '1');
+                    tueBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -878,8 +1114,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 tueButton1700Clicked = !tueButton1700Clicked;
                 if (tueButton1700Clicked) {
                     tueButton1700.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(16, '0');
+                    tueBitString = modifiedBitString.toString();
                 } else {
                     tueButton1700.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(16, '1');
+                    tueBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -890,8 +1132,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 tueButton1730Clicked = !tueButton1730Clicked;
                 if (tueButton1730Clicked) {
                     tueButton1730.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(17, '0');
+                    tueBitString = modifiedBitString.toString();
                 } else {
                     tueButton1730.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(tueBitString);
+                    modifiedBitString.setCharAt(17, '1');
+                    tueBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -902,8 +1150,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 wedButton0900Clicked = !wedButton0900Clicked;
                 if(wedButton0900Clicked) {
                     wedButton0900.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(0, '0');
+                    wedBitString = modifiedBitString.toString();
                 } else {
                     wedButton0900.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(0, '1');
+                    wedBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -914,8 +1168,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 wedButton0930Clicked = !wedButton0930Clicked;
                 if(wedButton0930Clicked) {
                     wedButton0930.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(1, '0');
+                    wedBitString = modifiedBitString.toString();
                 } else {
                     wedButton0930.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(1, '1');
+                    wedBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -926,8 +1186,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 wedButton1000Clicked = !wedButton1000Clicked;
                 if (wedButton1000Clicked) {
                     wedButton1000.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(2, '0');
+                    wedBitString = modifiedBitString.toString();
                 } else {
                     wedButton1000.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(2, '1');
+                    wedBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -938,8 +1204,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 wedButton1030Clicked = !wedButton1030Clicked;
                 if (wedButton1030Clicked) {
                     wedButton1030.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(3, '0');
+                    wedBitString = modifiedBitString.toString();
                 } else {
                     wedButton1030.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(3, '1');
+                    wedBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -950,8 +1222,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 wedButton1100Clicked = !wedButton1100Clicked;
                 if (wedButton1100Clicked) {
                     wedButton1100.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(4, '0');
+                    wedBitString = modifiedBitString.toString();
                 } else {
                     wedButton1100.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(4, '1');
+                    wedBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -962,8 +1240,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 wedButton1130Clicked = !wedButton1130Clicked;
                 if (wedButton1130Clicked) {
                     wedButton1130.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(5, '0');
+                    wedBitString = modifiedBitString.toString();
                 } else {
                     wedButton1130.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(5, '1');
+                    wedBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -974,8 +1258,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 wedButton1200Clicked = !wedButton1200Clicked;
                 if (wedButton1200Clicked) {
                     wedButton1200.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(6, '0');
+                    wedBitString = modifiedBitString.toString();
                 } else {
                     wedButton1200.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(6, '1');
+                    wedBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -986,8 +1276,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 wedButton1230Clicked = !wedButton1230Clicked;
                 if (wedButton1230Clicked) {
                     wedButton1230.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(7, '0');
+                    wedBitString = modifiedBitString.toString();
                 } else {
                     wedButton1230.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(7, '1');
+                    wedBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -998,8 +1294,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 wedButton1300Clicked = !wedButton1300Clicked;
                 if (wedButton1300Clicked) {
                     wedButton1300.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(8, '0');
+                    wedBitString = modifiedBitString.toString();
                 } else {
                     wedButton1300.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(8, '1');
+                    wedBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1010,8 +1312,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 wedButton1330Clicked = !wedButton1330Clicked;
                 if (wedButton1330Clicked) {
                     wedButton1330.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(9, '0');
+                    wedBitString = modifiedBitString.toString();
                 } else {
                     wedButton1330.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(9, '1');
+                    wedBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1022,8 +1330,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 wedButton1400Clicked = !wedButton1400Clicked;
                 if (wedButton1400Clicked) {
                     wedButton1400.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(10, '0');
+                    wedBitString = modifiedBitString.toString();
                 } else {
                     wedButton1400.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(10, '1');
+                    wedBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1034,8 +1348,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 wedButton1430Clicked = !wedButton1430Clicked;
                 if (wedButton1430Clicked) {
                     wedButton1430.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(11, '0');
+                    wedBitString = modifiedBitString.toString();
                 } else {
                     wedButton1430.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(11, '1');
+                    wedBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1046,8 +1366,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 wedButton1500Clicked = !wedButton1500Clicked;
                 if (wedButton1500Clicked) {
                     wedButton1500.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(12, '0');
+                    wedBitString = modifiedBitString.toString();
                 } else {
                     wedButton1500.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(12, '1');
+                    wedBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1058,8 +1384,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 wedButton1530Clicked = !wedButton1530Clicked;
                 if (wedButton1530Clicked) {
                     wedButton1530.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(13, '0');
+                    wedBitString = modifiedBitString.toString();
                 } else {
                     wedButton1530.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(13, '1');
+                    wedBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1070,8 +1402,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 wedButton1600Clicked = !wedButton1600Clicked;
                 if (wedButton1600Clicked) {
                     wedButton1600.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(14, '0');
+                    wedBitString = modifiedBitString.toString();
                 } else {
                     wedButton1600.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(14, '1');
+                    wedBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1082,8 +1420,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 wedButton1630Clicked = !wedButton1630Clicked;
                 if (wedButton1630Clicked) {
                     wedButton1630.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(15, '0');
+                    wedBitString = modifiedBitString.toString();
                 } else {
                     wedButton1630.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(15, '1');
+                    wedBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1094,8 +1438,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 wedButton1700Clicked = !wedButton1700Clicked;
                 if (wedButton1700Clicked) {
                     wedButton1700.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(16, '0');
+                    wedBitString = modifiedBitString.toString();
                 } else {
                     wedButton1700.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(16, '1');
+                    wedBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1106,8 +1456,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 wedButton1730Clicked = !wedButton1730Clicked;
                 if (wedButton1730Clicked) {
                     wedButton1730.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(17, '0');
+                    wedBitString = modifiedBitString.toString();
                 } else {
                     wedButton1730.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(wedBitString);
+                    modifiedBitString.setCharAt(17, '1');
+                    wedBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1118,8 +1474,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 thuButton0900Clicked = !thuButton0900Clicked;
                 if(thuButton0900Clicked) {
                     thuButton0900.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(0, '0');
+                    thuBitString = modifiedBitString.toString();
                 } else {
                     thuButton0900.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(0, '1');
+                    thuBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1130,8 +1492,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 thuButton0930Clicked = !thuButton0930Clicked;
                 if(thuButton0930Clicked) {
                     thuButton0930.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(1, '0');
+                    thuBitString = modifiedBitString.toString();
                 } else {
                     thuButton0930.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(1, '1');
+                    thuBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1142,8 +1510,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 thuButton1000Clicked = !thuButton1000Clicked;
                 if (thuButton1000Clicked) {
                     thuButton1000.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(2, '0');
+                    thuBitString = modifiedBitString.toString();
                 } else {
                     thuButton1000.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(2, '1');
+                    thuBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1154,8 +1528,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 thuButton1030Clicked = !thuButton1030Clicked;
                 if (thuButton1030Clicked) {
                     thuButton1030.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(3, '0');
+                    thuBitString = modifiedBitString.toString();
                 } else {
                     thuButton1030.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(3, '1');
+                    thuBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1166,8 +1546,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 thuButton1100Clicked = !thuButton1100Clicked;
                 if (thuButton1100Clicked) {
                     thuButton1100.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(4, '0');
+                    thuBitString = modifiedBitString.toString();
                 } else {
                     thuButton1100.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(4, '1');
+                    thuBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1178,8 +1564,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 thuButton1130Clicked = !thuButton1130Clicked;
                 if (thuButton1130Clicked) {
                     thuButton1130.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(5, '0');
+                    thuBitString = modifiedBitString.toString();
                 } else {
                     thuButton1130.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(5, '1');
+                    thuBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1190,8 +1582,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 thuButton1200Clicked = !thuButton1200Clicked;
                 if (thuButton1200Clicked) {
                     thuButton1200.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(6, '0');
+                    thuBitString = modifiedBitString.toString();
                 } else {
                     thuButton1200.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(6, '1');
+                    thuBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1202,8 +1600,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 thuButton1230Clicked = !thuButton1230Clicked;
                 if (thuButton1230Clicked) {
                     thuButton1230.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(7, '0');
+                    thuBitString = modifiedBitString.toString();
                 } else {
                     thuButton1230.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(7, '1');
+                    thuBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1214,8 +1618,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 thuButton1300Clicked = !thuButton1300Clicked;
                 if (thuButton1300Clicked) {
                     thuButton1300.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(8, '0');
+                    thuBitString = modifiedBitString.toString();
                 } else {
                     thuButton1300.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(8, '1');
+                    thuBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1226,8 +1636,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 thuButton1330Clicked = !thuButton1330Clicked;
                 if (thuButton1330Clicked) {
                     thuButton1330.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(9, '0');
+                    thuBitString = modifiedBitString.toString();
                 } else {
                     thuButton1330.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(9, '1');
+                    thuBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1238,8 +1654,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 thuButton1400Clicked = !thuButton1400Clicked;
                 if (thuButton1400Clicked) {
                     thuButton1400.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(10, '0');
+                    thuBitString = modifiedBitString.toString();
                 } else {
                     thuButton1400.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(10, '1');
+                    thuBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1250,8 +1672,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 thuButton1430Clicked = !thuButton1430Clicked;
                 if (thuButton1430Clicked) {
                     thuButton1430.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(11, '0');
+                    thuBitString = modifiedBitString.toString();
                 } else {
                     thuButton1430.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(11, '1');
+                    thuBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1262,8 +1690,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 thuButton1500Clicked = !thuButton1500Clicked;
                 if (thuButton1500Clicked) {
                     thuButton1500.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(12, '0');
+                    thuBitString = modifiedBitString.toString();
                 } else {
                     thuButton1500.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(12, '1');
+                    thuBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1274,8 +1708,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 thuButton1530Clicked = !thuButton1530Clicked;
                 if (thuButton1530Clicked) {
                     thuButton1530.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(13, '0');
+                    thuBitString = modifiedBitString.toString();
                 } else {
                     thuButton1530.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(13, '1');
+                    thuBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1286,8 +1726,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 thuButton1600Clicked = !thuButton1600Clicked;
                 if (thuButton1600Clicked) {
                     thuButton1600.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(14, '0');
+                    thuBitString = modifiedBitString.toString();
                 } else {
                     thuButton1600.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(14, '1');
+                    thuBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1298,8 +1744,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 thuButton1630Clicked = !thuButton1630Clicked;
                 if (thuButton1630Clicked) {
                     thuButton1630.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(15, '0');
+                    thuBitString = modifiedBitString.toString();
                 } else {
                     thuButton1630.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(15, '1');
+                    thuBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1310,8 +1762,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 thuButton1700Clicked = !thuButton1700Clicked;
                 if (thuButton1700Clicked) {
                     thuButton1700.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(16, '0');
+                    thuBitString = modifiedBitString.toString();
                 } else {
                     thuButton1700.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(16, '1');
+                    thuBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1322,8 +1780,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 thuButton1730Clicked = !thuButton1730Clicked;
                 if (thuButton1730Clicked) {
                     thuButton1730.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(17, '0');
+                    thuBitString = modifiedBitString.toString();
                 } else {
                     thuButton1730.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(thuBitString);
+                    modifiedBitString.setCharAt(17, '1');
+                    thuBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1334,8 +1798,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 friButton0900Clicked = !friButton0900Clicked;
                 if(friButton0900Clicked) {
                     friButton0900.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(0, '0');
+                    friBitString = modifiedBitString.toString();
                 } else {
                     friButton0900.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(0, '1');
+                    friBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1346,8 +1816,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 friButton0930Clicked = !friButton0930Clicked;
                 if(friButton0930Clicked) {
                     friButton0930.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(1, '0');
+                    friBitString = modifiedBitString.toString();
                 } else {
                     friButton0930.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(1, '1');
+                    friBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1358,8 +1834,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 friButton1000Clicked = !friButton1000Clicked;
                 if (friButton1000Clicked) {
                     friButton1000.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(2, '0');
+                    friBitString = modifiedBitString.toString();
                 } else {
                     friButton1000.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(2, '1');
+                    friBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1370,8 +1852,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 friButton1030Clicked = !friButton1030Clicked;
                 if (friButton1030Clicked) {
                     friButton1030.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(3, '0');
+                    friBitString = modifiedBitString.toString();
                 } else {
                     friButton1030.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(3, '1');
+                    friBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1382,8 +1870,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 friButton1100Clicked = !friButton1100Clicked;
                 if (friButton1100Clicked) {
                     friButton1100.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(4, '0');
+                    friBitString = modifiedBitString.toString();
                 } else {
                     friButton1100.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(4, '1');
+                    friBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1394,8 +1888,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 friButton1130Clicked = !friButton1130Clicked;
                 if (friButton1130Clicked) {
                     friButton1130.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(5, '0');
+                    friBitString = modifiedBitString.toString();
                 } else {
                     friButton1130.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(5, '1');
+                    friBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1406,8 +1906,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 friButton1200Clicked = !friButton1200Clicked;
                 if (friButton1200Clicked) {
                     friButton1200.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(6, '0');
+                    friBitString = modifiedBitString.toString();
                 } else {
                     friButton1200.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(6, '1');
+                    friBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1418,8 +1924,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 friButton1230Clicked = !friButton1230Clicked;
                 if (friButton1230Clicked) {
                     friButton1230.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(7, '0');
+                    friBitString = modifiedBitString.toString();
                 } else {
                     friButton1230.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(7, '1');
+                    friBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1430,8 +1942,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 friButton1300Clicked = !friButton1300Clicked;
                 if (friButton1300Clicked) {
                     friButton1300.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(8, '0');
+                    friBitString = modifiedBitString.toString();
                 } else {
                     friButton1300.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(8, '1');
+                    friBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1442,8 +1960,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 friButton1330Clicked = !friButton1330Clicked;
                 if (friButton1330Clicked) {
                     friButton1330.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(9, '0');
+                    friBitString = modifiedBitString.toString();
                 } else {
                     friButton1330.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(9, '1');
+                    friBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1454,8 +1978,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 friButton1400Clicked = !friButton1400Clicked;
                 if (friButton1400Clicked) {
                     friButton1400.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(10, '0');
+                    friBitString = modifiedBitString.toString();
                 } else {
                     friButton1400.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(10, '1');
+                    friBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1466,8 +1996,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 friButton1430Clicked = !friButton1430Clicked;
                 if (friButton1430Clicked) {
                     friButton1430.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(11, '0');
+                    friBitString = modifiedBitString.toString();
                 } else {
                     friButton1430.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(11, '1');
+                    friBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1478,8 +2014,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 friButton1500Clicked = !friButton1500Clicked;
                 if (friButton1500Clicked) {
                     friButton1500.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(12, '0');
+                    friBitString = modifiedBitString.toString();
                 } else {
                     friButton1500.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(12, '1');
+                    friBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1490,8 +2032,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 friButton1530Clicked = !friButton1530Clicked;
                 if (friButton1530Clicked) {
                     friButton1530.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(13, '0');
+                    friBitString = modifiedBitString.toString();
                 } else {
                     friButton1530.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(13, '1');
+                    friBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1502,8 +2050,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 friButton1600Clicked = !friButton1600Clicked;
                 if (friButton1600Clicked) {
                     friButton1600.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(14, '0');
+                    friBitString = modifiedBitString.toString();
                 } else {
                     friButton1600.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(14, '1');
+                    friBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1514,8 +2068,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 friButton1630Clicked = !friButton1630Clicked;
                 if (friButton1630Clicked) {
                     friButton1630.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(15, '0');
+                    friBitString = modifiedBitString.toString();
                 } else {
                     friButton1630.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(15, '1');
+                    friBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1526,8 +2086,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 friButton1700Clicked = !friButton1700Clicked;
                 if (friButton1700Clicked) {
                     friButton1700.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(16, '0');
+                    friBitString = modifiedBitString.toString();
                 } else {
                     friButton1700.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(16, '1');
+                    friBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1538,8 +2104,14 @@ public class FixedSchedule_P extends AppCompatActivity {
                 friButton1730Clicked = !friButton1730Clicked;
                 if (friButton1730Clicked) {
                     friButton1730.setBackgroundResource(R.drawable.unavailabletimebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(17, '0');
+                    friBitString = modifiedBitString.toString();
                 } else {
                     friButton1730.setBackgroundResource(R.drawable.timebutton);
+                    StringBuilder modifiedBitString = new StringBuilder(friBitString);
+                    modifiedBitString.setCharAt(17, '1');
+                    friBitString = modifiedBitString.toString();
                 }
             }
         });
@@ -1798,17 +2370,12 @@ public class FixedSchedule_P extends AppCompatActivity {
         }
     }
 
-    private void updateNextButtonState(){
-        if(monButton0900Clicked){
-            nextButton.setEnabled(true);
-            nextButton.setBackgroundResource(R.drawable.availablenextbutton);
-        }
-    }
-
-
-
-
-
-
 
 }
+
+
+
+
+
+
+

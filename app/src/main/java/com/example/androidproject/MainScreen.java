@@ -67,8 +67,7 @@ public class MainScreen extends AppCompatActivity {
         alert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainScreen.this, Example.class);
-                startActivity(intent);
+
 
             }
         });
@@ -85,8 +84,7 @@ public class MainScreen extends AppCompatActivity {
         iljeongCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainScreen.this, Example.class);
-                startActivity(intent);
+
 
             }
         });
@@ -94,8 +92,7 @@ public class MainScreen extends AppCompatActivity {
         history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainScreen.this, Example.class);
-                startActivity(intent);
+
 
             }
         });
@@ -103,8 +100,7 @@ public class MainScreen extends AppCompatActivity {
         ilJeong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainScreen.this, Example.class);
-                startActivity(intent);
+
 
             }
         });
@@ -112,8 +108,7 @@ public class MainScreen extends AppCompatActivity {
         myProfessor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainScreen.this, Example.class);
-                startActivity(intent);
+
 
             }
         });
@@ -121,8 +116,7 @@ public class MainScreen extends AppCompatActivity {
         myPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainScreen.this, Example.class);
-                startActivity(intent);
+
 
             }
         });

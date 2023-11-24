@@ -1,22 +1,34 @@
 package com.example.realtime_alpha;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Notification;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.IgnoreExtraProperties;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
+
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.sql.Timestamp;
 
-public class MainActivity extends AppCompatActivity {
 
+
+
+public class MainActivity extends AppCompatActivity {
+    public static final String TAG = "YOUR-TAG-NAME";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -321,34 +333,139 @@ public class MainActivity extends AppCompatActivity {
         return sb.toString();
     }
     //출처: https://billcorea.tistory.com/75 [생각저장소 (배움의길에서 만나는 이야기들):티스토리]
+
+    public class FCM_message{
+        public Long target_id;
+        public String title;
+        public String head;
+        public String msg;
+
+        public FCM_message(Long target_id, String title, String head, String msg){
+            this.target_id = target_id;
+            this.title = title;
+            this.head = head;
+            this.msg = msg;
+        }
+    }
+
+    public void send_alarm(String Classification, String sender_id, String recipient_id
+            , String msg1, String msg2, String date){
+
+        if(Classification == "일정확정"){
+            FirebaseMessaging fm = FirebaseMessaging.getInstance();
+            fm.send(new RemoteMessage.Builder(sender_id + "@fcm.googleapis.com")
+                    .setMessageId(recipient_id)
+                    .addData("Head", "일정이 확정안내드립니다.")
+                    .addData("msg", "신청하신 일정이 수락되어 일정이 " + msg1 + "로 확정되었습니다.")
+                    .build());
+        }
+        else if (Classification == "경고") {
+            FirebaseMessaging fm = FirebaseMessaging.getInstance();
+            fm.send(new RemoteMessage.Builder(sender_id + "@fcm.googleapis.com")
+                    .setMessageId(recipient_id)
+                    .addData("Head", "경고")
+                    .addData("msg", "교수님이 상담신청을 하지 않아 경고를 보냈습니다. 빠른 시일 내에 상담신청을 해주시길 바랍니다.")
+                    .build());
+        }
+        else if (Classification == "피드백안내") {
+            FirebaseMessaging fm = FirebaseMessaging.getInstance();
+            fm.send(new RemoteMessage.Builder(sender_id + "@fcm.googleapis.com")
+                    .setMessageId(recipient_id)
+                    .addData("Head", "피드백안내드립니다.")
+                    .addData("msg", "상담이 완료되어 피드백작성을 안내드립니다. 피드백을 작성하여주시기 바랍니다.")
+                    .build());
+        }
+        else if (Classification == "일정미수리") {
+            FirebaseMessaging fm = FirebaseMessaging.getInstance();
+            fm.send(new RemoteMessage.Builder(sender_id + "@fcm.googleapis.com")
+                    .setMessageId(recipient_id)
+                    .addData("Head", "상담신청이 거부되었습니다.")
+                    .addData("msg", "상담신청이 거부되었습니다. 사유: " + msg1 )
+                    .build());
+        }
+        else if (Classification == "일정신청") {
+            DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+            FirebaseMessaging fm = FirebaseMessaging.getInstance();
+            fm.send(new RemoteMessage.Builder(sender_id + "@fcm.googleapis.com")
+                    .setMessageId(recipient_id)
+                    .addData("Head", "상담일정신청이 왔습니다.")
+                    //.addData("msg", database.child(sender_id).child("student_information").get(String name) + "이 상담을 신청했습니다.")
+                    .build());
+        }
+        else if (Classification == "상담취소") {
+            FirebaseMessaging fm = FirebaseMessaging.getInstance();
+            fm.send(new RemoteMessage.Builder(sender_id + "@fcm.googleapis.com")
+                    .setMessageId(recipient_id)
+                    .addData("Head", "상담이 취소되었습니다.")
+                    .addData("msg","상담이 취소되었습니다.")
+                    .build());
+        }
+        else if (Classification == "상담임박") {
+            FirebaseMessaging fm = FirebaseMessaging.getInstance();
+            fm.send(new RemoteMessage.Builder(sender_id + "@fcm.googleapis.com")
+                    .setMessageId(recipient_id)
+                    .addData("Head", msg1)
+                    .addData("msg", msg2)
+                    .build());
+        }
+
+    }
+
+    public class alarm{
+        public String Classification;
+        public String sender_id;
+        public String recipient_id;
+        public String msg1;
+        public String msg2;
+        public String date;
+
+        public alarm(String Classification, String sender_id, String recipient_id
+                , String msg1, String msg2, String date){
+            this.Classification = Classification;
+            this.sender_id = sender_id;
+            this.recipient_id = recipient_id;
+            this.msg1 = msg1;
+            this.msg2 = msg2;
+            this.date = date;
+        }
+    }
+
+
+
     public void pushdata(){
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
 
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.image01);
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-        byte[] byteArray = stream.toByteArray();
-        String data = byteArrayToBinaryString(byteArray);
-        database.child("test").child("image").setValue(data);
-    }
+        String token = String.valueOf(FirebaseMessaging.getInstance().getToken());
+
+        database.child("test").child("message").setValue(token);
 
 
-    public void test(){
-        // Write a message to the database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message/m2");
+        FirebaseMessaging fm = FirebaseMessaging.getInstance();
+        fm.send(new RemoteMessage.Builder(token + "@fcm.googleapis.com")
+                .setMessageId(token)
+                .addData("my_message", "Hello World")
+                .addData("my_action","SAY_HELLO")
+                .build());
 
-        myRef.setValue("test2");
-    }
+        //FCM_message a = new FCM_message(token, "title", "head","msg")
 
-    public void test2(){
-        // Write a message to the database
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
-
-        myRef.child("private_key").child("2021145818").setValue(187740328);
-        myRef.child("private_key").child("187740328").setValue(2021145818);
-        myRef.child("private_key").child("test").child("test_c").setValue(1);
+        fm.send(new RemoteMessage.Builder(6 + "@fcm.googleapis.com")
+                .setMessageId(token)//Integer.toString(messageId)
+                .addData("my_message", "Hello World")
+                .addData("my_action","SAY_HELLO")
+                .build());
 
     }
+
+
+
 
 }
+
+
+//Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.image01);
+//ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+//byte[] byteArray = stream.toByteArray();
+//String data = byteArrayToBinaryString(byteArray);
+//database.child("test").child("image").setValue(data);

@@ -7,9 +7,15 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.GestureDetector;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,59 +25,97 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Record_p extends AppCompatActivity {
 
-    private ArrayList<Record_list> mArrayList;
+    private ArrayList<Record_list_p> mArrayList;
     private CustomAdapter_p mAdapter;
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference databaseReference = database.getReference("counsel_record");
+    private DatabaseReference databaseReference;
+
+    String mykey;
+    List<Integer> yourkeyList=new ArrayList<>();
+    int element;
+    int count;
+    String element_s;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_p);
 
-        Toolbar record_toolbar = findViewById(R.id.feedback_p_toolbar);
+        Toolbar record_toolbar=findViewById(R.id.feedback_p_toolbar);
         record_toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(record_toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("상담 내역");
 
+        mykey="2021145818";
+        databaseReference=database.getReference(mykey);
 
-//        Button btnInsert=(Button)findViewById(R.id.btn);
 
 //        ---------------------------recyclerView---------------------------
-        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
+        RecyclerView mRecyclerView=(RecyclerView)findViewById(R.id.recyclerView);
+        LinearLayoutManager mLinearLayoutManager=new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
 
-        mArrayList = new ArrayList<>();
+        mArrayList=new ArrayList<>();
 
-        mAdapter = new CustomAdapter_p(mArrayList);
+        mAdapter=new CustomAdapter_p(mArrayList);
         mRecyclerView.setAdapter(mAdapter);
 
-        DividerItemDecoration dividerItemDecoration = new
+        //recyclerview의 아이템 사이에 구분선 추가
+        //linewarlayoutmanager.getorientation() : recyclerview와 관련된 linearlayoutmanager의 방향 결정(구분선 방향 설정)
+        DividerItemDecoration dividerItemDecoration=new
                 DividerItemDecoration(mRecyclerView.getContext(), mLinearLayoutManager.getOrientation());
-        mRecyclerView.addItemDecoration(dividerItemDecoration);
+        mRecyclerView.addItemDecoration(dividerItemDecoration);  //구분선 그리기
 
 
-//        ---------------------------recyclerView---------------------------
+//        -----------------------------------------------------------------------------------------------
 
-
-        Query myTopPOstsQuery = databaseReference.orderByChild("counsel").equalTo("complete");
-        myTopPOstsQuery.addValueEventListener(new ValueEventListener() {
+        count=0;
+        databaseReference.child("student_pravate_key").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                mArrayList.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Record_list read_list = dataSnapshot.getValue(Record_list.class);
-                    Record_list call_list = new Record_list(read_list.getC_when(), read_list.getC_who(), read_list.getC_what(), read_list.getCount(), read_list.getFeedback(), read_list.getP_who());
-                    mArrayList.add(call_list);
-                    mAdapter.notifyDataSetChanged();
+                yourkeyList.clear();
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    int temp=dataSnapshot.getValue(Integer.class);
+                    yourkeyList.add(temp);
+                    count++;
                 }
-//                mAdapter.notifyDataSetChanged();
+
+                if (!yourkeyList.isEmpty()) {
+                    for(int i=0; i<count; i++) {
+                        element = yourkeyList.get(i);
+                        element_s = String.valueOf(element);
+
+                        databaseReference.child("history").child("2023_2").child(element_s).child("content").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                if (snapshot.exists()) {
+                                    Record_list_p read_list = snapshot.getValue(Record_list_p.class);
+                                    Record_list_p call_list = new Record_list_p(read_list.getDate_year(), read_list.getDate_month(), read_list.getDate_day(), read_list.getDate_hour(), read_list.getProfessor_number(), read_list.getProfessor_name(), read_list.getStudent_name(), read_list.getClassification(), read_list.getCounseling_form(), read_list.getCounseling_group(), read_list.getCounseling_content());
+                                    mArrayList.add(call_list);
+
+                                    mAdapter.notifyDataSetChanged();
+                                } else{}
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                // Handle the error if needed
+                            }
+                        });
+                    }
+                } else {
+                    // Handle the case where yourkeyList is empty
+                    Toast.makeText(getApplicationContext(), "No keys found", Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
@@ -79,7 +123,33 @@ public class Record_p extends AppCompatActivity {
 
             }
         });
+
+
+//        databaseReference.child("history").child("2023_2").child(yourkey).child("content").addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                mArrayList.clear();
+//                if(snapshot.exists()){
+////                    for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
+//                    Record_list read_list = snapshot.getValue(Record_list.class);
+//                    Record_list call_list = new Record_list(read_list.getDate_year(), read_list.getDate_month(), read_list.getDate_day(), read_list.getDate_hour(), read_list.getProfessor_number(), read_list.getProfessor_name(), read_list.getClassification(), read_list.getCounseling_form(), read_list.getCounseling_group(), read_list.getCounseling_content());
+//                    mArrayList.add(call_list);
+//
+//                    mAdapter.notifyDataSetChanged();
+//                }
+//                else{
+//                    Toast.makeText(getApplicationContext(), "Not Found", Toast.LENGTH_LONG).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+
     }
+
 
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){

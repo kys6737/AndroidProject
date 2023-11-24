@@ -15,7 +15,7 @@ import java.util.Dictionary;
 
 public class CustomAdapter_p extends RecyclerView.Adapter<CustomAdapter_p.ViewHolder>{
 
-    private ArrayList<Record_list> cList;
+    private ArrayList<Record_list_p> cList;
 
     //===== 뷰홀더 클래스 =====================================================
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -34,7 +34,8 @@ public class CustomAdapter_p extends RecyclerView.Adapter<CustomAdapter_p.ViewHo
 
     //----- 생성자 --------------------------------------
     // 생성자를 통해서 데이터를 전달받도록 함
-    public CustomAdapter_p (ArrayList<Record_list> dataSet) {
+    public CustomAdapter_p (ArrayList<Record_list_p> dataSet) {
+
         this.cList=dataSet;
     }
     //--------------------------------------------------
@@ -61,13 +62,13 @@ public class CustomAdapter_p extends RecyclerView.Adapter<CustomAdapter_p.ViewHo
         holder.who.setGravity(Gravity.LEFT);
         holder.what.setGravity(Gravity.LEFT);
 
-        holder.when.setText(cList.get(position).getC_when());
-        holder.who.setText(cList.get(position).getP_who());
-        holder.what.setText(cList.get(position).getC_what());
+        holder.when.setText(String.valueOf(cList.get(position).getDate_year())+"."+String.valueOf(cList.get(position).getDate_month())+"."+String.valueOf(cList.get(position).getDate_day())+"  "+String.valueOf(cList.get(position).getDate_hour()));
+        holder.who.setText(cList.get(position).getStudent_name());
+        holder.what.setText(cList.get(position).getCounseling_form() + " | " + cList.get(position).getCounseling_group());
     }
 
     @Override   // 전체 데이터의 갯수를 리턴한다.
     public int getItemCount() {
-        return (null != cList ? cList.size() : 0);
+        return (cList != null ? cList.size() : 0);
     }
 }

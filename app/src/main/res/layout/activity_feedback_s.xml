@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".feedback_s">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/feedback_toolbar"
@@ -99,9 +99,9 @@
         android:id="@+id/add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/btn_shape"
         android:textSize="20dp"
         android:layout_gravity="right"
-        android:background="@drawable/btn_shape"
         android:textColor="#0E6D62"
         android:text="등록" />
 

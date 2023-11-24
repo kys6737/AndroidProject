@@ -15,10 +15,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class MainScreen extends AppCompatActivity {
+import org.w3c.dom.Text;
 
-    TextView message, name, date_FB, time_FB;
-    Button alert, myPage, consul, iljeongCheck, history, ilJeong, myProfessor;
+public class MainScreen_P extends AppCompatActivity {
+
+    TextView message, name;
+    Button alert, myPage, iljeongCheck, history, ilJeong, myProfessor, schedule;
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
@@ -26,34 +28,29 @@ public class MainScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.mainscreen);
+        setContentView(R.layout.activity_main_screen_p);
 
-        name = findViewById(R.id.Name);
-        date_FB = findViewById(R.id.Date_FB);
-        time_FB = findViewById(R.id.Time_FB);
-        message = findViewById(R.id.Message);
+        name = (TextView) findViewById(R.id.Name);
+
+        message = (TextView) findViewById(R.id.Message);
         alert = findViewById(R.id.alert);
-        consul = findViewById(R.id.Consultation);
         iljeongCheck = findViewById(R.id.IljeongButton);
         history = findViewById(R.id.History);
         ilJeong = findViewById(R.id.Iljeong);
         myProfessor = findViewById(R.id.MyProfessor);
         myPage = findViewById(R.id.MyPage);
+        schedule = findViewById(R.id.Schedule);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("example/ex1");
+        databaseReference = firebaseDatabase.getReference("2021145818/professor_information");
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     String firebaseName = snapshot.child("name").getValue(String.class);
-                    String firebaseDate = snapshot.child("date").getValue(String.class);
-                    String firebaseTime = snapshot.child("time").getValue(String.class);
 
                     name.setText(firebaseName);
-                    date_FB.setText(firebaseDate);
-                    time_FB.setText(firebaseTime);
 
                 }
             }
@@ -67,16 +64,8 @@ public class MainScreen extends AppCompatActivity {
         alert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-            }
-        });
-
-        consul.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainScreen.this, ConsultRequest_S_1.class);
-                startActivity(intent);
+                //Intent intent = new Intent(MainScreen_P.this, Example.class);
+                //startActivity(intent);
 
             }
         });
@@ -84,7 +73,8 @@ public class MainScreen extends AppCompatActivity {
         iljeongCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(MainScreen_P.this, IlJeong_P.class);
+                startActivity(intent);
 
             }
         });
@@ -92,7 +82,8 @@ public class MainScreen extends AppCompatActivity {
         history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(MainScreen_P.this, Record_p.class);
+                startActivity(intent);
 
             }
         });
@@ -100,7 +91,8 @@ public class MainScreen extends AppCompatActivity {
         ilJeong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(MainScreen_P.this, feedback_p.class);
+                startActivity(intent);
 
             }
         });
@@ -108,7 +100,8 @@ public class MainScreen extends AppCompatActivity {
         myProfessor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //Intent intent = new Intent(MainScreen_P.this, Example.class);
+                //startActivity(intent);
 
             }
         });
@@ -116,8 +109,16 @@ public class MainScreen extends AppCompatActivity {
         myPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Intent intent = new Intent(MainScreen_P.this, Example.class);
+                //startActivity(intent);
 
+            }
+        });
 
+        schedule.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                Intent intent = new Intent(MainScreen_P.this, FixedSchedule_P.class);
+                startActivity(intent);
             }
         });
     }

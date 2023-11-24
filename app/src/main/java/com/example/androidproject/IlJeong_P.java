@@ -1,5 +1,6 @@
 package com.example.androidproject;
 
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -11,38 +12,40 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class Record_s extends AppCompatActivity {
 
-    private ArrayList<Record_list> mArrayList;
-    private CustomAdapter mAdapter;
+public class IlJeong_P extends AppCompatActivity {
+
+    private ArrayList<IlJeong_list_p> mArrayList;
+    private IlJeong_Adapter_p mAdapter;
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference databaseReference = database.getReference("counsel_record");
+    private DatabaseReference databaseReference = database.getReference("2021145818/Schedule_Management/187740328/content");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_record_s);
+        setContentView(R.layout.activity_il_jeong_p);
 
         Toolbar record_toolbar=findViewById(R.id.feedback_p_toolbar);
         record_toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(record_toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("상담 내역");
+        getSupportActionBar().setTitle("상담 일정");
 
 
 //        Button btnInsert=(Button)findViewById(R.id.btn);
@@ -54,7 +57,7 @@ public class Record_s extends AppCompatActivity {
 
         mArrayList=new ArrayList<>();
 
-        mAdapter=new CustomAdapter(mArrayList);
+        mAdapter=new IlJeong_Adapter_p(mArrayList);
         mRecyclerView.setAdapter(mAdapter);
 
         DividerItemDecoration dividerItemDecoration=new
@@ -65,19 +68,24 @@ public class Record_s extends AppCompatActivity {
 
         mRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), mRecyclerView, new ClickListener(){
             public void onClick(View view, int position){
-                Record_list list_click=mArrayList.get(position);
+                IlJeong_list_p list_click=mArrayList.get(position);
 //                        Toast.makeText(getApplicationContext(),
 //                                list_click.getC_when() + ' ' + list_click.getC_who() + ' ' +
 //                                list_click.getC_what(), Toast.LENGTH_LONG).show();
 
-                Intent intent=new Intent(getBaseContext(), feedback_s.class);
+                Intent intent=new Intent(getBaseContext(), DetailIlJeongP.class);
 
-                intent.putExtra("t", list_click.getC_when());
-                intent.putExtra("p", list_click.getC_who());
-                intent.putExtra("k", list_click.getC_what());
-                intent.putExtra("n", list_click.getCount());
-                intent.putExtra("f", list_click.getFeedback());
-
+                intent.putExtra("dd", list_click.getDate_day());
+                intent.putExtra("dh", list_click.getDate_hour());
+                intent.putExtra("dm", list_click.getDate_month());
+                intent.putExtra("dy", list_click.getDate_year());
+                intent.putExtra("pm", list_click.getStudent_name());
+                intent.putExtra("pn", list_click.getStudent_number());
+                intent.putExtra("cl", list_click.getClassification());
+                intent.putExtra("cc", list_click.getCounseling_content());
+                intent.putExtra("cf", list_click.getCounseling_form());
+                intent.putExtra("cg", list_click.getCounseling_group());
+                intent.putExtra("st", list_click.getState());
                 startActivity(intent);
             }
 
@@ -86,18 +94,20 @@ public class Record_s extends AppCompatActivity {
 //        ---------------------------recyclerView---------------------------
 
 
-        Query myTopPOstsQuery=databaseReference.orderByChild("counsel").equalTo("complete");
-        myTopPOstsQuery.addValueEventListener(new ValueEventListener() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mArrayList.clear();
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Record_list read_list = dataSnapshot.getValue(Record_list.class);
-                    Record_list call_list = new Record_list(read_list.getC_when(), read_list.getC_who(), read_list.getC_what(), read_list.getCount(), read_list.getFeedback(), read_list.getP_who());
+                if (snapshot.exists()) {
+                    IlJeong_list_p read_list = snapshot.getValue(IlJeong_list_p.class);
+                    Log.d("FirebaseData", "Data: " + read_list.toString());
+                    IlJeong_list_p call_list = new IlJeong_list_p(read_list.getDate_day(), read_list.getDate_hour(), read_list.getDate_month(), read_list.getDate_year(), read_list.getStudent_name(), read_list.getStudent_number(), read_list.getClassification(), read_list.getCounseling_content(), read_list.getCounseling_form(), read_list.getCounseling_group(), read_list.getState());
                     mArrayList.add(call_list);
+
                     mAdapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Not Found", Toast.LENGTH_LONG).show();
                 }
-//                mAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -107,34 +117,6 @@ public class Record_s extends AppCompatActivity {
         });
 
 
-//        btnInsert.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View v) {
-//
-//                databaseReference.child("counsel_record").child("1").addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        Record_list read_list=snapshot.getValue(Record_list.class);
-//
-//                        Record_list call_list=new Record_list(read_list.getC_when(), read_list.getC_who(), read_list.getC_what());
-//                        mArrayList.add(call_list);
-//                        mAdapter.notifyDataSetChanged();
-//
-//
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//
-//                    }
-//                });
-//
-////                Record_list data=new Record_list("23.06.12", "강동기", "대면상담");
-////                databaseReference.child("counsel_record").child("2").setValue(data);
-////                mArrayList.add(data);
-////                mAdapter.notifyDataSetChanged();
-//            }
-//        });
     }
 
     public interface ClickListener {
@@ -143,12 +125,14 @@ public class Record_s extends AppCompatActivity {
         void onLongClick(View view, int position);
     }
 
+
+
     public static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
 
         private GestureDetector gestureDetector;
-        private Record_s.ClickListener clickListener;
+        private IlJeong_P.ClickListener clickListener;
 
-        public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final Record_s.ClickListener clickListener) {
+        public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final IlJeong_P.ClickListener clickListener) {
             this.clickListener = clickListener;
             gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
                 @Override

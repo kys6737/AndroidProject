@@ -1,5 +1,7 @@
 package com.example.androidproject;
 
+
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -10,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,14 +22,21 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class feedback_p extends AppCompatActivity {
 
-    private ArrayList<Record_list> mArrayList;
+    String mykey;
+    List<Integer> yourkeyList=new ArrayList<>();
+    int element;
+    int count;
+    String element_s;
+
+    private ArrayList<feedback_list> mArrayList;
     private CustomAdapter_feedback_p mAdapter;
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference databaseReference = database.getReference("counsel_record");
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +48,9 @@ public class feedback_p extends AppCompatActivity {
         setSupportActionBar(record_toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("상담 후기");
+
+        mykey="2021145818";  //로그인부터해서 intent로 값 넘겨받기
+        databaseReference = database.getReference(mykey);
 
 
 //        ---------------------------recyclerView---------------------------
@@ -57,19 +70,44 @@ public class feedback_p extends AppCompatActivity {
 
 //        ---------------------------recyclerView---------------------------
 
-
-        Query myTopPOstsQuery = databaseReference.orderByChild("counsel").equalTo("complete");
-        myTopPOstsQuery.addValueEventListener(new ValueEventListener() {
+        count=0;
+        databaseReference.child("student_pravate_key").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                mArrayList.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Record_list read_list = dataSnapshot.getValue(Record_list.class);
-                    Record_list call_list = new Record_list(read_list.getC_when(), read_list.getC_who(), read_list.getC_what(), read_list.getCount(), read_list.getFeedback(), read_list.getP_who());
-                    mArrayList.add(call_list);
-                    mAdapter.notifyDataSetChanged();
+                yourkeyList.clear();
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    int temp=dataSnapshot.getValue(Integer.class);
+                    yourkeyList.add(temp);
+                    count++;
                 }
-//                mAdapter.notifyDataSetChanged();
+
+                if (!yourkeyList.isEmpty()) {
+                    for(int i=0; i<count; i++) {
+                        element = yourkeyList.get(i);
+                        element_s = String.valueOf(element);
+
+                        databaseReference.child("review").child(element_s).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                if (snapshot.exists()) {
+                                    feedback_list read_list = snapshot.getValue(feedback_list.class);
+                                    feedback_list call_list = new feedback_list(read_list.getReview());
+                                    mArrayList.add(call_list);
+                                    mAdapter.notifyDataSetChanged();
+                                } else{}
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                // Handle the error if needed
+                            }
+                        });
+                    }
+                } else {
+                    // Handle the case where yourkeyList is empty
+                    Toast.makeText(getApplicationContext(), "No keys found", Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
@@ -77,6 +115,7 @@ public class feedback_p extends AppCompatActivity {
 
             }
         });
+
     }
 
     public boolean onOptionsItemSelected(MenuItem item){

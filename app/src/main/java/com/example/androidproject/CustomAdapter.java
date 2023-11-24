@@ -35,6 +35,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     //----- 생성자 --------------------------------------
     // 생성자를 통해서 데이터를 전달받도록 함
     public CustomAdapter (ArrayList<Record_list> dataSet) {
+
         this.cList=dataSet;
     }
     //--------------------------------------------------
@@ -61,13 +62,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         holder.who.setGravity(Gravity.LEFT);
         holder.what.setGravity(Gravity.LEFT);
 
-        holder.when.setText(cList.get(position).getC_when());
-        holder.who.setText(cList.get(position).getC_who());
-        holder.what.setText(cList.get(position).getC_what());
+        holder.when.setText(String.valueOf(cList.get(position).getDate_year())+"."+String.valueOf(cList.get(position).getDate_month())+"."+String.valueOf(cList.get(position).getDate_day())+"  "+String.valueOf(cList.get(position).getDate_hour()));
+        holder.who.setText(cList.get(position).getProfessor_name());
+        holder.what.setText(cList.get(position).getCounseling_form() + " | " + cList.get(position).getCounseling_group());
     }
 
     @Override   // 전체 데이터의 갯수를 리턴한다.
     public int getItemCount() {
-        return (null != cList ? cList.size() : 0);
+        return (cList != null ? cList.size() : 0);
     }
 }

@@ -13,17 +13,45 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidProject"
         tools:targetApi="31">
-
         <activity
-            android:name=".FixedSchedule_P"
-            android:exported="true" >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            android:name=".DetailIlJeongP"
+            android:exported="false" />
+        <activity
+            android:name=".IlJeong_P"
+            android:exported="false" />
+        <activity
+            android:name=".DetailIlJeong_s"
+            android:exported="false" />
+        <activity
+            android:name=".IlJeong_S"
+            android:exported="false" />
+        <activity
+            android:name=".feedback_p"
+            android:exported="false" />
+        <activity
+            android:name=".Record_p"
+            android:exported="false" />
+        <activity
+            android:name=".feedback_s"
+            android:exported="false" />
+        <activity
+            android:name=".Record_S"
+            android:exported="false" />
+        <activity
+            android:name=".MainScreen_P"
+            android:exported="false" />
+        <activity
+            android:name=".MainScreen_S"
+            android:exported="false" />
+        <activity
+            android:name=".logIn"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
-
         <activity
             android:name=".ConsultRequest_S_1"
             android:exported="false" />
@@ -31,26 +59,14 @@
             android:name=".ConsultRequest_S_2"
             android:exported="false" />
         <activity
-
-            android:name=".Record_p"
-            android:exported="false" />
-        <activity
-            android:name=".feedback_p"
-            android:exported="false" />
-        <activity
-            android:name=".feedback_s"
-            android:exported="false" />
-        <activity
             android:name=".Record_s"
             android:exported="false" />
         <activity
             android:name=".temporary_main"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
-            android:name=".MainScreen"
-            android:exported="false"/>
-
-
+            android:name=".FixedSchedule_P"
+            android:exported="false" />
     </application>
 
 </manifest>

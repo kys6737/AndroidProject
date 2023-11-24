@@ -1,5 +1,6 @@
 package com.example.androidproject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -13,19 +14,24 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class feedback_s extends AppCompatActivity {
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference databaseReference = database.getReference();
+    private DatabaseReference databaseReference;
+    private DatabaseReference DBReference=database.getReference();
 
     String time;
     String professor;
     String kind;
     String msg;
-    int c_count;
+    String pf_key;
+    String mykey;
 
     TextView time_when;
     TextView professor_who;
@@ -38,6 +44,9 @@ public class feedback_s extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback_s);
+
+        mykey="187740328";
+        databaseReference = database.getReference(mykey);
 
         Toolbar feedback_toolbar=findViewById(R.id.feedback_toolbar);
         feedback_toolbar.setTitleTextColor(Color.WHITE);
@@ -55,10 +64,9 @@ public class feedback_s extends AppCompatActivity {
 
         Bundle extras=getIntent().getExtras();
 
-        time=extras.getString("t");
-        professor=extras.getString("p");
-        kind=extras.getString("k");
-        c_count=extras.getInt("n");
+        time=extras.getString("time");
+        professor=extras.getString("professor");
+        kind=extras.getString("kind");
         msg=extras.getString("f");
 
 
@@ -69,6 +77,19 @@ public class feedback_s extends AppCompatActivity {
 
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
         builder.setTitle("").setMessage("후기가 등록되었습니다.");
+
+        databaseReference.child("professor_pravate_key").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int key=snapshot.getValue(Integer.class);
+                pf_key=String.valueOf(key);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         add_btn.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
@@ -82,8 +103,10 @@ public class feedback_s extends AppCompatActivity {
                 alertDialog.show();
 
                 msg=feedback_record.getText().toString();
-                String c_counts=Integer.toString(c_count);
-                databaseReference.child("counsel_record").child(c_counts).child("feedback").setValue(msg);
+                databaseReference.child("history").child("2023_2").child("review").child("review").setValue(msg);
+
+                DBReference.child(pf_key).child("review").child(mykey).child("review").setValue(msg);
+
                 add_btn.setText("수정");
                 builder.setTitle("").setMessage("수정되었습니다.");
             }

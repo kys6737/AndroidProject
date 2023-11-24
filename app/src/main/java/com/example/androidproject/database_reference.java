@@ -324,12 +324,12 @@ public class MainActivity extends AppCompatActivity {
     public void pushdata(){
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
 
-        //Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.image01);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.image01);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        //bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         byte[] byteArray = stream.toByteArray();
         String data = byteArrayToBinaryString(byteArray);
-        //database.child("test").child("image").setValue(data);
+        database.child("test").child("image").setValue(data);
     }
 
 

@@ -1,18 +1,26 @@
 package com.example.androidproject;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.app.Reservation;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Locale;
 
@@ -20,8 +28,10 @@ import java.util.Locale;
 public class ConsultRequest_S_1 extends AppCompatActivity {
     private Calendar selectedCalendar;
     private Calendar currentCalendar;
-    private String selectedDate;
-    private String selectedTime;
+    private int selectedDate_year;
+    private int selectedDate_month;
+    private int selectedDate_day;
+    private float selectedTime;
     private CalendarView calendarView;
     private Button button0900;
     private Button button0930;
@@ -43,6 +53,36 @@ public class ConsultRequest_S_1 extends AppCompatActivity {
     private Button button1730;
     private Button lastClickedButton;
     private Button nextButton;
+    private DatabaseReference databaseReference;
+    private String monValue;
+    private String tueValue;
+    private String wedValue;
+    private String thuValue;
+    private String friValue;
+
+    private boolean button0900Clicked = false;
+    private boolean button0930Clicked = false;
+    private boolean button1000Clicked = false;
+    private boolean button1030Clicked = false;
+    private boolean button1100Clicked = false;
+    private boolean button1130Clicked = false;
+    private boolean button1200Clicked = false;
+    private boolean button1230Clicked = false;
+    private boolean button1300Clicked = false;
+    private boolean button1330Clicked = false;
+    private boolean button1400Clicked = false;
+    private boolean button1430Clicked = false;
+    private boolean button1500Clicked = false;
+    private boolean button1530Clicked = false;
+    private boolean button1600Clicked = false;
+    private boolean button1630Clicked = false;
+    private boolean button1700Clicked = false;
+    private boolean button1730Clicked = false;
+    private boolean lastButtonisClicked;
+
+
+
+
 
 
     @Override
@@ -50,8 +90,55 @@ public class ConsultRequest_S_1 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.consultrequest_s_1);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        databaseReference = FirebaseDatabase.getInstance().getReference("2021145818/Timetable/fixation");
+
+
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // 데이터 변경이 감지되었을 때 호출됩니다.
+                // dataSnapshot을 통해 데이터를 가져올 수 있습니다.
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    // 반복문을 사용하여 데이터를 가져오는 예시
+                    // snapshot에서 필요한 데이터를 가져와서 처리할 수 있습니다.
+                    String key = snapshot.getKey();
+                    String value = snapshot.getValue(String.class);
+
+                    if("monday".equals(key)){
+                        monValue = value;
+                    }
+                    else if("tuesday".equals(key)){
+                        tueValue = value;
+                    }
+                    else if("wednesday".equals(key)){
+                        wedValue = value;
+                    }
+                    else if("thursday".equals(key)){
+                        thuValue = value;
+                    }
+                    else if("friday".equals(key)){
+                        friValue = value;
+                    }
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // 데이터 읽기가 취소되었을 때 호출됩니다.
+                Log.e("MainActivity", "Error: " + databaseError.getMessage());
+            }
+        });
+
+
+        Toolbar record_toolbar=findViewById(R.id.toolbar);
+        record_toolbar.setTitleTextColor(Color.WHITE);
+        setSupportActionBar(record_toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("상담 신청");
+
         calendarView = findViewById(R.id.calendarView);
         nextButton = findViewById(R.id.nextButton);
         button0900 = findViewById(R.id.button0900);
@@ -100,17 +187,35 @@ public class ConsultRequest_S_1 extends AppCompatActivity {
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                nextButton.setEnabled(false);
+                nextButton.setBackgroundResource(R.drawable.unavailablenextbutton);
                 showTimeButtons();
+                Log.d("Value", "monValue : " + monValue + ", " + "tueValue : " + tueValue + ", "
+                        + "wedValue : " + wedValue + ", " + "thuValue : " + thuValue + ", "
+                        + "friValue : " + friValue);
+
 
                 // 선택한 날짜를 문자열로 변환
-                selectedDate = String.format(Locale.getDefault(), "%04d-%02d-%02d", year, month + 1, dayOfMonth);
+                //selectedDate = String.format(Locale.getDefault(), "%04d-%02d-%02d", year, month + 1, dayOfMonth);
 
                 // 캘린더 객체 생성 및 선택한 날짜 설정
                 selectedCalendar = Calendar.getInstance();
                 selectedCalendar.set(year, month, dayOfMonth);
 
+                selectedDate_year = selectedCalendar.get(Calendar.YEAR);
+                selectedDate_month = selectedCalendar.get(Calendar.MONTH) + 1; // 월은 0부터 시작하므로 1을 더해줍니다.
+                selectedDate_day = selectedCalendar.get(Calendar.DAY_OF_MONTH);
+
+                // 선택한 날짜의 요일을 가져오기
+                int selectedDateOfWeek = selectedCalendar.get(Calendar.DAY_OF_WEEK);
+
+
+
+
+
                 // 현재 날짜와 선택한 날짜 비교
-                if (isSameDate(selectedCalendar, currentCalendar)) {
+                if (isSameDate(selectedCalendar, currentCalendar)
+                        || selectedDateOfWeek==1 || selectedDateOfWeek==7) {
                     // 현재 날짜와 선택한 날짜가 같은 경우의 동작 추가
                     Log.d("DateComparison", "Selected date is the same as the current date.");
                     button0900.setBackgroundResource(R.drawable.unavailabletimebutton);
@@ -156,6 +261,8 @@ public class ConsultRequest_S_1 extends AppCompatActivity {
                     // 여기에 특정 동작을 수행하면 됩니다.
                     // 예: 다른 버튼을 활성화하거나 메시지를 출력하는 등의 동작
                 } else {
+
+
                     button0900.setBackgroundResource(R.drawable.timebutton);
                     button0900.setEnabled(true);
                     button0930.setBackgroundResource(R.drawable.timebutton);
@@ -193,16 +300,390 @@ public class ConsultRequest_S_1 extends AppCompatActivity {
                     button1730.setBackgroundResource(R.drawable.timebutton);
                     button1730.setEnabled(true);
 
-                    // 현재 날짜와 선택한 날짜가 다른 경우의 동작 추가
-                    Log.d("DateComparison", "Selected date is different from the current date.");
+                    if(selectedDateOfWeek==2){
+                        if(monValue.charAt(0)=='1'){
+                            button0900.setEnabled(false);
+                            button0900.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(monValue.charAt(1)=='1'){
+                            button0930.setEnabled(false);
+                            button0930.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(monValue.charAt(2)=='1'){
+                            button1000.setEnabled(false);
+                            button1000.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(monValue.charAt(3)=='1'){
+                            button1030.setEnabled(false);
+                            button1030.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(monValue.charAt(4)=='1'){
+                            button1100.setEnabled(false);
+                            button1100.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(monValue.charAt(5)=='1'){
+                            button1130.setEnabled(false);
+                            button1130.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(monValue.charAt(6)=='1'){
+                            button1200.setEnabled(false);
+                            button1200.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(monValue.charAt(7)=='1'){
+                            button1230.setEnabled(false);
+                            button1230.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(monValue.charAt(8)=='1'){
+                            button1300.setEnabled(false);
+                            button1300.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(monValue.charAt(9)=='1'){
+                            button1330.setEnabled(false);
+                            button1330.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(monValue.charAt(10)=='1'){
+                            button1400.setEnabled(false);
+                            button1400.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(monValue.charAt(11)=='1'){
+                            button1430.setEnabled(false);
+                            button1430.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(monValue.charAt(12)=='1'){
+                            button1500.setEnabled(false);
+                            button1500.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(monValue.charAt(13)=='1'){
+                            button1530.setEnabled(false);
+                            button1530.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(monValue.charAt(14)=='1'){
+                            button1600.setEnabled(false);
+                            button1600.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(monValue.charAt(15)=='1'){
+                            button1630.setEnabled(false);
+                            button1630.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(monValue.charAt(16)=='1'){
+                            button1700.setEnabled(false);
+                            button1700.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(monValue.charAt(17)=='1'){
+                            button1730.setEnabled(false);
+                            button1730.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                    }
+                    if(selectedDateOfWeek==3){
+                        if(tueValue.charAt(0)=='1'){
+                            button0900.setEnabled(false);
+                            button0900.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(tueValue.charAt(1)=='1'){
+                            button0930.setEnabled(false);
+                            button0930.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(tueValue.charAt(2)=='1'){
+                            button1000.setEnabled(false);
+                            button1000.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(tueValue.charAt(3)=='1'){
+                            button1030.setEnabled(false);
+                            button1030.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(tueValue.charAt(4)=='1'){
+                            button1100.setEnabled(false);
+                            button1100.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(tueValue.charAt(5)=='1'){
+                            button1130.setEnabled(false);
+                            button1130.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(tueValue.charAt(6)=='1'){
+                            button1200.setEnabled(false);
+                            button1200.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(tueValue.charAt(7)=='1'){
+                            button1230.setEnabled(false);
+                            button1230.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(tueValue.charAt(8)=='1'){
+                            button1300.setEnabled(false);
+                            button1300.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(tueValue.charAt(9)=='1'){
+                            button1330.setEnabled(false);
+                            button1330.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(tueValue.charAt(10)=='1'){
+                            button1400.setEnabled(false);
+                            button1400.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(tueValue.charAt(11)=='1'){
+                            button1430.setEnabled(false);
+                            button1430.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(tueValue.charAt(12)=='1'){
+                            button1500.setEnabled(false);
+                            button1500.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(tueValue.charAt(13)=='1'){
+                            button1530.setEnabled(false);
+                            button1530.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(tueValue.charAt(14)=='1'){
+                            button1600.setEnabled(false);
+                            button1600.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(tueValue.charAt(15)=='1'){
+                            button1630.setEnabled(false);
+                            button1630.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(tueValue.charAt(16)=='1'){
+                            button1700.setEnabled(false);
+                            button1700.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(tueValue.charAt(17)=='1'){
+                            button1730.setEnabled(false);
+                            button1730.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                    }
+                    if(selectedDateOfWeek==4){
+                        if(wedValue.charAt(0)=='1'){
+                            button0900.setEnabled(false);
+                            button0900.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(wedValue.charAt(1)=='1'){
+                            button0930.setEnabled(false);
+                            button0930.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(wedValue.charAt(2)=='1'){
+                            button1000.setEnabled(false);
+                            button1000.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(wedValue.charAt(3)=='1'){
+                            button1030.setEnabled(false);
+                            button1030.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(wedValue.charAt(4)=='1'){
+                            button1100.setEnabled(false);
+                            button1100.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(wedValue.charAt(5)=='1'){
+                            button1130.setEnabled(false);
+                            button1130.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(wedValue.charAt(6)=='1'){
+                            button1200.setEnabled(false);
+                            button1200.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(wedValue.charAt(7)=='1'){
+                            button1230.setEnabled(false);
+                            button1230.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(wedValue.charAt(8)=='1'){
+                            button1300.setEnabled(false);
+                            button1300.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(wedValue.charAt(9)=='1'){
+                            button1330.setEnabled(false);
+                            button1330.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(wedValue.charAt(10)=='1'){
+                            button1400.setEnabled(false);
+                            button1400.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(wedValue.charAt(11)=='1'){
+                            button1430.setEnabled(false);
+                            button1430.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(wedValue.charAt(12)=='1'){
+                            button1500.setEnabled(false);
+                            button1500.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(wedValue.charAt(13)=='1'){
+                            button1530.setEnabled(false);
+                            button1530.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(wedValue.charAt(14)=='1'){
+                            button1600.setEnabled(false);
+                            button1600.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(wedValue.charAt(15)=='1'){
+                            button1630.setEnabled(false);
+                            button1630.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(wedValue.charAt(16)=='1'){
+                            button1700.setEnabled(false);
+                            button1700.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(wedValue.charAt(17)=='1'){
+                            button1730.setEnabled(false);
+                            button1730.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                    }
+                    if(selectedDateOfWeek==5){
+                        if(thuValue.charAt(0)=='1'){
+                            button0900.setEnabled(false);
+                            button0900.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(thuValue.charAt(1)=='1'){
+                            button0930.setEnabled(false);
+                            button0930.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(thuValue.charAt(2)=='1'){
+                            button1000.setEnabled(false);
+                            button1000.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(thuValue.charAt(3)=='1'){
+                            button1030.setEnabled(false);
+                            button1030.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(thuValue.charAt(4)=='1'){
+                            button1100.setEnabled(false);
+                            button1100.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(thuValue.charAt(5)=='1'){
+                            button1130.setEnabled(false);
+                            button1130.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(thuValue.charAt(6)=='1'){
+                            button1200.setEnabled(false);
+                            button1200.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(thuValue.charAt(7)=='1'){
+                            button1230.setEnabled(false);
+                            button1230.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(thuValue.charAt(8)=='1'){
+                            button1300.setEnabled(false);
+                            button1300.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(thuValue.charAt(9)=='1'){
+                            button1330.setEnabled(false);
+                            button1330.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(thuValue.charAt(10)=='1'){
+                            button1400.setEnabled(false);
+                            button1400.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(thuValue.charAt(11)=='1'){
+                            button1430.setEnabled(false);
+                            button1430.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(thuValue.charAt(12)=='1'){
+                            button1500.setEnabled(false);
+                            button1500.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(thuValue.charAt(13)=='1'){
+                            button1530.setEnabled(false);
+                            button1530.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(thuValue.charAt(14)=='1'){
+                            button1600.setEnabled(false);
+                            button1600.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(thuValue.charAt(15)=='1'){
+                            button1630.setEnabled(false);
+                            button1630.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(thuValue.charAt(16)=='1'){
+                            button1700.setEnabled(false);
+                            button1700.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(thuValue.charAt(17)=='1'){
+                            button1730.setEnabled(false);
+                            button1730.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                    }
+                    if(selectedDateOfWeek==6){
+                        if(friValue.charAt(0)=='1'){
+                            button0900.setEnabled(false);
+                            button0900.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(friValue.charAt(1)=='1'){
+                            button0930.setEnabled(false);
+                            button0930.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(friValue.charAt(2)=='1'){
+                            button1000.setEnabled(false);
+                            button1000.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(friValue.charAt(3)=='1'){
+                            button1030.setEnabled(false);
+                            button1030.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(friValue.charAt(4)=='1'){
+                            button1100.setEnabled(false);
+                            button1100.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(friValue.charAt(5)=='1'){
+                            button1130.setEnabled(false);
+                            button1130.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(friValue.charAt(6)=='1'){
+                            button1200.setEnabled(false);
+                            button1200.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(friValue.charAt(7)=='1'){
+                            button1230.setEnabled(false);
+                            button1230.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(friValue.charAt(8)=='1'){
+                            button1300.setEnabled(false);
+                            button1300.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(friValue.charAt(9)=='1'){
+                            button1330.setEnabled(false);
+                            button1330.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(friValue.charAt(10)=='1'){
+                            button1400.setEnabled(false);
+                            button1400.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(friValue.charAt(11)=='1'){
+                            button1430.setEnabled(false);
+                            button1430.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(friValue.charAt(12)=='1'){
+                            button1500.setEnabled(false);
+                            button1500.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(friValue.charAt(13)=='1'){
+                            button1530.setEnabled(false);
+                            button1530.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(friValue.charAt(14)=='1'){
+                            button1600.setEnabled(false);
+                            button1600.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(friValue.charAt(15)=='1'){
+                            button1630.setEnabled(false);
+                            button1630.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(friValue.charAt(16)=='1'){
+                            button1700.setEnabled(false);
+                            button1700.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                        if(friValue.charAt(17)=='1'){
+                            button1730.setEnabled(false);
+                            button1730.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                    }
 
-                    // 여기에 다른 특정 동작을 수행하면 됩니다.
+
+
+
+
+
+
+
+
                 }
 
-                // 마지막에 클릭된 버튼 상태 원래대로 돌려놓음
-                //lastClickedButtonState(lastClickedButton);
-                // Next 버튼 상태 업데이트
-                //updateNextButtonState();
+
+
+
             }
         });
 
@@ -346,28 +827,30 @@ public class ConsultRequest_S_1 extends AppCompatActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(lastClickedButton==button0900) selectedTime="09:00";
-                else if(lastClickedButton==button0930) selectedTime="09:30";
-                else if(lastClickedButton==button1000) selectedTime="10:00";
-                else if(lastClickedButton==button1030) selectedTime="10:30";
-                else if(lastClickedButton==button1100) selectedTime="11:00";
-                else if(lastClickedButton==button1130) selectedTime="11:30";
-                else if(lastClickedButton==button1200) selectedTime="12:00";
-                else if(lastClickedButton==button1230) selectedTime="12:30";
-                else if(lastClickedButton==button1300) selectedTime="13:00";
-                else if(lastClickedButton==button1330) selectedTime="13:30";
-                else if(lastClickedButton==button1400) selectedTime="14:00";
-                else if(lastClickedButton==button1430) selectedTime="14:30";
-                else if(lastClickedButton==button1500) selectedTime="15:00";
-                else if(lastClickedButton==button1530) selectedTime="15:30";
-                else if(lastClickedButton==button1600) selectedTime="16:00";
-                else if(lastClickedButton==button1630) selectedTime="16:30";
-                else if(lastClickedButton==button1700) selectedTime="17:00";
-                else if(lastClickedButton==button1730) selectedTime="17:30";
+                if(lastClickedButton==button0900) selectedTime=9;
+                else if(lastClickedButton==button0930) selectedTime=9.5f;
+                else if(lastClickedButton==button1000) selectedTime=10;
+                else if(lastClickedButton==button1030) selectedTime=10.5f;
+                else if(lastClickedButton==button1100) selectedTime=11;
+                else if(lastClickedButton==button1130) selectedTime=11.5f;
+                else if(lastClickedButton==button1200) selectedTime=12;
+                else if(lastClickedButton==button1230) selectedTime=12.5f;
+                else if(lastClickedButton==button1300) selectedTime=13;
+                else if(lastClickedButton==button1330) selectedTime=13.5f;
+                else if(lastClickedButton==button1400) selectedTime=14;
+                else if(lastClickedButton==button1430) selectedTime=14.5f;
+                else if(lastClickedButton==button1500) selectedTime=15;
+                else if(lastClickedButton==button1530) selectedTime=15.5f;
+                else if(lastClickedButton==button1600) selectedTime=16;
+                else if(lastClickedButton==button1630) selectedTime=16.5f;
+                else if(lastClickedButton==button1700) selectedTime=17;
+                else if(lastClickedButton==button1730) selectedTime=17.5f;
                 Reservation reservation = new Reservation();
-                reservation.setDate(selectedDate);
+                reservation.setDate_year(selectedDate_year);
+                reservation.setDate_month(selectedDate_month);
+                reservation.setDate_day(selectedDate_day);
                 reservation.setTime(selectedTime);
-                reservation.setStudentName("Christiano Ronaldo");
+                //reservation.setStudentName("Christiano Ronaldo");
 
                 Intent intent = new Intent(ConsultRequest_S_1.this, ConsultRequest_S_2.class);
                 intent.putExtra("reservation", reservation);
@@ -402,7 +885,10 @@ public class ConsultRequest_S_1 extends AppCompatActivity {
     }
     private void updateButtonState(Button clickedButton) {
         // 마지막에 클릭된 버튼이 있으면 원래대로 돌려놓음
-        lastClickedButtonState(lastClickedButton);
+        if(lastClickedButton != null && lastClickedButton.isEnabled()){
+            lastClickedButton.setBackgroundResource(R.drawable.timebutton);
+
+        }
 
         // 현재 클릭한 버튼의 상태를 변경
         clickedButton.setBackgroundResource(R.drawable.clickedtimebutton);
@@ -411,20 +897,44 @@ public class ConsultRequest_S_1 extends AppCompatActivity {
         lastClickedButton = clickedButton;
     }
 
-    private void lastClickedButtonState(Button button){
-        if(lastClickedButton != null){
-            lastClickedButton.setBackgroundResource(R.drawable.timebutton);
-        }
-    }
+
     private void updateNextButtonState() {
         nextButton.setEnabled(lastClickedButton != null);
         nextButton.setBackgroundResource(R.drawable.availablenextbutton);
+
     }
 
     private boolean isSameDate(Calendar calendar1, Calendar calendar2) {
         return calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR) &&
                 calendar1.get(Calendar.MONTH) == calendar2.get(Calendar.MONTH) &&
                 calendar1.get(Calendar.DAY_OF_MONTH) == calendar2.get(Calendar.DAY_OF_MONTH);
+    }
+
+    private void syncNextButtonState() {
+        if (lastButtonisClicked) {
+            // 하나라도 버튼이 클릭된 경우
+            nextButton.setEnabled(true);
+            nextButton.setBackgroundResource(R.drawable.availablenextbutton);
+        } else {
+            // 모든 버튼이 클릭되지 않은 경우
+            nextButton.setEnabled(false);
+            nextButton.setBackgroundResource(R.drawable.unavailablenextbutton);
+        }
+    }
+
+
+
+
+
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case android.R.id.home:{
+                finish();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 

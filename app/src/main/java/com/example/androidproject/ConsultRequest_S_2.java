@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,8 +35,14 @@ public class ConsultRequest_S_2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.consultrequest_s_2);
 
+        Toolbar record_toolbar=findViewById(R.id.toolbar);
+        record_toolbar.setTitleTextColor(Color.WHITE);
+        setSupportActionBar(record_toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("상담 신청");
+
         reservation = getIntent().getParcelableExtra("reservation");
-        Log.d("reservationDebug", "studentName: " + reservation.getStudentName() + ", Date: " + reservation.getDate() + ", Time: " + reservation.getTime());
+        //Log.d("reservationDebug", "studentName: " + reservation.getStudentName() + ", Date: " + reservation.getDate_day() + ", Time: " + reservation.getTime());
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -129,10 +136,10 @@ public class ConsultRequest_S_2 extends AppCompatActivity {
                 else if(lastClickedButton==callConsultButton) selectedType="통화상담";
                 else if(lastClickedButton==zoomConsultButton) selectedType="화상상담";
                 reservation.setType(selectedType);
-                String question = questionEditText.getText().toString();
-                reservation.setQuestion(question);
-                Log.d("ReservationDebug", "studentName: " + reservation.getStudentName() + ", Date: " + reservation.getDate() + ", Time: " + reservation.getTime() +
-                        ", Type: " + reservation.getType() + ", Question: " + reservation.getQuestion());
+                //String question = questionEditText.getText().toString();
+                //reservation.setQuestion(question);
+//                Log.d("ReservationDebug", "studentName: " + reservation.getStudentName() + ", Date: " + reservation.getDate() + ", Time: " + reservation.getTime() +
+//                        ", Type: " + reservation.getType() );
                 ReservationApplication reservationApplication = (ReservationApplication) getApplication();
                 reservationApplication.setCurrentReservation(reservation);
                 showCompleteDialog();
@@ -172,6 +179,8 @@ public class ConsultRequest_S_2 extends AppCompatActivity {
         yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(ConsultRequest_S_2.this, MainScreen_S.class);
+                startActivity(intent);
                 dialog.dismiss();
 
             }
@@ -179,4 +188,15 @@ public class ConsultRequest_S_2 extends AppCompatActivity {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case android.R.id.home:{
+                finish();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

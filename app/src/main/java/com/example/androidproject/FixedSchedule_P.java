@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -234,8 +235,11 @@ public class FixedSchedule_P extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fixed_schedule_p);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        Toolbar record_toolbar=findViewById(R.id.toolbar);
+        record_toolbar.setTitleTextColor(Color.WHITE);
+        setSupportActionBar(record_toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("스케줄 관리");
 
         nextButton = findViewById(R.id.nextButton);
 
@@ -2454,6 +2458,16 @@ public class FixedSchedule_P extends AppCompatActivity {
         });
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case android.R.id.home:{
+                finish();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 

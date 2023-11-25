@@ -8,11 +8,12 @@ import androidx.annotation.NonNull;
 import java.io.Serializable;
 
 public class Reservation implements Parcelable {
-    private String date;
-    private String time;
-    private String studentName;
-    private String type;
-    private String question;
+    private int Date_year;
+    private int Date_day;
+    private int Date_month;
+    private float Date_hour;
+    private String counseling_form;
+
     private static final long serialVersionUID = 1L;
 
     public Reservation() {
@@ -21,11 +22,12 @@ public class Reservation implements Parcelable {
 
 
     protected Reservation(Parcel in) {
-        date = in.readString();
-        time = in.readString();
-        studentName = in.readString();
-        type = in.readString();
-        question = in.readString();
+        Date_year = in.readInt();
+        Date_month = in.readInt();
+        Date_day = in.readInt();
+        Date_hour = in.readFloat();
+        counseling_form = in.readString();
+
     }
 
     public static final Creator<Reservation> CREATOR = new Creator<Reservation>() {
@@ -40,45 +42,45 @@ public class Reservation implements Parcelable {
         }
     };
 
-    public String getDate () {
-            return date;
+        public int getDate_year () {
+        return Date_year;
+    }
+
+        public void setDate_year (int Date_year){
+        this.Date_year = Date_year;
+    }
+
+        public int getDate_month () {
+        return Date_month;
+    }
+
+        public void setDate_month (int Date_month){
+        this.Date_month = Date_month;
+    }
+
+        public int getDate_day () {
+            return Date_day;
         }
 
-        public void setDate (String date){
-            this.date = date;
+        public void setDate_day (int Date_day){
+            this.Date_day = Date_day;
         }
 
-        public String getTime () {
-            return time;
+        public float getTime () {
+            return Date_hour;
         }
 
-        public void setTime (String time){
-            this.time = time;
+        public void setTime (float Date_hour){
+            this.Date_hour = Date_hour;
         }
+
         public String getType () {
-            return type;
+            return counseling_form;
         }
 
-        public void setType (String type) {
-            this.type = type;
+        public void setType (String conseling_form) {
+            this.counseling_form = conseling_form;
         }
-
-        public String getQuestion () {
-            return question;
-        }
-
-        public void setQuestion (String question) {
-            this.question = question;
-        }
-
-        public String getStudentName () {
-            return studentName;
-        }
-
-        public void setStudentName(String studentName) {
-            this.studentName = studentName;
-        }
-
 
 
     @Override
@@ -88,10 +90,10 @@ public class Reservation implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel parcel, int i) {
-        parcel.writeString(date);
-        parcel.writeString(time);
-        parcel.writeString(studentName);
-        parcel.writeString(type);
-        parcel.writeString(question);
-    }
+        parcel.writeInt(Date_year);
+        parcel.writeInt(Date_month);
+        parcel.writeInt(Date_day);
+        parcel.writeFloat(Date_hour);
+        parcel.writeString(counseling_form);
+        }
 }

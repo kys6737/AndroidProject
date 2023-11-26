@@ -37,6 +37,7 @@ public class ReservationApplication extends Application {
             databaseReference.child("Date_day").setValue(currentReservation.getDate_day());
             databaseReference.child("Date_hour").setValue(currentReservation.getTime());
             databaseReference.child("counseling_form").setValue(currentReservation.getType());
+            databaseReference.child("question").setValue(currentReservation.getQuestion());
 
 
         }

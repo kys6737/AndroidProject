@@ -13,6 +13,7 @@ public class Reservation implements Parcelable {
     private int Date_month;
     private float Date_hour;
     private String counseling_form;
+    private String question;
 
     private static final long serialVersionUID = 1L;
 
@@ -27,6 +28,7 @@ public class Reservation implements Parcelable {
         Date_day = in.readInt();
         Date_hour = in.readFloat();
         counseling_form = in.readString();
+        question = in.readString();
 
     }
 
@@ -82,6 +84,9 @@ public class Reservation implements Parcelable {
             this.counseling_form = conseling_form;
         }
 
+        public String getQuestion () {return question;}
+        public void setQuestion (String question) {this.question = question;}
+
 
     @Override
     public int describeContents() {
@@ -95,5 +100,6 @@ public class Reservation implements Parcelable {
         parcel.writeInt(Date_day);
         parcel.writeFloat(Date_hour);
         parcel.writeString(counseling_form);
+        parcel.writeString(question);
         }
 }

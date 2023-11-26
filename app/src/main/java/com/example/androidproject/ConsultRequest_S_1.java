@@ -22,7 +22,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+
 
 
 public class ConsultRequest_S_1 extends AppCompatActivity {
@@ -54,11 +57,14 @@ public class ConsultRequest_S_1 extends AppCompatActivity {
     private Button lastClickedButton;
     private Button nextButton;
     private DatabaseReference databaseReference;
+    private DatabaseReference databaseReference2;
     private String monValue;
     private String tueValue;
     private String wedValue;
     private String thuValue;
     private String friValue;
+    private List<MonthlyData> monthsList = new ArrayList<>();
+
 
     private boolean button0900Clicked = false;
     private boolean button0930Clicked = false;
@@ -91,9 +97,6 @@ public class ConsultRequest_S_1 extends AppCompatActivity {
         setContentView(R.layout.consultrequest_s_1);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("2021145818/Timetable/fixation");
-
-
-
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -129,6 +132,40 @@ public class ConsultRequest_S_1 extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
                 // 데이터 읽기가 취소되었을 때 호출됩니다.
                 Log.e("MainActivity", "Error: " + databaseError.getMessage());
+            }
+        });
+
+        databaseReference2 = FirebaseDatabase.getInstance().getReference().child("2021145818/Timetable/fluctuations");
+        databaseReference2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // dataSnapshot에 "fluctuations" 노드의 데이터가 통째로 들어있습니다.
+                for (DataSnapshot monthSnapshot : dataSnapshot.getChildren()) {
+                    // 각 월에 대한 노드에 접근할 수 있습니다.
+                    String month = monthSnapshot.getKey(); // 월을 가져옴 (예: "11", "12")
+                    List<String> monthData = new ArrayList<>();
+
+
+
+                    // 각 월에 있는 "d1"부터 "d31"까지의 데이터에 접근합니다.
+                    for (DataSnapshot daySnapshot : monthSnapshot.getChildren()) {
+
+
+                        // 여기에서 데이터를 사용할 수 있습니다.
+                        String data = daySnapshot.getValue(String.class);
+                        // 해당 월과 일에 대한 데이터를 사용합니다.
+                        monthData.add(data);
+
+                    }
+                    MonthlyData monthlyData = new MonthlyData(month, monthData);
+                    monthsList.add(monthlyData);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // 데이터 읽기가 취소되면 호출됩니다.
             }
         });
 
@@ -675,6 +712,91 @@ public class ConsultRequest_S_1 extends AppCompatActivity {
                         if(friValue.charAt(17)=='1'){
                             button1730.setEnabled(false);
                             button1730.setBackgroundResource(R.drawable.unavailabletimebutton);
+                        }
+                    }
+
+                    String selectedMonth = String.valueOf(month + 1);
+                    for (MonthlyData monthlyData : monthsList){
+                        if (selectedMonth.equals(monthlyData.getMonth())){
+                            List<String> dayDataList = monthlyData.getDayData();
+                            for (int i = 0; i < dayDataList.size(); i++) {
+                                String dayData = dayDataList.get(i);
+                                if (selectedDate_day == i + 1) { // i는 0부터 시작하므로 1을 더해줍니다.
+                                    if(dayData.charAt(0)=='1'){
+                                        button0900.setEnabled(false);
+                                        button0900.setBackgroundResource(R.drawable.unavailabletimebutton);
+                                    }
+                                    if(dayData.charAt(1)=='1'){
+                                        button0930.setEnabled(false);
+                                        button0930.setBackgroundResource(R.drawable.unavailabletimebutton);
+                                    }
+                                    if(dayData.charAt(2)=='1'){
+                                        button1000.setEnabled(false);
+                                        button1000.setBackgroundResource(R.drawable.unavailabletimebutton);
+                                    }
+                                    if(dayData.charAt(3)=='1'){
+                                        button1030.setEnabled(false);
+                                        button1030.setBackgroundResource(R.drawable.unavailabletimebutton);
+                                    }
+                                    if(dayData.charAt(4)=='1'){
+                                        button1100.setEnabled(false);
+                                        button1100.setBackgroundResource(R.drawable.unavailabletimebutton);
+                                    }
+                                    if(dayData.charAt(5)=='1'){
+                                        button1130.setEnabled(false);
+                                        button1130.setBackgroundResource(R.drawable.unavailabletimebutton);
+                                    }
+                                    if(dayData.charAt(6)=='1'){
+                                        button1200.setEnabled(false);
+                                        button1200.setBackgroundResource(R.drawable.unavailabletimebutton);
+                                    }
+                                    if(dayData.charAt(7)=='1'){
+                                        button1230.setEnabled(false);
+                                        button1230.setBackgroundResource(R.drawable.unavailabletimebutton);
+                                    }
+                                    if(dayData.charAt(8)=='1'){
+                                        button1300.setEnabled(false);
+                                        button1300.setBackgroundResource(R.drawable.unavailabletimebutton);
+                                    }
+                                    if(dayData.charAt(9)=='1'){
+                                        button1330.setEnabled(false);
+                                        button1330.setBackgroundResource(R.drawable.unavailabletimebutton);
+                                    }
+                                    if(dayData.charAt(10)=='1'){
+                                        button1400.setEnabled(false);
+                                        button1400.setBackgroundResource(R.drawable.unavailabletimebutton);
+                                    }
+                                    if(dayData.charAt(11)=='1'){
+                                        button1430.setEnabled(false);
+                                        button1430.setBackgroundResource(R.drawable.unavailabletimebutton);
+                                    }
+                                    if(dayData.charAt(12)=='1'){
+                                        button1500.setEnabled(false);
+                                        button1500.setBackgroundResource(R.drawable.unavailabletimebutton);
+                                    }
+                                    if(dayData.charAt(13)=='1'){
+                                        button1530.setEnabled(false);
+                                        button1530.setBackgroundResource(R.drawable.unavailabletimebutton);
+                                    }
+                                    if(dayData.charAt(14)=='1'){
+                                        button1600.setEnabled(false);
+                                        button1600.setBackgroundResource(R.drawable.unavailabletimebutton);
+                                    }
+                                    if(dayData.charAt(15)=='1'){
+                                        button1630.setEnabled(false);
+                                        button1630.setBackgroundResource(R.drawable.unavailabletimebutton);
+                                    }
+                                    if(dayData.charAt(16)=='1'){
+                                        button1700.setEnabled(false);
+                                        button1700.setBackgroundResource(R.drawable.unavailabletimebutton);
+                                    }
+                                    if(dayData.charAt(17)=='1'){
+                                        button1730.setEnabled(false);
+                                        button1730.setBackgroundResource(R.drawable.unavailabletimebutton);
+                                    }
+                                    break; // 일치하는 날짜를 찾았으므로 루프를 종료합니다.
+                                }
+                            }
                         }
                     }
 

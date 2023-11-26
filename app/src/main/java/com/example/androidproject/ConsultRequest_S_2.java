@@ -136,8 +136,8 @@ public class ConsultRequest_S_2 extends AppCompatActivity {
                 else if(lastClickedButton==callConsultButton) selectedType="통화상담";
                 else if(lastClickedButton==zoomConsultButton) selectedType="화상상담";
                 reservation.setType(selectedType);
-                //String question = questionEditText.getText().toString();
-                //reservation.setQuestion(question);
+                String question = questionEditText.getText().toString();
+                reservation.setQuestion(question);
 //                Log.d("ReservationDebug", "studentName: " + reservation.getStudentName() + ", Date: " + reservation.getDate() + ", Time: " + reservation.getTime() +
 //                        ", Type: " + reservation.getType() );
                 ReservationApplication reservationApplication = (ReservationApplication) getApplication();

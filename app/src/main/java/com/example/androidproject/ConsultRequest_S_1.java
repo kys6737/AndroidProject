@@ -183,6 +183,13 @@ public class ConsultRequest_S_1 extends AppCompatActivity {
         currentCalendar = Calendar.getInstance(); // 현재 날짜 가져오는 메서드
         calendarView.setMinDate(currentCalendar.getTimeInMillis()); // 현재 날짜 이전 날짜 비활성화
 
+        //현재로부터 3달 뒤까지만 접근 가능
+        Calendar maxDate = (Calendar) currentCalendar.clone();
+        maxDate.add(Calendar.MONTH, 3);
+        // CalendarView에 최대 날짜를 설정합니다.
+        calendarView.setMaxDate(maxDate.getTimeInMillis());
+
+
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override

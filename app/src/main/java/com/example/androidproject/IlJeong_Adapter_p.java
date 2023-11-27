@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.Dictionary;
 
-public class IlJeong_Adapter_p extends RecyclerView.Adapter<IlJeong_Adapter_p.ViewHolder>{
+public class IlJeong_Adapter_p extends RecyclerView.Adapter<IlJeong_Adapter_p.ViewHolder> {
 
     private ArrayList<IlJeong_list_p> cList;
 
@@ -38,8 +38,8 @@ public class IlJeong_Adapter_p extends RecyclerView.Adapter<IlJeong_Adapter_p.Vi
 
     //----- 생성자 --------------------------------------
     // 생성자를 통해서 데이터를 전달받도록 함
-    public IlJeong_Adapter_p (ArrayList<IlJeong_list_p> dataSet) {
-        this.cList=dataSet;
+    public IlJeong_Adapter_p(ArrayList<IlJeong_list_p> dataSet) {
+        this.cList = dataSet;
     }
     //--------------------------------------------------
 
@@ -66,10 +66,14 @@ public class IlJeong_Adapter_p extends RecyclerView.Adapter<IlJeong_Adapter_p.Vi
         holder.when.setGravity(Gravity.LEFT);
         holder.who.setGravity(Gravity.LEFT);
         holder.what.setGravity(Gravity.LEFT);
-
-        holder.when.setText(cList.get(position).getDate_year()+"-"+cList.get(position).getDate_month()+"-"+cList.get(position).getDate_day());
+        if (cList.get(position).getDate_hour() % 1 != 0) {
+            holder.when.setText(cList.get(position).getDate_year() + "-" + cList.get(position).getDate_month() + "-" + cList.get(position).getDate_day() + "(" + cList.get(position).getDate_week() + ") " + (int) (cList.get(position).getDate_hour()) + ":30");
+        } else {
+            holder.when.setText(cList.get(position).getDate_year() + "-" + cList.get(position).getDate_month() + "-" + cList.get(position).getDate_day() + "(" + cList.get(position).getDate_week() + ") " + (int) (cList.get(position).getDate_hour()) + ":00");
+        }
         holder.who.setText(cList.get(position).getStudent_name());
         holder.what.setText(cList.get(position).getCounseling_form());
+
     }
 
     @Override   // 전체 데이터의 갯수를 리턴한다.

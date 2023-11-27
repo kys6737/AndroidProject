@@ -23,7 +23,7 @@ public class MainScreen_P extends AppCompatActivity {
     Button alert, myPage, iljeongCheck, history, ilJeong, myProfessor, schedule;
 
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference, MdatabaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +43,8 @@ public class MainScreen_P extends AppCompatActivity {
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("2021145818/professor_information");
+        MdatabaseReference = firebaseDatabase.getReference("2021145818/Schedule_Management/187740328");
+
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -61,11 +63,27 @@ public class MainScreen_P extends AppCompatActivity {
             }
         });
 
+        MdatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                long count = snapshot.getChildrenCount();
+                if(count == 1){
+                    message.setText("예약한 상담이 있습니다.");
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         alert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent intent = new Intent(MainScreen_P.this, Example.class);
-                //startActivity(intent);
+                Intent intent = new Intent(MainScreen_P.this, alarm_center_A.class);
+                startActivity(intent);
 
             }
         });
@@ -109,8 +127,8 @@ public class MainScreen_P extends AppCompatActivity {
         myPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent intent = new Intent(MainScreen_P.this, Example.class);
-                //startActivity(intent);
+                Intent intent = new Intent(MainScreen_P.this, MyPg_P.class);
+                startActivity(intent);
 
             }
         });

@@ -25,9 +25,9 @@ import com.google.firebase.database.ValueEventListener;
 public class DetailIlJeong_s extends AppCompatActivity {
 
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference, QdatabaseReference;
+    DatabaseReference databaseReference;
 
-    TextView day_db, pro_db, kind_db, state;
+    TextView day_db, pro_db, kind_db;
     TextView questionBox;
     Button cancel;
 
@@ -45,7 +45,6 @@ public class DetailIlJeong_s extends AppCompatActivity {
         day_db = findViewById(R.id.day_db);
         pro_db = findViewById(R.id.pro_db);
         kind_db = findViewById(R.id.kind_db);
-        state = findViewById(R.id.state);
 
         questionBox = findViewById(R.id.questionbox);
         questionBox.setText("");
@@ -53,25 +52,27 @@ public class DetailIlJeong_s extends AppCompatActivity {
         Intent intent = getIntent();
         if(intent != null){
             int day = intent.getIntExtra("dd", 0);
-            int hour = intent.getIntExtra("dh", 0);
+            float hour = intent.getFloatExtra("dh", 0);
             int month = intent.getIntExtra("dm", 0);
+            String week = intent.getStringExtra("dw");
             int year = intent.getIntExtra("dy", 0);
             String professorName = intent.getStringExtra("pm");
             String form = intent.getStringExtra("cf");
-            String sta = intent.getStringExtra("st");
+            String question = intent.getStringExtra("qu");
 
-            day_db.setText(String.format("%d-%02d-%02d", year, month, day));
+            if(hour%1 != 0)
+            {
+                day_db.setText(String.format("%d-%02d-%02d", year, month, day) + "("+week+")" + " "+ (int)hour + ":30");
+            }else{
+                day_db.setText(String.format("%d-%02d-%02d", year, month, day) + "("+week+")" + " "+ (int)hour + ":00");
+            }
             pro_db.setText(professorName);
             kind_db.setText(form);
-            state.setText(sta);
+            questionBox.setText(question);
         }
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("187740328/Schedule_Management/content");
-
-        QdatabaseReference = firebaseDatabase.getReference("187740328/Schedule_Management/question");
-
-        getValue();
 
         cancel = findViewById(R.id.cancel);
 
@@ -134,35 +135,7 @@ public class DetailIlJeong_s extends AppCompatActivity {
         });
     }
 
-    private void getValue(){
-        QdatabaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    IlJeong_list ilJeongList = snapshot.getValue(IlJeong_list.class);
 
-                    setQuestionBox(ilJeongList);
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(DetailIlJeong_s.this, "error: "+ error.getMessage(),
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void setQuestionBox(IlJeong_list ilJeongList) {
-        String questionBoxText = "질문1: " + ilJeongList.getQuestion1() + "\n-" + ilJeongList.getAnswer1() + "질문2: " + ilJeongList.getQuestion2() + "\n-" + ilJeongList.getAnswer2() +
-                "질문3: " + ilJeongList.getQuestion3() + "\n-" + ilJeongList.getAnswer3() + "질문4: " + ilJeongList.getQuestion4() + "\n-" + ilJeongList.getAnswer4() +
-                "질문5: " + ilJeongList.getQuestion5() + "\n-" + ilJeongList.getAnswer5() + "질문6: " + ilJeongList.getQuestion6() + "\n-" + ilJeongList.getAnswer6() +
-                "질문7: " + ilJeongList.getQuestion7() + "\n-" + ilJeongList.getAnswer7() + "질문8: " + ilJeongList.getQuestion8() + "\n-" + ilJeongList.getAnswer8();
-
-        questionBox.setText(questionBoxText);
-
-    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -174,6 +147,4 @@ public class DetailIlJeong_s extends AppCompatActivity {
         }
     }
 
-
 }
-

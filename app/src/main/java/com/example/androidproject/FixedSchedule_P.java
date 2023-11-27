@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -134,6 +135,8 @@ public class FixedSchedule_P extends AppCompatActivity {
     private Button friButton1700;
     private Button friButton1730;
 
+    private Button dayScheduleButton;
+
     private boolean monButton0900Clicked = false;
     private boolean monButton0930Clicked = false;
     private boolean monButton1000Clicked = false;
@@ -243,6 +246,8 @@ public class FixedSchedule_P extends AppCompatActivity {
         setSupportActionBar(record_toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("스케줄 관리");
+
+        dayScheduleButton = findViewById(R.id.dayScheduleButton);
 
         nextButton = findViewById(R.id.nextButton);
 
@@ -479,6 +484,14 @@ public class FixedSchedule_P extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
                 // 데이터 읽기가 취소되었을 때 호출됩니다.
                 Log.e("MainActivity", "Error: " + databaseError.getMessage());
+            }
+        });
+
+        dayScheduleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(FixedSchedule_P.this, DaySchedule.class);
+                startActivity(intent);
             }
         });
 

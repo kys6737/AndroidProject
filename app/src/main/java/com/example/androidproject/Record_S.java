@@ -106,7 +106,7 @@ public class Record_S extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 count=snapshot.getChildrenCount();
                 mArrayList.clear();
-                for(int i=0; i<count; i++){
+                for(int i=0; i<=count; i++){
                     String icount=String.valueOf(i);
                     databaseReference.child("history").child(icount).child("content").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override

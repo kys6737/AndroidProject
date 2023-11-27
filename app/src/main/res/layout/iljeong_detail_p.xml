@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="105dp"
-        android:text="교수"
+        android:text="학생"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -102,7 +102,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/edge"
         android:ems="10"
-        android:inputType="text"
+        android:inputType="textMultiLine"
         android:text="질문상자"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

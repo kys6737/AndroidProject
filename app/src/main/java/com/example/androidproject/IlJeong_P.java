@@ -78,6 +78,7 @@ public class IlJeong_P extends AppCompatActivity {
                 intent.putExtra("dd", list_click.getDate_day());
                 intent.putExtra("dh", list_click.getDate_hour());
                 intent.putExtra("dm", list_click.getDate_month());
+                intent.putExtra("dw", list_click.getDate_week());
                 intent.putExtra("dy", list_click.getDate_year());
                 intent.putExtra("pm", list_click.getStudent_name());
                 intent.putExtra("pn", list_click.getStudent_number());
@@ -86,6 +87,7 @@ public class IlJeong_P extends AppCompatActivity {
                 intent.putExtra("cf", list_click.getCounseling_form());
                 intent.putExtra("cg", list_click.getCounseling_group());
                 intent.putExtra("st", list_click.getState());
+                intent.putExtra("qu", list_click.getQuestion());
                 startActivity(intent);
             }
 
@@ -101,7 +103,7 @@ public class IlJeong_P extends AppCompatActivity {
                 if (snapshot.exists()) {
                     IlJeong_list_p read_list = snapshot.getValue(IlJeong_list_p.class);
                     Log.d("FirebaseData", "Data: " + read_list.toString());
-                    IlJeong_list_p call_list = new IlJeong_list_p(read_list.getDate_day(), read_list.getDate_hour(), read_list.getDate_month(), read_list.getDate_year(), read_list.getStudent_name(), read_list.getStudent_number(), read_list.getClassification(), read_list.getCounseling_content(), read_list.getCounseling_form(), read_list.getCounseling_group(), read_list.getState());
+                    IlJeong_list_p call_list = new IlJeong_list_p(read_list.getDate_day(), read_list.getDate_hour(), read_list.getDate_month(), read_list.getDate_week(), read_list.getDate_year(), read_list.getStudent_name(), read_list.getStudent_number(), read_list.getClassification(), read_list.getCounseling_content(), read_list.getCounseling_form(), read_list.getCounseling_group(), read_list.getState(), read_list.getQuestion());
                     mArrayList.add(call_list);
 
                     mAdapter.notifyDataSetChanged();

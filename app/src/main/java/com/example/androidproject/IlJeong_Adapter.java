@@ -68,7 +68,11 @@ public class IlJeong_Adapter extends RecyclerView.Adapter<IlJeong_Adapter.ViewHo
         holder.who.setGravity(Gravity.LEFT);
         holder.what.setGravity(Gravity.LEFT);
 
-        holder.when.setText(cList.get(position).getDate_year()+"-"+cList.get(position).getDate_month()+"-"+cList.get(position).getDate_day());
+        if(cList.get(position).getDate_hour()%1 != 0){
+            holder.when.setText(cList.get(position).getDate_year()+"-"+cList.get(position).getDate_month()+"-"+cList.get(position).getDate_day()+"("+cList.get(position).getDate_week()+") "+(int)(cList.get(position).getDate_hour())+":30");
+        } else{
+            holder.when.setText(cList.get(position).getDate_year()+"-"+cList.get(position).getDate_month()+"-"+cList.get(position).getDate_day()+"("+cList.get(position).getDate_week()+") "+(int)(cList.get(position).getDate_hour())+":00");
+        }
         holder.who.setText(cList.get(position).getProfessor_name());
         holder.what.setText(cList.get(position).getCounseling_form());
     }

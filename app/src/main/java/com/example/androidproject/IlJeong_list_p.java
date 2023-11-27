@@ -5,8 +5,9 @@ package com.example.androidproject;
 
 public class IlJeong_list_p {
     private int Date_day;
-    private int Date_hour;
+    private float Date_hour;
     private int Date_month;
+    private String Date_week;
     private int Date_year;
     private String student_name;
     private String student_number;
@@ -15,6 +16,7 @@ public class IlJeong_list_p {
     private String counseling_form;
     private String counseling_group;
     private String state;
+    private String question;
 
 
 
@@ -28,13 +30,17 @@ public class IlJeong_list_p {
         this.Date_day = Date_day;
     }
 
-    public int getDate_hour() { return Date_hour;}
+    public float getDate_hour() { return Date_hour;}
 
-    public void setDate_hour(int Date_hour){ this.Date_hour = Date_hour;}
+    public void setDate_hour(float Date_hour){ this.Date_hour = Date_hour;}
 
     public int getDate_month() { return Date_month;}
 
     public void setDate_month(int Date_month){ this.Date_month = Date_month;}
+
+    public void setDate_week(String Date_week) { this.Date_week = Date_week;}
+
+    public String getDate_week() { return Date_week;}
 
     public int getDate_year() { return Date_year; }
 
@@ -74,12 +80,17 @@ public class IlJeong_list_p {
 
     public void setState(String state) { this.state = state;}
 
+    public String getQuestion() {return question;}
+
+    public void setQuestion(String question) { this.question = question;}
 
 
-    public IlJeong_list_p(int Date_day, int Date_hour, int Date_month, int Date_year, String student_name, String student_number, String classification, String counseling_content, String counseling_form, String counseling_group, String state) {
+
+    public IlJeong_list_p(int Date_day, float Date_hour, int Date_month, String Date_week, int Date_year, String student_name, String student_number, String classification, String counseling_content, String counseling_form, String counseling_group, String state, String question) {
         this.Date_day = Date_day;
         this.Date_hour = Date_hour;
         this.Date_month = Date_month;
+        this.Date_week = Date_week;
         this.Date_year = Date_year;
         this.student_name = student_name;
         this.student_number = student_number;
@@ -88,5 +99,6 @@ public class IlJeong_list_p {
         this.counseling_form = counseling_form;
         this.counseling_group = counseling_group;
         this.state = state;
+        this.question = question;
     }
 }

@@ -25,9 +25,10 @@ import com.google.firebase.database.ValueEventListener;
 public class DetailIlJeongP extends AppCompatActivity {
 
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference, QdatabaseReference;
 
-    TextView day_db, pro_db, kind_db, state;
+    TextView day_db, pro_db, kind_db;
+    TextView questionBox;
     Button cancel;
 
     @Override
@@ -44,28 +45,35 @@ public class DetailIlJeongP extends AppCompatActivity {
         day_db = findViewById(R.id.day_db);
         pro_db = findViewById(R.id.pro_db);
         kind_db = findViewById(R.id.kind_db);
-        state = findViewById(R.id.state);
+        questionBox = findViewById(R.id.questionbox);
+        questionBox.setText("");
 
         Intent intent = getIntent();
         if(intent != null){
             int day = intent.getIntExtra("dd", 0);
-            int hour = intent.getIntExtra("dh", 0);
+            float hour = intent.getIntExtra("dh", 0);
+            String week = intent.getStringExtra("dw");
             int month = intent.getIntExtra("dm", 0);
             int year = intent.getIntExtra("dy", 0);
             String professorName = intent.getStringExtra("pm");
             String form = intent.getStringExtra("cf");
-            String sta = intent.getStringExtra("st");
+            String question = intent.getStringExtra("qu");
 
-            day_db.setText(String.format("%d-%02d-%02d", year, month, day));
+            if(hour%1 != 0)
+            {
+                day_db.setText(String.format("%d-%02d-%02d", year, month, day) + "("+week+")" + " "+ (int)hour + ":30");
+            }else{
+                day_db.setText(String.format("%d-%02d-%02d", year, month, day) + "("+week+")" + " "+ (int)hour + ":00");
+            }
             pro_db.setText(professorName);
             kind_db.setText(form);
-            state.setText(sta);
+            questionBox.setText(question);
         }
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("2021145818/Schedule_Management/187740328/content");
 
-        getValue();
+
 
         cancel = findViewById(R.id.cancel);
 
@@ -128,20 +136,6 @@ public class DetailIlJeongP extends AppCompatActivity {
         });
     }
 
-    private void getValue(){
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(DetailIlJeongP.this, "error: "+ error.getMessage(),
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -153,4 +147,3 @@ public class DetailIlJeongP extends AppCompatActivity {
         }
     }
 }
-

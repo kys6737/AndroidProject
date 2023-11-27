@@ -67,8 +67,10 @@ public class MainScreen_P extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 long count = snapshot.getChildrenCount();
-                if(count == 1){
+                if(count == 2){
                     message.setText("예약한 상담이 있습니다.");
+                } else {
+                    message.setText("예약한 상담이 없습니다.");
                 }
 
             }

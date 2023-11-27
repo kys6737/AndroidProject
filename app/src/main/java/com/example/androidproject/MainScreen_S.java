@@ -72,7 +72,7 @@ public class MainScreen_S extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 long count = snapshot.getChildrenCount();
-                if(count == 1){
+                if(count == 2){
                     message.setText("예약한 상담이 있습니다.");
                     date.setVisibility(View.VISIBLE);
                     date_FB.setVisibility(View.VISIBLE);
@@ -93,9 +93,14 @@ public class MainScreen_S extends AppCompatActivity {
                     } else{
                         time_FB.setText((String)((int)hour+":00"));
                     }
-
-
-
+                } else {
+                    message.setText("예약한 상담이 없습니다.");
+                    date.setVisibility(View.INVISIBLE);
+                    date_FB.setVisibility(View.INVISIBLE);
+                    time.setVisibility(View.INVISIBLE);
+                    time_FB.setVisibility(View.INVISIBLE);
+                    iljeongCheck.setVisibility(View.INVISIBLE);
+                    consul.setVisibility(View.VISIBLE);
                 }
 
             }

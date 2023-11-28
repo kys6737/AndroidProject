@@ -1,5 +1,6 @@
 package com.example.androidproject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -18,6 +19,14 @@ import android.widget.TextView;
 
 import com.example.app.ReservationApplication;
 import com.example.app.Reservation;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConsultRequest_S_2 extends AppCompatActivity {
     EditText questionEditText;
@@ -29,6 +38,10 @@ public class ConsultRequest_S_2 extends AppCompatActivity {
     private Button lastClickedButton;
     private Button reservationButton;
     private Button beforeButton;
+    private DatabaseReference databaseReference3;
+    private List<MonthlyData2> monthsList2 = new ArrayList<>();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +65,43 @@ public class ConsultRequest_S_2 extends AppCompatActivity {
         reservationButton = findViewById(R.id.reservationButton);
         beforeButton = findViewById(R.id.beforeButton);
         questionEditText = findViewById(R.id.questionEditText);
+
+
+        databaseReference3 = FirebaseDatabase.getInstance().getReference().child("2021145818/Timetable/fluctuations2");
+
+        databaseReference3.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // dataSnapshot에 "fluctuations" 노드의 데이터가 통째로 들어있습니다.
+                for (DataSnapshot monthSnapshot : dataSnapshot.getChildren()) {
+                    // 각 월에 대한 노드에 접근할 수 있습니다.
+                    String month2 = monthSnapshot.getKey(); // 월을 가져옴 (예: "11", "12")
+                    List<String> monthData2 = new ArrayList<>();
+
+
+
+                    // 각 월에 있는 "d1"부터 "d31"까지의 데이터에 접근합니다.
+                    for (DataSnapshot daySnapshot : monthSnapshot.getChildren()) {
+
+
+                        // 여기에서 데이터를 사용할 수 있습니다.
+                        String data = daySnapshot.getValue(String.class);
+                        // 해당 월과 일에 대한 데이터를 사용합니다.
+                        monthData2.add(data);
+
+                    }
+                    MonthlyData2 monthlyData2 = new MonthlyData2(month2, monthData2);
+                    monthsList2.add(monthlyData2);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // 데이터 읽기가 취소되면 호출됩니다.
+            }
+        });
+
 
         faceConsultButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,8 +192,116 @@ public class ConsultRequest_S_2 extends AppCompatActivity {
 //                        ", Type: " + reservation.getType() );
                 ReservationApplication reservationApplication = (ReservationApplication) getApplication();
                 reservationApplication.setCurrentReservation(reservation);
+
+
+                for (MonthlyData2 monthlyData2 : monthsList2) {
+                    if (reservation.getStringMonth().equals(monthlyData2.getMonth2())) {
+                        List<String> dayDataList = monthlyData2.getDayData2();
+                        for (int i = 0; i < dayDataList.size(); i++) {
+                            String dayData = dayDataList.get(i);
+                            if (reservation.getDate_day() == i + 1) {
+                                if(reservation.getTime()==9){
+                                    StringBuilder modifiedBitString = new StringBuilder(dayData);
+                                    modifiedBitString.setCharAt(0, '1');
+                                    dayData = modifiedBitString.toString();
+                                }
+                                if(reservation.getTime()==9.5){
+                                    StringBuilder modifiedBitString = new StringBuilder(dayData);
+                                    modifiedBitString.setCharAt(1, '1');
+                                    dayData = modifiedBitString.toString();
+                                }
+                                if(reservation.getTime()==10){
+                                    StringBuilder modifiedBitString = new StringBuilder(dayData);
+                                    modifiedBitString.setCharAt(2, '1');
+                                    dayData = modifiedBitString.toString();
+                                }
+                                if(reservation.getTime()==10.5){
+                                    StringBuilder modifiedBitString = new StringBuilder(dayData);
+                                    modifiedBitString.setCharAt(3, '1');
+                                    dayData = modifiedBitString.toString();
+                                }
+                                if(reservation.getTime()==11){
+                                    StringBuilder modifiedBitString = new StringBuilder(dayData);
+                                    modifiedBitString.setCharAt(4, '1');
+                                    dayData = modifiedBitString.toString();
+                                }
+                                if(reservation.getTime()==11.5){
+                                    StringBuilder modifiedBitString = new StringBuilder(dayData);
+                                    modifiedBitString.setCharAt(5, '1');
+                                    dayData = modifiedBitString.toString();
+                                }
+                                if(reservation.getTime()==12){
+                                    StringBuilder modifiedBitString = new StringBuilder(dayData);
+                                    modifiedBitString.setCharAt(6, '1');
+                                    dayData = modifiedBitString.toString();
+                                }
+                                if(reservation.getTime()==12.5){
+                                    StringBuilder modifiedBitString = new StringBuilder(dayData);
+                                    modifiedBitString.setCharAt(7, '1');
+                                    dayData = modifiedBitString.toString();
+                                }
+                                if(reservation.getTime()==13){
+                                    StringBuilder modifiedBitString = new StringBuilder(dayData);
+                                    modifiedBitString.setCharAt(8, '1');
+                                    dayData = modifiedBitString.toString();
+                                }
+                                if(reservation.getTime()==13.5){
+                                    StringBuilder modifiedBitString = new StringBuilder(dayData);
+                                    modifiedBitString.setCharAt(9, '1');
+                                    dayData = modifiedBitString.toString();
+                                }
+                                if(reservation.getTime()==14){
+                                    StringBuilder modifiedBitString = new StringBuilder(dayData);
+                                    modifiedBitString.setCharAt(10, '1');
+                                    dayData = modifiedBitString.toString();
+                                }
+                                if(reservation.getTime()==14.5){
+                                    StringBuilder modifiedBitString = new StringBuilder(dayData);
+                                    modifiedBitString.setCharAt(11, '1');
+                                    dayData = modifiedBitString.toString();
+                                }
+                                if(reservation.getTime()==15){
+                                    StringBuilder modifiedBitString = new StringBuilder(dayData);
+                                    modifiedBitString.setCharAt(12, '1');
+                                    dayData = modifiedBitString.toString();
+                                }
+                                if(reservation.getTime()==15.5){
+                                    StringBuilder modifiedBitString = new StringBuilder(dayData);
+                                    modifiedBitString.setCharAt(13, '1');
+                                    dayData = modifiedBitString.toString();
+                                }
+                                if(reservation.getTime()==16){
+                                    StringBuilder modifiedBitString = new StringBuilder(dayData);
+                                    modifiedBitString.setCharAt(14, '1');
+                                    dayData = modifiedBitString.toString();
+                                }
+                                if(reservation.getTime()==16.5){
+                                    StringBuilder modifiedBitString = new StringBuilder(dayData);
+                                    modifiedBitString.setCharAt(15, '1');
+                                    dayData = modifiedBitString.toString();
+                                }
+                                if(reservation.getTime()==17){
+                                    StringBuilder modifiedBitString = new StringBuilder(dayData);
+                                    modifiedBitString.setCharAt(16, '1');
+                                    dayData = modifiedBitString.toString();
+                                }
+                                if(reservation.getTime()==17.5){
+                                    StringBuilder modifiedBitString = new StringBuilder(dayData);
+                                    modifiedBitString.setCharAt(17, '1');
+                                    dayData = modifiedBitString.toString();
+                                }
+                                //업로드
+                                databaseReference3.child(monthlyData2.getMonth2()).child(String.valueOf(i + 1)).setValue(dayData);
+
+                            }
+                        }
+                    }
+                }
+
                 showCompleteDialog();
                 dialog.dismiss();
+
+
             }
         });
 

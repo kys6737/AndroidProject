@@ -12,6 +12,10 @@ public class Reservation implements Parcelable {
     private int Date_day;
     private int Date_month;
     private float Date_hour;
+    private String Date_week;
+    private String StringMonth;
+    private String StringDay;
+    private String StringTime;
     private String counseling_form;
     private String question;
 
@@ -27,8 +31,12 @@ public class Reservation implements Parcelable {
         Date_month = in.readInt();
         Date_day = in.readInt();
         Date_hour = in.readFloat();
+        Date_week = in.readString();
         counseling_form = in.readString();
         question = in.readString();
+        StringMonth = in.readString();
+        StringDay = in.readString();
+        StringTime = in.readString();
 
     }
 
@@ -87,6 +95,19 @@ public class Reservation implements Parcelable {
         public String getQuestion () {return question;}
         public void setQuestion (String question) {this.question = question;}
 
+        public String getDate_week() { return Date_week;}
+        public void setDate_week(String Date_week){this.Date_week = Date_week;}
+
+        public String getStringMonth() {return StringMonth;}
+        public void setStringMonth(String StringMonth){this.StringMonth = StringMonth;}
+
+        public String getStringDay() {return StringDay;}
+        public void setStringDay(String StringDay){this.StringDay = StringDay;}
+
+        public String getStringTime() {return StringTime;}
+        public void setStringTime(String StringTime){this.StringTime = StringTime;}
+
+
 
     @Override
     public int describeContents() {
@@ -99,7 +120,11 @@ public class Reservation implements Parcelable {
         parcel.writeInt(Date_month);
         parcel.writeInt(Date_day);
         parcel.writeFloat(Date_hour);
+        parcel.writeString(Date_week);
         parcel.writeString(counseling_form);
         parcel.writeString(question);
+        parcel.writeString(StringMonth);
+        parcel.writeString(StringDay);
+        parcel.writeString(StringTime);
         }
 }

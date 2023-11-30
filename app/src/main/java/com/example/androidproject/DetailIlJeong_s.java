@@ -16,6 +16,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,7 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 public class DetailIlJeong_s extends AppCompatActivity {
 
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference, PdatabaseReference;
 
     TextView day_db, pro_db, kind_db;
     TextView questionBox;
@@ -72,7 +74,9 @@ public class DetailIlJeong_s extends AppCompatActivity {
         }
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("187740328/Schedule_Management/content");
+        logIn loginInstance = new logIn();
+        String getcode = loginInstance.getPrivate_key();
+        databaseReference = firebaseDatabase.getReference(getcode);
 
         cancel = findViewById(R.id.cancel);
 
@@ -119,12 +123,37 @@ public class DetailIlJeong_s extends AppCompatActivity {
                         ok.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                databaseReference.removeValue();
-                                yesalertDialog.dismiss(); // CancelYes 다이얼로그만 종료
-                                alertDialog.dismiss();
-                                finish();
+
+                                // "state" 노드에 대한 참조 가져오기
+                                DatabaseReference stateReference = databaseReference.child("Schedule_Management/2021145818/content/state");
+
+                                // "state" 노드의 값을 "취소"로 설정
+                                stateReference.setValue("취소")
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Intent intent = new Intent(DetailIlJeong_s.this, MainScreen_S.class);
+                                                startActivity(intent);
+                                                yesalertDialog.dismiss();
+                                                alertDialog.dismiss();
+                                                finish();
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                // 오류가 발생하면 필요에 따라 Toast를 표시하거나 오류를 처리합니다.
+                                                Toast.makeText(DetailIlJeong_s.this, "상태 업데이트 실패", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
+                                PdatabaseReference = firebaseDatabase.getReference("2021145818/Schedule_Management");
+                                PdatabaseReference.child(getcode).child("content").child("state").setValue("취소");
                             }
+
+
                         });
+
                         yesalertDialog.show();
                     }
                 });

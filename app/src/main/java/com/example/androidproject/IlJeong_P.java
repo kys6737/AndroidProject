@@ -30,11 +30,13 @@ import java.util.ArrayList;
 
 public class IlJeong_P extends AppCompatActivity {
 
-    private ArrayList<IlJeong_list_p> mArrayList;
+    private ArrayList<IlJeong_list_p> cList;
     private IlJeong_Adapter_p mAdapter;
 
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference databaseReference = database.getReference("2021145818/Schedule_Management/187740328/content");
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    logIn loginInstance = new logIn();
+    String getcode = loginInstance.getPrivate_key();
+    DatabaseReference databaseReference = database.getReference(getcode);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +57,9 @@ public class IlJeong_P extends AppCompatActivity {
         LinearLayoutManager mLinearLayoutManager=new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
 
-        mArrayList=new ArrayList<>();
+        cList=new ArrayList<>();
 
-        mAdapter=new IlJeong_Adapter_p(mArrayList);
+        mAdapter=new IlJeong_Adapter_p(cList);
         mRecyclerView.setAdapter(mAdapter);
 
         DividerItemDecoration dividerItemDecoration=new
@@ -68,7 +70,7 @@ public class IlJeong_P extends AppCompatActivity {
 
         mRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), mRecyclerView, new ClickListener(){
             public void onClick(View view, int position){
-                IlJeong_list_p list_click=mArrayList.get(position);
+                IlJeong_list_p list_click=cList.get(position);
 //                        Toast.makeText(getApplicationContext(),
 //                                list_click.getC_when() + ' ' + list_click.getC_who() + ' ' +
 //                                list_click.getC_what(), Toast.LENGTH_LONG).show();
@@ -82,6 +84,7 @@ public class IlJeong_P extends AppCompatActivity {
                 intent.putExtra("dy", list_click.getDate_year());
                 intent.putExtra("pm", list_click.getStudent_name());
                 intent.putExtra("pn", list_click.getStudent_number());
+                intent.putExtra("pk", list_click.getStudent_key());
                 intent.putExtra("cl", list_click.getClassification());
                 intent.putExtra("cc", list_click.getCounseling_content());
                 intent.putExtra("cf", list_click.getCounseling_form());
@@ -96,27 +99,47 @@ public class IlJeong_P extends AppCompatActivity {
 //        ---------------------------recyclerView---------------------------
 
 
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("Schedule_Management").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                mArrayList.clear();
-                if (snapshot.exists()) {
-                    IlJeong_list_p read_list = snapshot.getValue(IlJeong_list_p.class);
-                    Log.d("FirebaseData", "Data: " + read_list.toString());
-                    IlJeong_list_p call_list = new IlJeong_list_p(read_list.getDate_day(), read_list.getDate_hour(), read_list.getDate_month(), read_list.getDate_week(), read_list.getDate_year(), read_list.getStudent_name(), read_list.getStudent_number(), read_list.getClassification(), read_list.getCounseling_content(), read_list.getCounseling_form(), read_list.getCounseling_group(), read_list.getState(), read_list.getQuestion());
-                    mArrayList.add(call_list);
+                cList.clear();
+                for (DataSnapshot scheduleSnapshot : snapshot.getChildren()) {
+                    // 각 노드의 content 노드에 대한 참조를 가져옵니다.
+                    DataSnapshot contentSnapshot = scheduleSnapshot.child("content");
 
-                    mAdapter.notifyDataSetChanged();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Not Found", Toast.LENGTH_LONG).show();
+                    IlJeong_list_p read_list = contentSnapshot.getValue(IlJeong_list_p.class);
+                    if (read_list != null) {
+                        Log.d("FirebaseData", "Data: " + read_list.toString());
+                        IlJeong_list_p call_list = new IlJeong_list_p(
+                                read_list.getDate_day(),
+                                read_list.getDate_hour(),
+                                read_list.getDate_month(),
+                                read_list.getDate_week(),
+                                read_list.getDate_year(),
+                                read_list.getStudent_name(),
+                                read_list.getStudent_number(),
+                                read_list.getStudent_key(),
+                                read_list.getClassification(),
+                                read_list.getCounseling_content(),
+                                read_list.getCounseling_form(),
+                                read_list.getCounseling_group(),
+                                read_list.getState(),
+                                read_list.getQuestion()
+                        );
+                        cList.add(call_list);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Not Found", Toast.LENGTH_LONG).show();
+                    }
                 }
+                mAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                // 에러 처리
             }
         });
+
 
 
     }

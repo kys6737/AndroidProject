@@ -24,7 +24,7 @@ public class feedback_s extends AppCompatActivity {
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference;
-    private DatabaseReference DBReference=database.getReference();
+    private DatabaseReference DBReference=database.getReference();;
 
     String time;
     String professor;
@@ -32,6 +32,9 @@ public class feedback_s extends AppCompatActivity {
     String msg;
     String pf_key;
     String mykey;
+    String feedback_key;
+    int year, month;
+    boolean flag;
 
     TextView time_when;
     TextView professor_who;
@@ -45,8 +48,6 @@ public class feedback_s extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback_s);
 
-        mykey="187740328";
-        databaseReference = database.getReference(mykey);
 
         Toolbar feedback_toolbar=findViewById(R.id.feedback_toolbar);
         feedback_toolbar.setTitleTextColor(Color.WHITE);
@@ -69,6 +70,13 @@ public class feedback_s extends AppCompatActivity {
         kind=extras.getString("kind");
         msg=extras.getString("f");
 
+        year=extras.getInt("year");
+        month=extras.getInt("month");
+
+//        mykey=extras.getString("private_key");
+        mykey="187740328";
+        databaseReference = database.getReference(mykey);
+
 
         time_when.setText(time);
         professor_who.setText(professor);
@@ -78,7 +86,7 @@ public class feedback_s extends AppCompatActivity {
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
         builder.setTitle("").setMessage("후기가 등록되었습니다.");
 
-        databaseReference.child("professor_pravate_key").addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("professor_private_key").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 int key=snapshot.getValue(Integer.class);
@@ -90,6 +98,7 @@ public class feedback_s extends AppCompatActivity {
 
             }
         });
+
 
         add_btn.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
@@ -103,9 +112,81 @@ public class feedback_s extends AppCompatActivity {
                 alertDialog.show();
 
                 msg=feedback_record.getText().toString();
-                databaseReference.child("history").child("2023_2").child("review").child("review").setValue(msg);
 
-                DBReference.child(pf_key).child("review").child(mykey).child("review").setValue(msg);
+//                학생측 데이터베이스에 후기 저장
+                databaseReference.child("history").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        long num=snapshot.getChildrenCount();
+
+                        for(int i=1; i<=num; i++){
+                            String num2=String.valueOf(i);
+                            databaseReference.child("history").child(num2).child("content").addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    Record_list list=snapshot.getValue(Record_list.class);
+                                    if(list.getDate_year()==year && list.getDate_month()==month){
+                                        databaseReference.child("history").child(num2).child("content").child("review").setValue(msg);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+//                databaseReference.child("history").child("1").child("content").child("review").setValue(msg);
+
+                flag=false;
+                DBReference.child(pf_key).child("review").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        long count=snapshot.getChildrenCount();
+
+                        for(int i=1; i<=count; i++){
+                            String icount=String.valueOf(i);
+                            DBReference.child(pf_key).child("review").child(icount).child("key").addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (snapshot.exists()) {
+                                        int keying=snapshot.getValue(Integer.class);
+                                        feedback_key=String.valueOf(keying);
+                                        if(feedback_key.equals(mykey)){
+                                            flag=true;
+                                            DBReference.child(pf_key).child("review").child(icount).child("review").setValue(msg);
+                                        }
+                                    } else {
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                }
+                            });
+                        }
+
+//                        if(flag==false){
+//                            String path=String.valueOf(count+1);
+//                            feedback_list new_f=new feedback_list(Integer.valueOf(mykey), msg);
+//                            DBReference.child(pf_key).child("review").child(path).setValue(new_f);
+//                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
 
                 add_btn.setText("수정");
                 builder.setTitle("").setMessage("수정되었습니다.");

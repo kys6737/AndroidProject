@@ -16,6 +16,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,7 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 public class DetailIlJeongP extends AppCompatActivity {
 
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference, QdatabaseReference;
+    DatabaseReference databaseReference, SdatabaseReference;
 
     TextView day_db, pro_db, kind_db;
     TextView questionBox;
@@ -51,7 +53,7 @@ public class DetailIlJeongP extends AppCompatActivity {
         Intent intent = getIntent();
         if(intent != null){
             int day = intent.getIntExtra("dd", 0);
-            float hour = intent.getIntExtra("dh", 0);
+            float hour = intent.getFloatExtra("dh", 0);
             String week = intent.getStringExtra("dw");
             int month = intent.getIntExtra("dm", 0);
             int year = intent.getIntExtra("dy", 0);
@@ -71,7 +73,9 @@ public class DetailIlJeongP extends AppCompatActivity {
         }
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("2021145818/Schedule_Management/187740328/content");
+        logIn loginInstance = new logIn();
+        String getcode = loginInstance.getPrivate_key();
+        databaseReference = firebaseDatabase.getReference(getcode);
 
 
 
@@ -120,10 +124,31 @@ public class DetailIlJeongP extends AppCompatActivity {
                         ok.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                databaseReference.removeValue();
-                                yesalertDialog.dismiss(); // CancelYes 다이얼로그만 종료
-                                alertDialog.dismiss();
-                                finish();
+                                String studentkey = getIntent().getStringExtra("pk");
+                                if(studentkey != null){
+                                    // "state" 노드의 값을 "취소"로 설정
+                                    databaseReference.child("Schedule_Management").child(studentkey).child("content").child("state").setValue("취소")
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Intent intent = new Intent(DetailIlJeongP.this, MainScreen_P.class);
+                                                    startActivity(intent);
+                                                    yesalertDialog.dismiss();
+                                                    alertDialog.dismiss();
+                                                    finish();
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    // 오류가 발생하면 필요에 따라 Toast를 표시하거나 오류를 처리합니다.
+                                                    Toast.makeText(DetailIlJeongP.this, "상태 업데이트 실패", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+
+                                    SdatabaseReference = firebaseDatabase.getReference(studentkey);
+                                    SdatabaseReference.child("Schedule_Management/2021145818/content").child("state").setValue("취소");
+                                }
                             }
                         });
                         yesalertDialog.show();

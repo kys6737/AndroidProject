@@ -11,6 +11,7 @@ public class IlJeong_list_p {
     private int Date_year;
     private String student_name;
     private String student_number;
+    private String student_key;
     private String classification;
     private String counseling_content;
     private String counseling_form;
@@ -58,6 +59,10 @@ public class IlJeong_list_p {
 
     public void setStudent_number(String student_number) {this.student_number = student_number;}
 
+    public String getStudent_key() { return student_key; }
+
+    public void setStudent_key(String student_key) { this.student_key = student_key; }
+
     public String getClassification() { return classification;}
 
     public void setClassification(String classification) { this.classification = classification;}
@@ -86,7 +91,7 @@ public class IlJeong_list_p {
 
 
 
-    public IlJeong_list_p(int Date_day, float Date_hour, int Date_month, String Date_week, int Date_year, String student_name, String student_number, String classification, String counseling_content, String counseling_form, String counseling_group, String state, String question) {
+    public IlJeong_list_p(int Date_day, float Date_hour, int Date_month, String Date_week, int Date_year, String student_name, String student_number, String student_key, String classification, String counseling_content, String counseling_form, String counseling_group, String state, String question) {
         this.Date_day = Date_day;
         this.Date_hour = Date_hour;
         this.Date_month = Date_month;
@@ -94,6 +99,7 @@ public class IlJeong_list_p {
         this.Date_year = Date_year;
         this.student_name = student_name;
         this.student_number = student_number;
+        this.student_key = student_key;
         this.classification = classification;
         this.counseling_content = counseling_content;
         this.counseling_form = counseling_form;

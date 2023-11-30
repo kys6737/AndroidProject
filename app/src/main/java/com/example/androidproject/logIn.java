@@ -22,8 +22,9 @@ public class logIn extends AppCompatActivity {
     private FirebaseDatabase database=FirebaseDatabase.getInstance();
     private DatabaseReference DBReference=database.getReference();
 
-    String private_key;
+    private static String private_key;
     int key;
+    String your_key;
 
     EditText login_key;
     Button btn_login;
@@ -45,6 +46,8 @@ public class logIn extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.exists()) {
                             int you = snapshot.getValue(Integer.class);
+                            your_key=String.valueOf(you);
+
 
                             try{  //private_key 정수 변환
                                 key=Integer.parseInt(private_key);
@@ -54,15 +57,18 @@ public class logIn extends AppCompatActivity {
                             if(key<1000000000){  //학생 로그인
                                 Intent intent=new Intent(getApplicationContext(), MainScreen_S.class);
 
-//                                내 로그인 코드 전달
-//                                intent.putExtra("private_key", key);
-//                                로그인 코드에 대한 상대 코드 값 전달
-//                                intent.putExtra("your_key", you);
+////                                내 로그인 코드 전달(string 형태)
+//                                intent.putExtra("private_key", private_key);
+////                                로그인 코드에 대한 상대 코드 값 전달
+//                                intent.putExtra("your_key", your_key);
 
                                 startActivity(intent);
                             }
                             else{  //교수 로그인
                                 Intent intent=new Intent(getApplicationContext(), MainScreen_P.class);
+
+//                                intent.putExtra("private_key", private_key);
+
                                 startActivity(intent);
                             }
                         }
@@ -83,4 +89,5 @@ public class logIn extends AppCompatActivity {
             }
         });
     }
+    public static String getPrivate_key() { return private_key; }
 }

@@ -43,11 +43,14 @@ public class MainScreen_S extends AppCompatActivity {
         myPage = findViewById(R.id.MyPage);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("187740328/student_information");
+        logIn loginInstance = new logIn();
+        String getcode = loginInstance.getPrivate_key();
 
-        MdatabaseReference = firebaseDatabase.getReference("187740328/Schedule_Management");
+        databaseReference = firebaseDatabase.getReference(getcode);
 
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        MdatabaseReference = firebaseDatabase.getReference(getcode);
+
+        databaseReference.child("student_information").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
@@ -68,11 +71,11 @@ public class MainScreen_S extends AppCompatActivity {
             }
         });
 
-        MdatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        MdatabaseReference.child("Schedule_Management/2021145818").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                long count = snapshot.getChildrenCount();
-                if(count == 2){
+                String state = snapshot.child("content/state").getValue(String.class);
+                if(state.equals("완료")){
                     message.setText("예약한 상담이 있습니다.");
                     date.setVisibility(View.VISIBLE);
                     date_FB.setVisibility(View.VISIBLE);
@@ -93,7 +96,7 @@ public class MainScreen_S extends AppCompatActivity {
                     } else{
                         time_FB.setText((String)((int)hour+":00"));
                     }
-                } else {
+                } else if(state.equals("취소")){
                     message.setText("예약한 상담이 없습니다.");
                     date.setVisibility(View.INVISIBLE);
                     date_FB.setVisibility(View.INVISIBLE);

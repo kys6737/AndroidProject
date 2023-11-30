@@ -108,27 +108,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/question" />
 
-    <TextView
-        android:id="@+id/state"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="상태 : 승인 대기"
-        app:layout_constraintEnd_toEndOf="@+id/questionbox"
-        app:layout_constraintTop_toBottomOf="@+id/questionbox" />
-
     <Button
         android:id="@+id/cancel"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/buttonshape"
+        android:onClick="PopupClicked"
         android:text="상담 취소"
         android:textColor="#22B14B"
         android:textSize="10sp"
         android:textStyle="bold"
-        android:onClick="PopupClicked"
         app:layout_constraintEnd_toEndOf="@+id/questionbox"
-        app:layout_constraintTop_toBottomOf="@+id/state" />
+        app:layout_constraintTop_toBottomOf="@+id/questionbox" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,12 +5,10 @@ public class Record_list {
     private int Date_month;
     private int Date_day;
     private float Date_hour;
-    private String Professor_number;
+    private String Date_week;
     private String Professor_name;
-    private String classification;
     private String counseling_form;
-    private String counseling_group;
-    private String counseling_content;
+    private String review;
 
     private Record_list() {}
 
@@ -49,12 +47,12 @@ public class Record_list {
         Date_hour = date_hour;
     }
 
-    public String getProfessor_number() {
-        return Professor_number;
+    public String getDate_week() {
+        return Date_week;
     }
 
-    public void setProfessor_number(String professor_number) {
-        Professor_number = professor_number;
+    public void setDate_week(String date_week) {
+        Date_week = date_week;
     }
 
     public String getProfessor_name() {
@@ -65,13 +63,6 @@ public class Record_list {
         Professor_name = professor_name;
     }
 
-    public String getClassification() {
-        return classification;
-    }
-
-    public void setClassification(String classification) {
-        this.classification = classification;
-    }
 
     public String getCounseling_form() {
         return counseling_form;
@@ -81,36 +72,24 @@ public class Record_list {
         this.counseling_form = counseling_form;
     }
 
-    public String getCounseling_group() {
-        return counseling_group;
+    public String getReview() {
+        return review;
     }
 
-    public void setCounseling_group(String counseling_group) {
-        this.counseling_group = counseling_group;
+    public void setReview(String review) {
+        this.review = review;
     }
-
-    public String getCounseling_content() {
-        return counseling_content;
-    }
-
-    public void setCounseling_content(String counseling_content) {
-        this.counseling_content = counseling_content;
-    }
-
 
 //    생성자---------------------------------------------------------------
 
-    public Record_list(int Date_year, int Date_month, int Date_day, float Date_hour, String Professor_number, String Professor_name, String classification, String counseling_form, String counseling_group, String counseling_content) {
+    public Record_list(int Date_year, int Date_month, int Date_day, float Date_hour, String Date_week, String Professor_name, String counseling_form, String review) {
         this.Date_year = Date_year;
         this.Date_month = Date_month;
         this.Date_day = Date_day;
         this.Date_hour = Date_hour;
-        this.Professor_number = Professor_number;
+        this.Date_week=Date_week;
         this.Professor_name = Professor_name;
-        this.classification = classification;
         this.counseling_form = counseling_form;
-        this.counseling_group = counseling_group;
-        this.counseling_content = counseling_content;
+        this.review=review;
     }
 }
-

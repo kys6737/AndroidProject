@@ -29,7 +29,7 @@ public class feedback_p extends AppCompatActivity {
     String mykey;
     List<Integer> yourkeyList=new ArrayList<>();
     int element;
-    int count;
+    long count;
     String element_s;
 
     private ArrayList<feedback_list> mArrayList;
@@ -49,6 +49,8 @@ public class feedback_p extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("상담 후기");
 
+//        Bundle extras=getIntent().getExtras();
+//        mykey=extras.getString("private_key");
         mykey="2021145818";  //로그인부터해서 intent로 값 넘겨받기
         databaseReference = database.getReference(mykey);
 
@@ -70,44 +72,34 @@ public class feedback_p extends AppCompatActivity {
 
 //        ---------------------------recyclerView---------------------------
 
-        count=0;
-        databaseReference.child("student_pravate_key").addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("review").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                yourkeyList.clear();
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    int temp=dataSnapshot.getValue(Integer.class);
-                    yourkeyList.add(temp);
-                    count++;
+                count=snapshot.getChildrenCount();
+                mArrayList.clear();
+                for(int i=0; i<=count; i++){
+                    String icount=String.valueOf(i);
+                    databaseReference.child("review").child(icount).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
+                                feedback_list read_list = snapshot.getValue(feedback_list.class);
+                                feedback_list call_list = new feedback_list(read_list.getKey(), read_list.getReview());
+                                mArrayList.add(call_list);
+
+                                mAdapter.notifyDataSetChanged();
+                            } else {
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                 }
 
-                if (!yourkeyList.isEmpty()) {
-                    for(int i=0; i<count; i++) {
-                        element = yourkeyList.get(i);
-                        element_s = String.valueOf(element);
 
-                        databaseReference.child("review").child(element_s).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                                if (snapshot.exists()) {
-                                    feedback_list read_list = snapshot.getValue(feedback_list.class);
-                                    feedback_list call_list = new feedback_list(read_list.getReview());
-                                    mArrayList.add(call_list);
-                                    mAdapter.notifyDataSetChanged();
-                                } else{}
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                                // Handle the error if needed
-                            }
-                        });
-                    }
-                } else {
-                    // Handle the case where yourkeyList is empty
-                    Toast.makeText(getApplicationContext(), "No keys found", Toast.LENGTH_LONG).show();
-                }
             }
 
             @Override

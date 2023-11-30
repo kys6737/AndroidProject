@@ -59,6 +59,11 @@ public class IlJeong_Adapter_p extends RecyclerView.Adapter<IlJeong_Adapter_p.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d("IlJeong_Adapter_p", "onBindViewHolder: Position " + position);
 
+        if (cList.get(position).getState() != null && cList.get(position).getState().equals("취소")) {
+            holder.itemView.setVisibility(View.GONE); // 해당 뷰를 숨김
+            return; // 뷰를 숨기면서 메서드를 종료
+        }
+
         holder.when.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
         holder.who.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
         holder.what.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);

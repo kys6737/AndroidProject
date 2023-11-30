@@ -42,11 +42,13 @@ public class MainScreen_P extends AppCompatActivity {
         schedule = findViewById(R.id.Schedule);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("2021145818/professor_information");
-        MdatabaseReference = firebaseDatabase.getReference("2021145818/Schedule_Management/187740328");
+        logIn loginInstance = new logIn();
+        String getcode = loginInstance.getPrivate_key();
 
+        databaseReference = firebaseDatabase.getReference(getcode);
+        MdatabaseReference = firebaseDatabase.getReference(getcode);
 
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("professor_information").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
@@ -63,21 +65,34 @@ public class MainScreen_P extends AppCompatActivity {
             }
         });
 
-        MdatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        MdatabaseReference.child("Schedule_Management").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                long count = snapshot.getChildrenCount();
-                if(count == 2){
-                    message.setText("예약한 상담이 있습니다.");
-                } else {
-                    message.setText("예약한 상담이 없습니다.");
-                }
+                if (snapshot.exists()) {
+                    for (DataSnapshot scheduleSnapshot : snapshot.getChildren()) {
+                        String state = scheduleSnapshot.child("content/state").getValue(String.class);
 
+                        // 여기서 각 state 값에 따른 처리를 수행
+                        if (state != null) {
+                            if (state.equals("완료")) {
+                                message.setText("예약한 상담이 있습니다.");
+                            } else if (state.equals("취소")) {
+                                message.setText("예약한 상담이 없습니다.");
+                            }
+                        } else {
+                            // 'state' 값이 없을 때의 처리
+                            message.setText("상담 상태를 가져올 수 없습니다.");
+                        }
+                    }
+                } else {
+                    // 스케줄 정보가 없을 때의 처리
+                    message.setText("상담 일정이 없습니다.");
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                // 에러 처리
             }
         });
 
@@ -120,8 +135,8 @@ public class MainScreen_P extends AppCompatActivity {
         myProfessor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent intent = new Intent(MainScreen_P.this, Example.class);
-                //startActivity(intent);
+                Intent intent = new Intent(MainScreen_P.this, Student_List.class);
+                startActivity(intent);
 
             }
         });

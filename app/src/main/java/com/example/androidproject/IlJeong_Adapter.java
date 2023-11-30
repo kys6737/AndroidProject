@@ -19,7 +19,7 @@ import java.util.Dictionary;
 
 public class IlJeong_Adapter extends RecyclerView.Adapter<IlJeong_Adapter.ViewHolder>{
 
-    private ArrayList<IlJeong_list> cList;
+    private static ArrayList<IlJeong_list> cList;
 
     //===== 뷰홀더 클래스 =====================================================
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -59,6 +59,12 @@ public class IlJeong_Adapter extends RecyclerView.Adapter<IlJeong_Adapter.ViewHo
     @Override   // ViewHolder안의 내용을 position에 해당되는 데이터로 교체한다.
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d("IlJeong_Adapter", "onBindViewHolder: Position " + position);
+
+        // "state"가 "취소"이면 뷰를 숨김
+        if (cList.get(position).getState() != null && cList.get(position).getState().equals("취소")) {
+            holder.itemView.setVisibility(View.GONE); // 해당 뷰를 숨김
+            return; // 뷰를 숨기면서 메서드를 종료
+        }
 
         holder.when.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
         holder.who.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);

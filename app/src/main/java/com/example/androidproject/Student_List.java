@@ -11,108 +11,112 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
+public class Student_List extends AppCompatActivity {
 
-public class IlJeong_S extends AppCompatActivity {
-
-    private ArrayList<IlJeong_list> cList;
-    private IlJeong_Adapter mAdapter;
+    private ArrayList<StudentList_list> mArrayList;
+    private Adapter_student_list mAdapter;
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    logIn loginInstance = new logIn();
-    String getcode = loginInstance.getPrivate_key();
-    private DatabaseReference databaseReference = database.getReference(getcode);
+    private DatabaseReference databaseReference;
 
 
+    String mykey;
+    int count;
+    List<Integer> yourkeyList=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_il_jeong_s);
+        setContentView(R.layout.activity_student_list);
 
-        Toolbar record_toolbar=findViewById(R.id.feedback_p_toolbar);
-        record_toolbar.setTitleTextColor(Color.WHITE);
-        setSupportActionBar(record_toolbar);
+        Toolbar toolbar=findViewById(R.id.toolbar);
+        toolbar.setTitleTextColor(Color.WHITE);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("상담 일정");
+        getSupportActionBar().setTitle("나의 학생 목록");
 
+        mykey="2021145818";
+        databaseReference=database.getReference(mykey);
 
-//        Button btnInsert=(Button)findViewById(R.id.btn);
-
-//        ---------------------------recyclerView---------------------------
+//        ----------------------recyclerView----------------------------------------------------
         RecyclerView mRecyclerView=(RecyclerView)findViewById(R.id.recyclerView);
         LinearLayoutManager mLinearLayoutManager=new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
 
-        cList=new ArrayList<>();
+        mArrayList=new ArrayList<>();
 
-        mAdapter=new IlJeong_Adapter(cList);
+        mAdapter=new Adapter_student_list(mArrayList, this);
         mRecyclerView.setAdapter(mAdapter);
 
         DividerItemDecoration dividerItemDecoration=new
                 DividerItemDecoration(mRecyclerView.getContext(), mLinearLayoutManager.getOrientation());
         mRecyclerView.addItemDecoration(dividerItemDecoration);
 
-
-
         mRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), mRecyclerView, new ClickListener(){
             public void onClick(View view, int position){
-                IlJeong_list list_click=cList.get(position);
-//                        Toast.makeText(getApplicationContext(),
-//                                list_click.getC_when() + ' ' + list_click.getC_who() + ' ' +
-//                                list_click.getC_what(), Toast.LENGTH_LONG).show();
+                StudentList_list list_click=mArrayList.get(position);
 
-                Intent intent=new Intent(getBaseContext(), DetailIlJeong_s.class);
-
-                intent.putExtra("dd", list_click.getDate_day());
-                intent.putExtra("dh", list_click.getDate_hour());
-                intent.putExtra("dm", list_click.getDate_month());
-                intent.putExtra("dw", list_click.getDate_week());
-                intent.putExtra("dy", list_click.getDate_year());
-                intent.putExtra("pm", list_click.getProfessor_name());
-                intent.putExtra("pn", list_click.getProfessor_number());
-                intent.putExtra("cl", list_click.getClassification());
-                intent.putExtra("cc", list_click.getCounseling_content());
-                intent.putExtra("cf", list_click.getCounseling_form());
-                intent.putExtra("cg", list_click.getCounseling_group());
-                intent.putExtra("st", list_click.getState());
-                intent.putExtra("qu", list_click.getQuestion());
+                Intent intent=new Intent(getBaseContext(), MyStudent_P.class);                //intent할 클래스명으로 바꾸기
+                intent.putExtra("key", String.valueOf(list_click.getPrivate_key()));
                 startActivity(intent);
             }
 
             public void onLongClick(View view, int position){}
         }));
-//        ---------------------------recyclerView---------------------------
 
-
-        databaseReference.child("Schedule_Management/2021145818/content").addListenerForSingleValueEvent(new ValueEventListener() {
+//        -------------------------------------------------------------------------------------
+        count=0;
+        databaseReference.child("student_private_key").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                cList.clear();
-                if (snapshot.exists()) {
-                    IlJeong_list read_list = snapshot.getValue(IlJeong_list.class);
-                    Log.d("FirebaseData", "Data: " + read_list.toString());
-                    IlJeong_list call_list = new IlJeong_list(read_list.getDate_day(), read_list.getDate_hour(), read_list.getDate_month(), read_list.getDate_week(), read_list.getDate_year(), read_list.getProfessor_name(), read_list.getProfessor_number(), read_list.getClassification(), read_list.getCounseling_content(), read_list.getCounseling_form(), read_list.getCounseling_group(), read_list.getState(), read_list.getQuestion());
-                    cList.add(call_list);
+                yourkeyList.clear();
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    int temp=dataSnapshot.getValue(Integer.class);
+                    yourkeyList.add(temp);
+                    count++;
+                }
 
-                    mAdapter.notifyDataSetChanged();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Not Found", Toast.LENGTH_LONG).show();
+                if(!yourkeyList.isEmpty()){
+                    for(int i=0; i<count; i++){
+                        int element= yourkeyList.get(i);
+                        String element_s=String.valueOf(element);
+
+                        String j=String.valueOf(i+1);
+                        databaseReference.child("student_information").child(j).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if(snapshot.exists()){
+                                    StudentList_list list=snapshot.getValue(StudentList_list.class);
+                                    if(element==list.getPrivate_key()){
+                                        StudentList_list call_list=new StudentList_list(list.getProfileImageUrl(), list.getName(), list.getPrivate_key());
+                                        mArrayList.add(call_list);
+
+                                        mAdapter.notifyDataSetChanged();
+                                    }
+
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
                 }
             }
 
@@ -123,22 +127,22 @@ public class IlJeong_S extends AppCompatActivity {
         });
 
 
+
     }
 
+    //    -----------------------------------recyclerview 클릭 이벤트----------------------------------
     public interface ClickListener {
         void onClick(View view, int position);
 
         void onLongClick(View view, int position);
     }
 
-
-
     public static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
 
         private GestureDetector gestureDetector;
-        private IlJeong_S.ClickListener clickListener;
+        private Student_List.ClickListener clickListener;
 
-        public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final IlJeong_S.ClickListener clickListener) {
+        public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final Student_List.ClickListener clickListener) {
             this.clickListener = clickListener;
             gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
                 @Override
@@ -176,6 +180,7 @@ public class IlJeong_S extends AppCompatActivity {
 
 
 
+    //    툴바 뒤로가기-----------------------------------------------------------------------
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case android.R.id.home:{
@@ -185,5 +190,4 @@ public class IlJeong_S extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

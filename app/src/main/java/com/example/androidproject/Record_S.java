@@ -49,6 +49,9 @@ public class Record_S extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("상담 내역");
 
+//        Bundle extras=getIntent().getExtras();
+//        mykey=extras.getString("private_key");
+
         mykey="187740328";   //로그인부터 해서 intent로 값 넘겨받기
         databaseReference = database.getReference(mykey);
 
@@ -67,39 +70,6 @@ public class Record_S extends AppCompatActivity {
                 DividerItemDecoration(mRecyclerView.getContext(), mLinearLayoutManager.getOrientation());
         mRecyclerView.addItemDecoration(dividerItemDecoration);
 
-        databaseReference.child("history").child("2023_2").child("review").child("review").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    msg=snapshot.getValue(String.class);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        //recyclerview 각 항목 터치 이벤트
-        mRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), mRecyclerView, new ClickListener(){
-            public void onClick(View view, int position){
-                Record_list list_click=mArrayList.get(position);
-
-                Intent intent=new Intent(getBaseContext(), feedback_s.class);
-
-                intent.putExtra("time", list_click.getDate_year()+"."+list_click.getDate_month()+"."+list_click.getDate_day()+"  "+list_click.getDate_hour());
-                intent.putExtra("professor", list_click.getProfessor_name());
-                intent.putExtra("kind", list_click.getCounseling_form());
-                intent.putExtra("f", msg);
-
-                startActivity(intent);
-            }
-
-            public void onLongClick(View view, int position){}
-        }));
-
-//        -----------------------------------------------------------------------------------------------
 
         databaseReference.child("history").addValueEventListener(new ValueEventListener() {
             @Override
@@ -115,7 +85,8 @@ public class Record_S extends AppCompatActivity {
                             if (snapshot.exists()) {
 //                    for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                 Record_list read_list = snapshot.getValue(Record_list.class);
-                                Record_list call_list = new Record_list(read_list.getDate_year(), read_list.getDate_month(), read_list.getDate_day(), read_list.getDate_hour(), read_list.getProfessor_number(), read_list.getProfessor_name(), read_list.getClassification(), read_list.getCounseling_form(), read_list.getCounseling_group(), read_list.getCounseling_content());
+                                Record_list call_list = new Record_list(read_list.getDate_year(), read_list.getDate_month(), read_list.getDate_day(), read_list.getDate_hour(), read_list.getDate_week()
+                                        , read_list.getProfessor_name(), read_list.getCounseling_form(), read_list.getReview());
                                 mArrayList.add(call_list);
 
                                 mAdapter.notifyDataSetChanged();
@@ -136,7 +107,32 @@ public class Record_S extends AppCompatActivity {
             }
         });
 
+        //recyclerview 각 항목 터치 이벤트
+        mRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), mRecyclerView, new ClickListener(){
+            public void onClick(View view, int position){
+                Record_list list_click=mArrayList.get(position);
 
+                Intent intent=new Intent(getBaseContext(), feedback_s.class);
+
+                intent.putExtra("time", list_click.getDate_year()+"."
+                        +list_click.getDate_month()+"."
+                        +list_click.getDate_day()
+                        +"("+list_click.getDate_week()+")"
+                        +"  "+list_click.getDate_hour());
+                intent.putExtra("professor", list_click.getProfessor_name());
+                intent.putExtra("kind", list_click.getCounseling_form());
+                intent.putExtra("f", list_click.getReview());
+
+                intent.putExtra("year", list_click.getDate_year());
+                intent.putExtra("month", list_click.getDate_month());
+
+//                intent.putExtra("private_key", mykey);
+
+                startActivity(intent);
+            }
+
+            public void onLongClick(View view, int position){}
+        }));
 
 
     }

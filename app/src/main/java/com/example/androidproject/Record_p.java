@@ -54,6 +54,9 @@ public class Record_p extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("상담 내역");
 
+
+//        Bundle extras=getIntent().getExtras();
+//        mykey=extras.getString("private_key");
         mykey="2021145818";
         databaseReference=database.getReference(mykey);
 
@@ -78,7 +81,7 @@ public class Record_p extends AppCompatActivity {
 //        -----------------------------------------------------------------------------------------------
 
         count=0;
-        databaseReference.child("student_pravate_key").addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("student_private_key").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 yourkeyList.clear();
@@ -99,7 +102,8 @@ public class Record_p extends AppCompatActivity {
 
                                 if (snapshot.exists()) {
                                     Record_list_p read_list = snapshot.getValue(Record_list_p.class);
-                                    Record_list_p call_list = new Record_list_p(read_list.getDate_year(), read_list.getDate_month(), read_list.getDate_day(), read_list.getDate_hour(), read_list.getProfessor_number(), read_list.getProfessor_name(), read_list.getStudent_name(), read_list.getClassification(), read_list.getCounseling_form(), read_list.getCounseling_group(), read_list.getCounseling_content());
+                                    Record_list_p call_list = new Record_list_p(read_list.getDate_year(), read_list.getDate_month(), read_list.getDate_day(), read_list.getDate_hour(), read_list.getDate_week(),
+                                            read_list.getStudent_name(), read_list.getCounseling_form());
                                     mArrayList.add(call_list);
 
                                     mAdapter.notifyDataSetChanged();
@@ -123,30 +127,6 @@ public class Record_p extends AppCompatActivity {
 
             }
         });
-
-
-//        databaseReference.child("history").child("2023_2").child(yourkey).child("content").addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                mArrayList.clear();
-//                if(snapshot.exists()){
-////                    for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
-//                    Record_list read_list = snapshot.getValue(Record_list.class);
-//                    Record_list call_list = new Record_list(read_list.getDate_year(), read_list.getDate_month(), read_list.getDate_day(), read_list.getDate_hour(), read_list.getProfessor_number(), read_list.getProfessor_name(), read_list.getClassification(), read_list.getCounseling_form(), read_list.getCounseling_group(), read_list.getCounseling_content());
-//                    mArrayList.add(call_list);
-//
-//                    mAdapter.notifyDataSetChanged();
-//                }
-//                else{
-//                    Toast.makeText(getApplicationContext(), "Not Found", Toast.LENGTH_LONG).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
 
     }
 

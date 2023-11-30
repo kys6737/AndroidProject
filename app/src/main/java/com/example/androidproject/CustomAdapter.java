@@ -62,9 +62,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         holder.who.setGravity(Gravity.LEFT);
         holder.what.setGravity(Gravity.LEFT);
 
-        holder.when.setText(String.valueOf(cList.get(position).getDate_year())+"."+String.valueOf(cList.get(position).getDate_month())+"."+String.valueOf(cList.get(position).getDate_day())+"  "+String.valueOf(cList.get(position).getDate_hour()));
+        holder.when.setText(String.valueOf(cList.get(position).getDate_year())+"."
+                +String.valueOf(cList.get(position).getDate_month())+"."
+                +String.valueOf(cList.get(position).getDate_day())+
+                "("+cList.get(position).getDate_week()+")"+
+                "  "+String.valueOf(cList.get(position).getDate_hour()));
         holder.who.setText(cList.get(position).getProfessor_name());
-        holder.what.setText(cList.get(position).getCounseling_form() + " | " + cList.get(position).getCounseling_group());
+        holder.what.setText(cList.get(position).getCounseling_form());
     }
 
     @Override   // 전체 데이터의 갯수를 리턴한다.

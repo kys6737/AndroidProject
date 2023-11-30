@@ -16,7 +16,20 @@
         android:theme="?attr/actionBarTheme"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:title="일별 스케줄 등록"/>
+        />
+
+    <Button
+        android:id="@+id/backBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00FFFFFF"
+        android:layout_marginStart="10dp"
+        android:text="일별 스케줄 등록"
+        android:textSize="20dp"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+        app:layout_constraintStart_toStartOf="@id/toolbar"
+        app:layout_constraintTop_toTopOf="@id/toolbar" />
 
     <CalendarView
         android:id="@+id/calendarView"
@@ -31,349 +44,358 @@
         tools:ignore="MissingConstraints" />
 
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/btnGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
-        app:constraint_referenced_ids="allSelect,completeBtn,btn0900,btn0930,btn1000,btn1030,btn1100,btn1130,btn1200,btn1230,btn1300,btn1330,btn1400,btn1430,btn1500,btn1530,btn1600,btn1630,btn1700,btn1730" />
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="44dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/completeBtn"
+        app:layout_constraintTop_toBottomOf="@id/calendarView">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
 
-    <Button
-        android:id="@+id/allSelect"
-        android:layout_width="80dp"
-        android:layout_height="32dp"
-        android:background="@drawable/green1button"
-        android:text="전체선택"
-        app:layout_constraintEnd_toEndOf="@id/btn1030"
-        app:layout_constraintTop_toBottomOf="@id/calendarView" />
+            <Button
+                android:id="@+id/allSelect"
+                android:layout_width="80dp"
+                android:layout_height="32dp"
+                android:background="@drawable/green1button"
+                android:text="전체선택"
+                app:layout_constraintEnd_toEndOf="@id/btn1030"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <Button
+                android:id="@+id/btn0900"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="39dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/timebutton"
+                android:shadowColor="#FFFFFF"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:text="09:00"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/allSelect" />
+
+            <android.widget.Button
+                android:id="@+id/btn0930"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/timebutton"
+                android:shadowColor="#FFFFFF"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:text="09:30"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/btn0900"
+                app:layout_constraintTop_toBottomOf="@id/allSelect" />
+
+            <android.widget.Button
+                android:id="@+id/btn1000"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/timebutton"
+                android:shadowColor="#FFFFFF"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:text="10:00"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/btn0930"
+                app:layout_constraintTop_toBottomOf="@id/allSelect" />
+
+            <android.widget.Button
+                android:id="@+id/btn1030"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="39dp"
+                android:background="@drawable/timebutton"
+                android:shadowColor="#FFFFFF"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:text="10:30"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/btn1000"
+                app:layout_constraintTop_toBottomOf="@id/allSelect" />
+
+            <android.widget.Button
+                android:id="@+id/btn1100"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="39dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/timebutton"
+                android:shadowColor="#FFFFFF"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:text="11:00"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn0900" />
+
+            <android.widget.Button
+                android:id="@+id/btn1130"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/timebutton"
+                android:shadowColor="#FFFFFF"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:text="11:30"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/btn1100"
+                app:layout_constraintTop_toBottomOf="@+id/btn0930" />
+
+            <android.widget.Button
+                android:id="@+id/btn1200"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/timebutton"
+                android:shadowColor="#FFFFFF"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:text="12:00"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/btn1130"
+                app:layout_constraintTop_toBottomOf="@+id/btn1000" />
+
+            <android.widget.Button
+                android:id="@+id/btn1230"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="39dp"
+                android:background="@drawable/timebutton"
+                android:shadowColor="#FFFFFF"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:text="12:30"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/btn1200"
+                app:layout_constraintTop_toBottomOf="@+id/btn1030" />
+
+            <android.widget.Button
+                android:id="@+id/btn1300"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="39dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/timebutton"
+                android:shadowColor="#FFFFFF"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:text="13:00"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn1100" />
+
+            <android.widget.Button
+                android:id="@+id/btn1330"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/timebutton"
+                android:shadowColor="#FFFFFF"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:text="13:30"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/btn1300"
+                app:layout_constraintTop_toBottomOf="@+id/btn1130" />
+
+            <android.widget.Button
+                android:id="@+id/btn1400"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/timebutton"
+                android:shadowColor="#FFFFFF"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:text="14:00"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/btn1330"
+                app:layout_constraintTop_toBottomOf="@+id/btn1200" />
+
+            <android.widget.Button
+                android:id="@+id/btn1430"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="39dp"
+                android:background="@drawable/timebutton"
+                android:shadowColor="#FFFFFF"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:text="14:30"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/btn1400"
+                app:layout_constraintTop_toBottomOf="@+id/btn1230" />
+
+            <android.widget.Button
+                android:id="@+id/btn1500"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="39dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/timebutton"
+                android:shadowColor="#FFFFFF"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:text="15:00"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn1300" />
+
+            <android.widget.Button
+                android:id="@+id/btn1530"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/timebutton"
+                android:shadowColor="#FFFFFF"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:text="15:30"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/btn1500"
+                app:layout_constraintTop_toBottomOf="@+id/btn1330" />
+
+            <android.widget.Button
+                android:id="@+id/btn1600"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/timebutton"
+                android:shadowColor="#FFFFFF"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:text="16:00"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/btn1530"
+                app:layout_constraintTop_toBottomOf="@+id/btn1400" />
+
+            <android.widget.Button
+                android:id="@+id/btn1630"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="39dp"
+                android:background="@drawable/timebutton"
+                android:shadowColor="#FFFFFF"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:text="16:30"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/btn1600"
+                app:layout_constraintTop_toBottomOf="@+id/btn1430" />
+
+            <android.widget.Button
+                android:id="@+id/btn1700"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="39dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/timebutton"
+                android:shadowColor="#FFFFFF"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:text="17:00"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn1500" />
+
+            <android.widget.Button
+                android:id="@+id/btn1730"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/timebutton"
+                android:shadowColor="#FFFFFF"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:text="17:30"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/btn1700"
+                app:layout_constraintTop_toBottomOf="@+id/btn1530" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
     <Button
         android:id="@+id/completeBtn"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginEnd="39dp"
+        android:layout_marginBottom="44dp"
         android:background="@drawable/unavailablenextbutton"
         android:text="저장"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/btn1630"
-        app:layout_constraintTop_toBottomOf="@id/btn1700" />
-
-    <Button
-        android:id="@+id/btn0900"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="39dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/timebutton"
-        android:shadowColor="#FFFFFF"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="5"
-        android:text="09:00"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/allSelect" />
-
-    <android.widget.Button
-        android:id="@+id/btn0930"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/timebutton"
-        android:shadowColor="#FFFFFF"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="5"
-        android:text="09:30"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/btn0900"
-        app:layout_constraintTop_toBottomOf="@id/allSelect" />
-
-    <android.widget.Button
-        android:id="@+id/btn1000"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/timebutton"
-        android:shadowColor="#FFFFFF"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="5"
-        android:text="10:00"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/btn0930"
-        app:layout_constraintTop_toBottomOf="@id/allSelect" />
-
-    <android.widget.Button
-        android:id="@+id/btn1030"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="39dp"
-        android:background="@drawable/timebutton"
-        android:shadowColor="#FFFFFF"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="5"
-        android:text="10:30"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/btn1000"
-        app:layout_constraintTop_toBottomOf="@id/allSelect" />
-
-    <android.widget.Button
-        android:id="@+id/btn1100"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="39dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/timebutton"
-        android:shadowColor="#FFFFFF"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="5"
-        android:text="11:00"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn0900" />
-
-    <android.widget.Button
-        android:id="@+id/btn1130"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/timebutton"
-        android:shadowColor="#FFFFFF"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="5"
-        android:text="11:30"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/btn1100"
-        app:layout_constraintTop_toBottomOf="@+id/btn0930" />
-
-    <android.widget.Button
-        android:id="@+id/btn1200"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/timebutton"
-        android:shadowColor="#FFFFFF"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="5"
-        android:text="12:00"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/btn1130"
-        app:layout_constraintTop_toBottomOf="@+id/btn1000" />
-
-    <android.widget.Button
-        android:id="@+id/btn1230"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="39dp"
-        android:background="@drawable/timebutton"
-        android:shadowColor="#FFFFFF"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="5"
-        android:text="12:30"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn1200"
-        app:layout_constraintTop_toBottomOf="@+id/btn1030" />
-
-    <android.widget.Button
-        android:id="@+id/btn1300"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="39dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/timebutton"
-        android:shadowColor="#FFFFFF"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="5"
-        android:text="13:00"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn1100" />
-
-    <android.widget.Button
-        android:id="@+id/btn1330"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/timebutton"
-        android:shadowColor="#FFFFFF"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="5"
-        android:text="13:30"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/btn1300"
-        app:layout_constraintTop_toBottomOf="@+id/btn1130" />
-
-    <android.widget.Button
-        android:id="@+id/btn1400"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/timebutton"
-        android:shadowColor="#FFFFFF"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="5"
-        android:text="14:00"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/btn1330"
-        app:layout_constraintTop_toBottomOf="@+id/btn1200" />
-
-    <android.widget.Button
-        android:id="@+id/btn1430"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="39dp"
-        android:background="@drawable/timebutton"
-        android:shadowColor="#FFFFFF"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="5"
-        android:text="14:30"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn1400"
-        app:layout_constraintTop_toBottomOf="@+id/btn1230" />
-
-    <android.widget.Button
-        android:id="@+id/btn1500"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="39dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/timebutton"
-        android:shadowColor="#FFFFFF"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="5"
-        android:text="15:00"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn1300" />
-
-    <android.widget.Button
-        android:id="@+id/btn1530"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/timebutton"
-        android:shadowColor="#FFFFFF"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="5"
-        android:text="15:30"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/btn1500"
-        app:layout_constraintTop_toBottomOf="@+id/btn1330" />
-
-    <android.widget.Button
-        android:id="@+id/btn1600"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/timebutton"
-        android:shadowColor="#FFFFFF"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="5"
-        android:text="16:00"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/btn1530"
-        app:layout_constraintTop_toBottomOf="@+id/btn1400" />
-
-    <android.widget.Button
-        android:id="@+id/btn1630"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="39dp"
-        android:background="@drawable/timebutton"
-        android:shadowColor="#FFFFFF"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="5"
-        android:text="16:30"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn1600"
-        app:layout_constraintTop_toBottomOf="@+id/btn1430" />
-
-    <android.widget.Button
-        android:id="@+id/btn1700"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="39dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/timebutton"
-        android:shadowColor="#FFFFFF"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="5"
-        android:text="17:00"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn1500" />
-
-    <android.widget.Button
-        android:id="@+id/btn1730"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/timebutton"
-        android:shadowColor="#FFFFFF"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="5"
-        android:text="17:30"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/btn1700"
-        app:layout_constraintTop_toBottomOf="@+id/btn1530" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

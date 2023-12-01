@@ -157,6 +157,7 @@ public class alarm_center_A extends AppCompatActivity {
                             JSONObject root = new JSONObject();
                             JSONObject data = new JSONObject();
                             data.put("body", message);
+                            data.put("click_action", ".MyFirebaseMessagingService");
                             data.put("title", title);
                             root.put("notification", data);
                             root.put("to", token);
@@ -257,7 +258,7 @@ public class alarm_center_A extends AppCompatActivity {
         ArrayList<HashMap<String, String>> datas = new ArrayList<HashMap<String, String>>();
         final HashMap<String, String>[] map = new HashMap[]{new HashMap<String, String>()};
 
-        String private_key = "187740328";//개인키
+        String private_key = "2021145818";//개인키
         String token = String.valueOf(FirebaseMessaging.getInstance().getToken());
 
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();

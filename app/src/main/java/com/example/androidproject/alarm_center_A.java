@@ -156,18 +156,19 @@ public class alarm_center_A extends AppCompatActivity {
                         try {
                             JSONObject root = new JSONObject();
                             JSONObject data = new JSONObject();
-                            data.put("body", message);
-                            data.put("click_action", ".MyFirebaseMessagingService");
-                            data.put("title", title);
-                            root.put("notification", data);
-                            root.put("to", token);
+                            //data.put("body", message);
+                            //data.put("click_action", "MyFirebaseMessagingService");
+                            //data.put("title", title);
+                            //root.put("notification", data);
                             JSONObject data2 = new JSONObject();
-                            data2.put("notifid", 2025090001);
+                            //data2.put("notifid", 2025090001);
                             data2.put("msg", message);
                             data2.put("title2", title);
-                            root.put("data", data2);
                             root.put("to", token);
-                            root.put("time_to_live", 8640);
+                            root.put("data", data2);
+                            //root.put("to", token);
+                            root.put("priority", "high");
+                            //root.put("time_to_live", 8640);
                             URL url = new URL(FCM_MESSAGE_URL);
                             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                             conn.setRequestMethod("POST");
@@ -228,24 +229,24 @@ public class alarm_center_A extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alarm_center);
         askNotificationPermission();
-//        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-//        FirebaseMessaging.getInstance().getToken()
-//                .addOnCompleteListener(new OnCompleteListener<String>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<String> task) {
-//                        if (!task.isSuccessful()) {
-//                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
-//                            return;
-//                        }
-//
-//                        // Get new FCM registration token
-//                        String token = task.getResult();
-//                        database.child("2021145818").child("alarm").child("token").setValue(token);
-//                        // Log and toast
-//
-//                        Toast.makeText(alarm_center_A.this, token, Toast.LENGTH_SHORT).show();
-//                    }
-//                });
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+                        database.child("2021145818").child("alarm").child("token").setValue(token);
+                        // Log and toast
+
+                        Toast.makeText(alarm_center_A.this, token, Toast.LENGTH_SHORT).show();
+                    }
+                });
 
         alarm(false,"상담취소","김영수","2021145818",
                 2023,11,27);
@@ -330,7 +331,6 @@ public class alarm_center_A extends AppCompatActivity {
                                     String key = private_key;
                                     intent.putExtra(KEY_SIMPLE_MSG,key);
                                     startActivityForResult(intent, REQUEST_CODE_FRIEND);
-
                                 }
                                 else if (datas.get(position).get("title") == "후기작성") {
                                     // 후기작성 클래스로

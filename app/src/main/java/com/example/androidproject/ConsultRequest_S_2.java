@@ -41,6 +41,9 @@ public class ConsultRequest_S_2 extends AppCompatActivity {
     private DatabaseReference databaseReference3;
     private List<MonthlyData2> monthsList2 = new ArrayList<>();
 
+    logIn loginInstance = new logIn();
+
+
 
 
     @Override
@@ -192,7 +195,7 @@ public class ConsultRequest_S_2 extends AppCompatActivity {
 //                Log.d("ReservationDebug", "studentName: " + reservation.getStudentName() + ", Date: " + reservation.getDate() + ", Time: " + reservation.getTime() +
 //                        ", Type: " + reservation.getType() );
                 ReservationApplication reservationApplication = (ReservationApplication) getApplication();
-                reservationApplication.setCurrentReservation(reservation);
+                reservationApplication.setCurrentReservation(reservation, loginInstance.getPrivate_key());
 
 
                 for (MonthlyData2 monthlyData2 : monthsList2) {

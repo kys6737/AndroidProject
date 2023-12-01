@@ -114,19 +114,21 @@ public class feedback_s extends AppCompatActivity {
                 msg=feedback_record.getText().toString();
 
 //                학생측 데이터베이스에 후기 저장
-                databaseReference.child("history").addListenerForSingleValueEvent(new ValueEventListener() {
+                databaseReference.child("history").child("value").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        long num=snapshot.getChildrenCount();
+                        int num=snapshot.getValue(Integer.class);
 
-                        for(int i=1; i<=num; i++){
+                        for(int i=1; i<=num+1; i++){
                             String num2=String.valueOf(i);
                             databaseReference.child("history").child(num2).child("content").addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    Record_list list=snapshot.getValue(Record_list.class);
-                                    if(list.getDate_year()==year && list.getDate_month()==month && list.getDate_day()==day){
-                                        databaseReference.child("history").child(num2).child("content").child("review").setValue(msg);
+                                    if(snapshot.exists()) {
+                                        Record_list list = snapshot.getValue(Record_list.class);
+                                        if (list.getDate_year() == year && list.getDate_month() == month && list.getDate_day() == day) {
+                                            databaseReference.child("history").child(num2).child("content").child("review").setValue(msg);
+                                        }
                                     }
                                 }
 

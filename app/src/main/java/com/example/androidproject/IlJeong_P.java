@@ -38,6 +38,10 @@ public class IlJeong_P extends AppCompatActivity {
     String getcode = loginInstance.getPrivate_key();
     DatabaseReference databaseReference = database.getReference(getcode);
 
+    String nameP;
+    DatabaseReference DBReference=database.getReference();
+    long countH;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,7 +98,53 @@ public class IlJeong_P extends AppCompatActivity {
                 startActivity(intent);
             }
 
-            public void onLongClick(View view, int position){}
+            public void onLongClick(View view, int position){
+                IlJeong_list_p list_click=cList.get(position);
+                databaseReference.child("professor_information").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        nameP=snapshot.child("name").getValue(String.class);
+
+                        DBReference.child(list_click.getStudent_key()).child("history").child("value").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot Csnapshot) {
+                                countH = Csnapshot.getValue(Integer.class);
+
+                                Record_list sHistory=new Record_list(list_click.getDate_year(), list_click.getDate_month(), list_click.getDate_day(), list_click.getDate_hour(), list_click.getDate_week(),
+                                        nameP, list_click.getCounseling_form(), "");
+                                DBReference.child(list_click.getStudent_key()).child("history").child(String.valueOf(countH+1)).child("content").setValue(sHistory);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+                        //Record_list sHistory=new Record_list(list_click.getDate_year(), list_click.getDate_month(), list_click.getDate_day(), list_click.getDate_hour(), list_click.getDate_week(),
+                        //        nameP, list_click.getCounseling_form(), "");
+                        //DBReference.child(list_click.getStudent_key()).child("history").child(String.valueOf(countH+1)).child("content").setValue(sHistory);
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+                Record_list_p pHistory=new Record_list_p(list_click.getDate_year(), list_click.getDate_month(), list_click.getDate_day(), list_click.getDate_hour(), list_click.getDate_week(),
+                        list_click.getStudent_name(), list_click.getCounseling_form());
+                //Record_list sHistory=new Record_list(list_click.getDate_year(), list_click.getDate_month(), list_click.getDate_day(), list_click.getDate_hour(), list_click.getDate_week(),
+                //      nameP, list_click.getCounseling_form(), "");
+
+                databaseReference.child("history").child("2023_2").child(list_click.getStudent_key()).child("content").setValue(pHistory);
+                //DBReference.child(list_click.getStudent_key()).child("history").child(String.valueOf(countH)).child("content").setValue(sHistory);
+                Toast.makeText(IlJeong_P.this, "상담 내역에 저장되었습니다.", Toast.LENGTH_SHORT).show();
+
+                DBReference.child(list_click.getStudent_key()).child("history").child("value").setValue(countH+1);
+            }
         }));
 //        ---------------------------recyclerView---------------------------
 

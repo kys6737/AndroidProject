@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,8 +23,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-
 
 
 public class ConsultRequest_S_1 extends AppCompatActivity {
@@ -71,6 +68,7 @@ public class ConsultRequest_S_1 extends AppCompatActivity {
     private String StringMonth;
     private String StringDay;
     private String StringTime;
+
 
 
     private boolean button0900Clicked = false;

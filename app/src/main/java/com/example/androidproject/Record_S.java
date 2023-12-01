@@ -71,12 +71,12 @@ public class Record_S extends AppCompatActivity {
         mRecyclerView.addItemDecoration(dividerItemDecoration);
 
 
-        databaseReference.child("history").addValueEventListener(new ValueEventListener() {
+        databaseReference.child("history").child("value").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                count=snapshot.getChildrenCount();
+                count=snapshot.getValue(Integer.class);
                 mArrayList.clear();
-                for(int i=0; i<=count; i++){
+                for(int i=1; i<=count+1; i++){
                     String icount=String.valueOf(i);
                     databaseReference.child("history").child(icount).child("content").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -141,7 +141,9 @@ public class Record_S extends AppCompatActivity {
                 startActivity(intent);
             }
 
-            public void onLongClick(View view, int position){}
+            public void onLongClick(View view, int position){
+//                Toast.makeText(Record_S.this, "asdf", Toast.LENGTH_SHORT).show();
+            }
         }));
 
 

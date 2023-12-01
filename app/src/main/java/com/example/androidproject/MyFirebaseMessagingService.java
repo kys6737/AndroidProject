@@ -52,7 +52,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             //Log.d("createNotificationChannel","3");
             CharSequence name = getString(R.string.channel_name);
             String description = getString(R.string.channel_description);
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance);
             channel.setDescription(description);
             // Register the channel with the system; you can't change the importance
@@ -68,7 +68,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = getString(R.string.channel_name);
             String description = getString(R.string.channel_description);
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
             channel.setDescription(description);
             // Register the channel with the system; you can't change the importance
@@ -97,8 +97,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Log.d("tag","1");
 
-        String title = remoteMessage.getNotification().getTitle();
-        String msg = remoteMessage.getNotification().getBody();
+        //String title = remoteMessage.getNotification().getTitle();
+        //String msg = remoteMessage.getNotification().getBody();
 
         String title2 = remoteMessage.getData().get("title2");
         String body = remoteMessage.getData().get("msg");
@@ -129,10 +129,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         builder.setContentTitle(title2);
         builder.setContentText(body);
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            builder.setContentTitle(title);
+            builder.setContentTitle(title2);
             builder.setVibrate(new long[]{500, 500});
         }
-        Log.d("Notification",title + " + " + msg);
+        //Log.d("Notification",title + " + " + msg);
         Log.d("data",title2 + " + " + body);
 
         mManager.notify(0, builder.build());

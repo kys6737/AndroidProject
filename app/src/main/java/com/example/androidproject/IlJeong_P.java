@@ -103,12 +103,14 @@ public class IlJeong_P extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 cList.clear();
+                boolean anyValidItem = false;
                 for (DataSnapshot scheduleSnapshot : snapshot.getChildren()) {
                     // 각 노드의 content 노드에 대한 참조를 가져옵니다.
                     DataSnapshot contentSnapshot = scheduleSnapshot.child("content");
 
                     IlJeong_list_p read_list = contentSnapshot.getValue(IlJeong_list_p.class);
-                    if (read_list != null) {
+                    if (read_list != null && !"취소".equals(read_list.getState())) {
+                        anyValidItem = true;
                         Log.d("FirebaseData", "Data: " + read_list.toString());
                         IlJeong_list_p call_list = new IlJeong_list_p(
                                 read_list.getDate_day(),
@@ -128,10 +130,14 @@ public class IlJeong_P extends AppCompatActivity {
                         );
                         cList.add(call_list);
                     } else {
-                        Toast.makeText(getApplicationContext(), "Not Found", Toast.LENGTH_LONG).show();
+
                     }
                 }
                 mAdapter.notifyDataSetChanged();
+
+                if(!anyValidItem){
+                    Toast.makeText(getApplicationContext(), "예약된 상담이 없습니다.", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override

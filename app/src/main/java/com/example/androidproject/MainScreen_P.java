@@ -76,6 +76,7 @@ public class MainScreen_P extends AppCompatActivity {
                         if (state != null) {
                             if (state.equals("완료")) {
                                 message.setText("예약한 상담이 있습니다.");
+                                break;
                             } else if (state.equals("취소")) {
                                 message.setText("예약한 상담이 없습니다.");
                             }

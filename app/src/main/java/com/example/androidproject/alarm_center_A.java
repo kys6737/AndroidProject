@@ -249,7 +249,7 @@ public class alarm_center_A extends AppCompatActivity {
 
         alarm(false,"상담취소","김영수","2021145818",
                 2023,11,27);
-        //click();
+        click();
 
     }
 

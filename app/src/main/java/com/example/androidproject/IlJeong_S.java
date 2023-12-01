@@ -100,7 +100,7 @@ public class IlJeong_S extends AppCompatActivity {
 //        ---------------------------recyclerView---------------------------
 
 
-        databaseReference.child("Schedule_Management/2021145818/content").addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("Schedule_Management/2021145818/content").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 cList.clear();
@@ -109,12 +109,15 @@ public class IlJeong_S extends AppCompatActivity {
                     Log.d("FirebaseData", "Data: " + read_list.toString());
                     IlJeong_list call_list = new IlJeong_list(read_list.getDate_day(), read_list.getDate_hour(), read_list.getDate_month(), read_list.getDate_week(), read_list.getDate_year(), read_list.getProfessor_name(), read_list.getProfessor_number(), read_list.getClassification(), read_list.getCounseling_content(), read_list.getCounseling_form(), read_list.getCounseling_group(), read_list.getState(), read_list.getQuestion());
                     cList.add(call_list);
-
                     mAdapter.notifyDataSetChanged();
+                    if("취소".equals(read_list.getState())){
+                        Toast.makeText(getApplicationContext(), "예약된 상담이 없습니다.", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(getApplicationContext(), "Not Found", Toast.LENGTH_LONG).show();
+
                 }
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

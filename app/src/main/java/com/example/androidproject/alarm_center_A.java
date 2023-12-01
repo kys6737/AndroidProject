@@ -46,9 +46,12 @@ public class alarm_center_A extends AppCompatActivity {
         public String phone_number = "phone_number";
         public String email = "email";
         public String Zoom_link = "Zoom_link";
+        public String major = "major";
+        public String profileImageUrl = "profileImageUrl";
         public Boolean alarm = true;
         public professor_information(int private_key, String name, String laboratory_location,String belong,
-                                     String phone_number, String email, String Zoom_link, Boolean alarm){
+                                     String phone_number, String email, String Zoom_link, Boolean alarm
+                ,String major, String profileImageUrl){
             this.private_key = private_key;
             this.name = name;
             this.laboratory_location = laboratory_location;
@@ -57,14 +60,16 @@ public class alarm_center_A extends AppCompatActivity {
             this.email = email;
             this.Zoom_link = Zoom_link;
             this.alarm = alarm;
+            this.major = major;
+            this.profileImageUrl = profileImageUrl;
         }
         private void dummy(){
             DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-            professor_information input = new professor_information(2021145818,
-                    "강동기","공대7호관 429호", "전북대학교_컴퓨터인공지능학부"
-                    ,"000-0000-0000","dongkikang@jbnu.ac.kr","Null",true);
+            //professor_information input = new professor_information(2021145818,
+            //"강동기","공대7호관 429호", "전북대학교_컴퓨터인공지능학부"
+            //,"000-0000-0000","dongkikang@jbnu.ac.kr","Null",true);
 
-            database.child("2021145818").child("professor_information").setValue(input);
+            //database.child("2021145818").child("professor_information").setValue(input);
 
         }
         public professor_information(){}
@@ -75,20 +80,24 @@ public class alarm_center_A extends AppCompatActivity {
         public int student_number = 1;
         public String state = "state";
         public String belong = "belong";
-        public String major = "major";
+        public String subMajor = "subMajor";
+        public String profileImageUrl = "profileImageUrl";
         public String phone_number = "phone_number";
         public String email = "email";
         public Boolean alarm = true;
         public student_information(int private_key, String name, int student_number
-                , String belong, String major, String phone_number, String email,boolean alarm){
+                , String belong, String subMajor, String phone_number, String email,boolean alarm
+                , String state, String profileImageUrl){
             this.private_key = private_key;
             this.name = name;
             this.student_number = student_number;
             this.belong = belong;
-            this.major = major;
+            this.subMajor = subMajor;
             this.phone_number = phone_number;
             this.email = email;
             this.alarm = alarm;
+            this.state = state;
+            this.profileImageUrl = profileImageUrl;
         }
 
         public void dummy(){
@@ -155,20 +164,20 @@ public class alarm_center_A extends AppCompatActivity {
                     public void run() {
                         try {
                             JSONObject root = new JSONObject();
-                            JSONObject data = new JSONObject();
+                            //JSONObject data = new JSONObject();
                             //data.put("body", message);
                             //data.put("click_action", "MyFirebaseMessagingService");
                             //data.put("title", title);
                             //root.put("notification", data);
                             JSONObject data2 = new JSONObject();
-                            //data2.put("notifid", 2025090001);
+                            data2.put("notifid", 2025090001);
                             data2.put("msg", message);
                             data2.put("title2", title);
                             root.put("to", token);
                             root.put("data", data2);
                             //root.put("to", token);
                             root.put("priority", "high");
-                            //root.put("time_to_live", 8640);
+                            root.put("time_to_live", 8640);
                             URL url = new URL(FCM_MESSAGE_URL);
                             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                             conn.setRequestMethod("POST");
@@ -230,25 +239,30 @@ public class alarm_center_A extends AppCompatActivity {
         setContentView(R.layout.alarm_center);
         askNotificationPermission();
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-        FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(new OnCompleteListener<String>() {
-                    @Override
-                    public void onComplete(@NonNull Task<String> task) {
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
-                            return;
-                        }
+//      FirebaseMessaging.getInstance().getToken()
+//                .addOnCompleteListener(new OnCompleteListener<String>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<String> task) {
+//                        if (!task.isSuccessful()) {
+//                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+//                            return;
+//                        }
+//
+//                        // Get new FCM registration token
+//                        String token = task.getResult();
+//                        database.child("test").child("token3").setValue(token);
+//                        database.child("2021145818").child("alarm").child("token").setValue(token);
+//                        // Log and toast
+//
+//                        Toast.makeText(alarm_center_A.this, token, Toast.LENGTH_SHORT).show();
+//                    }
+//                });
 
-                        // Get new FCM registration token
-                        String token = task.getResult();
-                        database.child("2021145818").child("alarm").child("token").setValue(token);
-                        // Log and toast
-
-                        Toast.makeText(alarm_center_A.this, token, Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-        alarm(false,"상담취소","김영수","2021145818",
+        //alarm1(false,"상담취소","김영수","2021145818",
+        //        2023,11,27);
+        //alarm(true,"상담취소","2021145818","187740328",
+        //        2023,11,27);
+        alarm_("상담취소","187740328","2021145818",
                 2023,11,27);
         click();
 
@@ -514,8 +528,8 @@ public class alarm_center_A extends AppCompatActivity {
     }
 
 
-    public void alarm(Boolean student_professor, String Classification, String sender_name, String key,
-                      int date_year, int date_month, int date_hour){
+    public void alarm1(Boolean student_professor, String Classification, String sender_name, String key,
+                       int date_year, int date_month, int date_hour){
 
         DatabaseReference database10 = FirebaseDatabase.getInstance().getReference();
         database10.child(key).child("alarm").child("token")
@@ -535,6 +549,68 @@ public class alarm_center_A extends AppCompatActivity {
                                         , Toast.LENGTH_SHORT).show();
                             }
                         });
+    }
+
+    public void alarm(Boolean student_professor, String Classification, String sender_key, String receiver_key,
+                      int date_year, int date_month, int date_hour){//sender이름 가져오기
+        if(student_professor) {//professor to student
+            DatabaseReference database10 = FirebaseDatabase.getInstance().getReference();
+            database10.child(sender_key).child("professor_information")
+                    .addListenerForSingleValueEvent(
+                            new ValueEventListener() {//추가
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    professor_information temp = snapshot.getValue(professor_information.class);
+                                    String professor_name = temp.name;
+                                    alarm1(student_professor, Classification, professor_name, receiver_key
+                                            , date_year, date_month, date_hour);
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                    Toast.makeText(alarm_center_A.this, "메시지를 받는 사람의 이름 정보를 찾을 수 없습니다."
+                                            , Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+        }
+        else{
+            DatabaseReference database10 = FirebaseDatabase.getInstance().getReference();
+            database10.child(sender_key).child("student_information")
+                    .addListenerForSingleValueEvent(
+                            new ValueEventListener() {//이름 가져오기
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    student_information temp = snapshot.getValue(student_information.class);
+                                    String student_name = temp.name;
+                                    alarm1 (student_professor, Classification, student_name, receiver_key
+                                            , date_year, date_month, date_hour);
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                    Toast.makeText(alarm_center_A.this, "메시지를 받는 사람의 이름 정보를 찾을 수 없습니다."
+                                            , Toast.LENGTH_SHORT).show();
+                                }
+                            });
+        }
+
+    }
+    public void alarm_(String Classification, String sender_key, String receiver_key,
+                       int date_year, int date_month, int date_hour){//sender이름 가져오기
+        //professor to student
+
+        if(sender_key.length() > receiver_key.length()) {
+            alarm(true, Classification, sender_key, receiver_key
+                    , date_year, date_month, date_hour);
+        }
+        else{
+            alarm(false, Classification, sender_key, receiver_key
+                    , date_year, date_month, date_hour);
+
+        }
+
+
     }
 
 }

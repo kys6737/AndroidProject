@@ -16,6 +16,7 @@ import android.view.GestureDetector;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -32,6 +33,7 @@ public class IlJeong_S extends AppCompatActivity {
 
     private ArrayList<IlJeong_list> cList;
     private IlJeong_Adapter mAdapter;
+    ImageButton backBtn;
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     logIn loginInstance = new logIn();
@@ -44,12 +46,13 @@ public class IlJeong_S extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_il_jeong_s);
+        backBtn = findViewById(R.id.backBtn);
 
-        Toolbar record_toolbar=findViewById(R.id.feedback_p_toolbar);
-        record_toolbar.setTitleTextColor(Color.WHITE);
-        setSupportActionBar(record_toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("상담 일정");
+        //Toolbar record_toolbar=findViewById(R.id.feedback_p_toolbar);
+        //record_toolbar.setTitleTextColor(Color.WHITE);
+        //setSupportActionBar(record_toolbar);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setTitle("상담 일정");
 
 
 //        Button btnInsert=(Button)findViewById(R.id.btn);
@@ -67,6 +70,14 @@ public class IlJeong_S extends AppCompatActivity {
         DividerItemDecoration dividerItemDecoration=new
                 DividerItemDecoration(mRecyclerView.getContext(), mLinearLayoutManager.getOrientation());
         mRecyclerView.addItemDecoration(dividerItemDecoration);
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(), MainScreen_S.class);
+                startActivity(intent);
+            }
+        });
 
 
 
@@ -110,9 +121,9 @@ public class IlJeong_S extends AppCompatActivity {
                     IlJeong_list call_list = new IlJeong_list(read_list.getDate_day(), read_list.getDate_hour(), read_list.getDate_month(), read_list.getDate_week(), read_list.getDate_year(), read_list.getProfessor_name(), read_list.getProfessor_number(), read_list.getClassification(), read_list.getCounseling_content(), read_list.getCounseling_form(), read_list.getCounseling_group(), read_list.getState(), read_list.getQuestion());
                     cList.add(call_list);
                     mAdapter.notifyDataSetChanged();
-                    if("취소".equals(read_list.getState())){
-                        Toast.makeText(getApplicationContext(), "예약된 상담이 없습니다.", Toast.LENGTH_SHORT).show();
-                    }
+                    //if("취소".equals(read_list.getState())){
+                        //Toast.makeText(getApplicationContext(), "예약된 상담이 없습니다.", Toast.LENGTH_SHORT).show();
+                    //}
                 } else {
 
                 }
@@ -179,14 +190,14 @@ public class IlJeong_S extends AppCompatActivity {
 
 
 
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch(item.getItemId()){
-            case android.R.id.home:{
-                finish();
-                return true;
-            }
-        }
-        return super.onOptionsItemSelected(item);
-    }
+    //public boolean onOptionsItemSelected(MenuItem item){
+        //switch(item.getItemId()){
+            //case android.R.id.home:{
+                //finish();
+                //return true;
+            //}
+        //}
+        //return super.onOptionsItemSelected(item);
+    //}
 
 }

@@ -13,8 +13,20 @@
         android:background="#82CBC4"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
+        app:title="        상세정보"
+        app:titleTextColor="#ffffff"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/backBtn"
+        android:layout_width="62dp"
+        android:layout_height="57dp"
+        android:src="@drawable/back_icon"
+        android:backgroundTint="#00ffffff"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <View
         android:layout_width="1dp"

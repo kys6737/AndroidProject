@@ -15,6 +15,7 @@ import android.view.GestureDetector;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageButton;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,6 +37,7 @@ public class Student_List extends AppCompatActivity {
 
     String mykey;
     int count;
+    ImageButton backBtn;
     List<Integer> yourkeyList=new ArrayList<>();
 
     @Override
@@ -43,14 +45,15 @@ public class Student_List extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_list);
 
-        Toolbar toolbar=findViewById(R.id.toolbar);
-        toolbar.setTitleTextColor(Color.WHITE);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("나의 학생 목록");
+        //Toolbar toolbar=findViewById(R.id.toolbar);
+        //toolbar.setTitleTextColor(Color.WHITE);
+        //setSupportActionBar(toolbar);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setTitle("나의 학생 목록");
 
         mykey="2021145818";
         databaseReference=database.getReference(mykey);
+        backBtn = findViewById(R.id.backBtn);
 
 //        ----------------------recyclerView----------------------------------------------------
         RecyclerView mRecyclerView=(RecyclerView)findViewById(R.id.recyclerView);
@@ -126,6 +129,14 @@ public class Student_List extends AppCompatActivity {
             }
         });
 
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(), MainScreen_P.class);
+                startActivity(intent);
+            }
+        });
+
 
 
     }
@@ -181,15 +192,15 @@ public class Student_List extends AppCompatActivity {
 
 
     //    툴바 뒤로가기-----------------------------------------------------------------------
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch(item.getItemId()){
-            case android.R.id.home:{
-                Intent intent = new Intent(Student_List.this, MainScreen_P.class);
-                startActivity(intent);
+    //public boolean onOptionsItemSelected(MenuItem item){
+        //switch(item.getItemId()){
+            //case android.R.id.home:{
+                //Intent intent = new Intent(Student_List.this, MainScreen_P.class);
+                //startActivity(intent);
 
-                return true;
-            }
-        }
-        return super.onOptionsItemSelected(item);
-    }
+                //return true;
+            //}
+        //}
+        //return super.onOptionsItemSelected(item);
+    //}
 }

@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.app.ReservationApplication;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConsultRequest_S_2 extends AppCompatActivity {
+    ImageButton backBtn;
     EditText questionEditText;
     private String selectedType;
     private Reservation reservation;
@@ -51,17 +53,18 @@ public class ConsultRequest_S_2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.consultrequest_s_2);
 
-        Toolbar record_toolbar=findViewById(R.id.toolbar);
-        record_toolbar.setTitleTextColor(Color.WHITE);
-        setSupportActionBar(record_toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("상담 신청");
+        //Toolbar record_toolbar=findViewById(R.id.toolbar);
+        //record_toolbar.setTitleTextColor(Color.WHITE);
+        //setSupportActionBar(record_toolbar);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setTitle("상담 신청");
 
         reservation = getIntent().getParcelableExtra("reservation");
         //Log.d("reservationDebug", "studentName: " + reservation.getStudentName() + ", Date: " + reservation.getDate_day() + ", Time: " + reservation.getTime());
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //Toolbar toolbar = findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
+        backBtn = findViewById(R.id.backBtn);
         faceConsultButton = findViewById(R.id.faceConsultButton);
         zoomConsultButton = findViewById(R.id.zoomConsultButton);
         callConsultButton = findViewById(R.id.callConsultButton);
@@ -104,6 +107,15 @@ public class ConsultRequest_S_2 extends AppCompatActivity {
                 // 데이터 읽기가 취소되면 호출됩니다.
             }
         });
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(), ConsultRequest_S_1.class);
+                startActivity(intent);
+            }
+        });
+
 
 
         faceConsultButton.setOnClickListener(new View.OnClickListener() {

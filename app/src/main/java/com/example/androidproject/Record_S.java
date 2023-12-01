@@ -15,6 +15,7 @@ import android.view.GestureDetector;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -30,6 +31,7 @@ public class Record_S extends AppCompatActivity {
 
     private ArrayList<Record_list> mArrayList;
     private CustomAdapter mAdapter;
+    ImageButton backBtn;
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference;
@@ -44,12 +46,13 @@ public class Record_S extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_s);
+        backBtn=findViewById(R.id.backBtn);
 
-        Toolbar record_toolbar=findViewById(R.id.feedback_p_toolbar);
-        record_toolbar.setTitleTextColor(Color.WHITE);
-        setSupportActionBar(record_toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("상담 내역");
+        //Toolbar record_toolbar=findViewById(R.id.feedback_p_toolbar);
+        //record_toolbar.setTitleTextColor(Color.WHITE);
+        //setSupportActionBar(record_toolbar);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setTitle("상담 내역");
 
 //        Bundle extras=getIntent().getExtras();
 //        mykey=extras.getString("private_key");
@@ -148,6 +151,16 @@ public class Record_S extends AppCompatActivity {
             }
         }));
 
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(), MainScreen_S.class);
+                startActivity(intent);
+            }
+        });
+
+
+
 
     }
 
@@ -203,14 +216,14 @@ public class Record_S extends AppCompatActivity {
 
 
     //    툴바 뒤로가기-----------------------------------------------------------------------
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch(item.getItemId()){
-            case android.R.id.home:{
-                finish();
-                return true;
-            }
-        }
-        return super.onOptionsItemSelected(item);
-    }
+    //public boolean onOptionsItemSelected(MenuItem item){
+        //switch(item.getItemId()){
+            //case android.R.id.home:{
+                //finish();
+                //return true;
+            //}
+        //}
+        //return super.onOptionsItemSelected(item);
+    //}
 
 }

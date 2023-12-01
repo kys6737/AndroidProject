@@ -9,9 +9,12 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -31,6 +34,7 @@ public class feedback_p extends AppCompatActivity {
     int element;
     long count;
     String element_s;
+    ImageButton backBtn;
 
     private ArrayList<feedback_list> mArrayList;
     private CustomAdapter_feedback_p mAdapter;
@@ -42,12 +46,13 @@ public class feedback_p extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback_p);
+        backBtn = findViewById(R.id.backBtn);
 
-        Toolbar record_toolbar = findViewById(R.id.feedback_p_toolbar);
-        record_toolbar.setTitleTextColor(Color.WHITE);
-        setSupportActionBar(record_toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("상담 후기");
+        //Toolbar record_toolbar = findViewById(R.id.feedback_p_toolbar);
+        //record_toolbar.setTitleTextColor(Color.WHITE);
+        //setSupportActionBar(record_toolbar);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setTitle("상담 후기");
 
 //        Bundle extras=getIntent().getExtras();
 //        mykey=extras.getString("private_key");
@@ -110,16 +115,24 @@ public class feedback_p extends AppCompatActivity {
             }
         });
 
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(), MainScreen_P.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch(item.getItemId()){
-            case android.R.id.home:{
-                finish();
-                return true;
-            }
-        }
-        return super.onOptionsItemSelected(item);
-    }
+    //public boolean onOptionsItemSelected(MenuItem item){
+        //switch(item.getItemId()){
+            //case android.R.id.home:{
+                //finish();
+                //return true;
+            //}
+        //}
+        //return super.onOptionsItemSelected(item);
+    //}
 
 }

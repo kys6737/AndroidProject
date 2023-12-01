@@ -16,7 +16,18 @@
         android:theme="?attr/actionBarTheme"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="스케줄 관리" />
+        app:titleTextColor="#ffffff"
+        app:title="        스케줄 관리" />
+
+    <ImageButton
+        android:id="@+id/backBtn"
+        android:layout_width="62dp"
+        android:layout_height="57dp"
+        android:src="@drawable/back_icon"
+        android:backgroundTint="#00ffffff"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <View
         android:id="@+id/horizontalLine"

@@ -32,22 +32,13 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
-
     private static final String CHANNEL_ID = "CHANNEL_ID";
     private static final CharSequence CHANNEL_NAME = "CHANNEL_NAME";
-
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            //Log.d("createNotificationChannel","1");
-            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            NotificationChannel channel = new NotificationChannel("CHANNEL_ID", "CHANNEL_NAME", NotificationManager.IMPORTANCE_DEFAULT);
-            notificationManager.createNotificationChannel(channel);
-
-            //Log.d("createNotificationChannel","2");
-        }
+//출처: https://developer.android.com/training/notify-user/channels?hl=ko
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             //Log.d("createNotificationChannel","3");
             CharSequence name = getString(R.string.channel_name);
@@ -63,30 +54,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
 
 
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = getString(R.string.channel_name);
-            String description = getString(R.string.channel_description);
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-            channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
 
 
     }
     @Override
     public void onNewToken(@NonNull String token) {
         super.onNewToken(token);
-        String token2 = "test2";
-        // Log and toast
-        Log.d("onNewToken", token);
-        Looper.prepare();
-        Toast.makeText(MyFirebaseMessagingService.this, token2, Toast.LENGTH_SHORT).show();
         //token을 서버로 전송
     }
 
@@ -129,7 +102,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         builder.setContentTitle(title2);
         builder.setContentText(body);
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            builder.setContentTitle(title2);
             builder.setVibrate(new long[]{500, 500});
         }
         //Log.d("Notification",title + " + " + msg);

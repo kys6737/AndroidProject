@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -32,17 +33,20 @@ public class DetailIlJeongP extends AppCompatActivity {
     TextView day_db, pro_db, kind_db;
     TextView questionBox;
     Button cancel;
+    ImageButton backBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.iljeong_detail_p);
 
-        Toolbar record_toolbar=findViewById(R.id.toolbar2);
-        record_toolbar.setTitleTextColor(Color.WHITE);
-        setSupportActionBar(record_toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("상담 일정");
+        //Toolbar record_toolbar=findViewById(R.id.toolbar2);
+        //record_toolbar.setTitleTextColor(Color.WHITE);
+        //setSupportActionBar(record_toolbar);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setTitle("상담 일정");
+
+        backBtn = findViewById(R.id.backBtn);
 
         day_db = findViewById(R.id.day_db);
         pro_db = findViewById(R.id.pro_db);
@@ -76,6 +80,14 @@ public class DetailIlJeongP extends AppCompatActivity {
         logIn loginInstance = new logIn();
         String getcode = loginInstance.getPrivate_key();
         databaseReference = firebaseDatabase.getReference(getcode);
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(), IlJeong_P.class);
+                startActivity(intent);
+            }
+        });
 
 
 
@@ -161,14 +173,14 @@ public class DetailIlJeongP extends AppCompatActivity {
         });
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish(); // 뒤로가기 버튼 눌렀을 때 현재 액티비티 종료
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+    //@Override
+    //public boolean onOptionsItemSelected(MenuItem item) {
+        //switch (item.getItemId()) {
+            //case android.R.id.home:
+                //finish(); // 뒤로가기 버튼 눌렀을 때 현재 액티비티 종료
+                //return true;
+            //default:
+                //return super.onOptionsItemSelected(item);
+        //}
+    //}
 }

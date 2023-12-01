@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -30,6 +31,7 @@ public class FixedSchedule_P extends AppCompatActivity {
     private Button wedButton;
     private Button thuButton;
     private Button friButton;
+    ImageButton backBtn;
 
 
 
@@ -241,13 +243,14 @@ public class FixedSchedule_P extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fixed_schedule_p);
 
-        Toolbar record_toolbar=findViewById(R.id.toolbar);
-        record_toolbar.setTitleTextColor(Color.WHITE);
-        setSupportActionBar(record_toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("스케줄 관리");
+        //Toolbar record_toolbar=findViewById(R.id.toolbar);
+        //record_toolbar.setTitleTextColor(Color.WHITE);
+        //setSupportActionBar(record_toolbar);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setTitle("스케줄 관리");
 
         dayScheduleButton = findViewById(R.id.dayScheduleButton);
+        backBtn = findViewById(R.id.backBtn);
 
         nextButton = findViewById(R.id.nextButton);
 
@@ -484,6 +487,14 @@ public class FixedSchedule_P extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
                 // 데이터 읽기가 취소되었을 때 호출됩니다.
                 Log.e("MainActivity", "Error: " + databaseError.getMessage());
+            }
+        });
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(), MainScreen_P.class);
+                startActivity(intent);
             }
         });
 
@@ -2890,15 +2901,15 @@ public class FixedSchedule_P extends AppCompatActivity {
         dialog.show();
     }
 
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch(item.getItemId()){
-            case android.R.id.home:{
-                finish();
-                return true;
-            }
-        }
-        return super.onOptionsItemSelected(item);
-    }
+    //public boolean onOptionsItemSelected(MenuItem item){
+        //switch(item.getItemId()){
+            //case android.R.id.home:{
+                //finish();
+                //return true;
+            //}
+        //}
+        //return super.onOptionsItemSelected(item);
+    //}
 
 
 }

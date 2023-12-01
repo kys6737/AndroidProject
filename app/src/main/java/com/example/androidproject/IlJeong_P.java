@@ -17,6 +17,7 @@ import android.view.GestureDetector;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -32,6 +33,7 @@ public class IlJeong_P extends AppCompatActivity {
 
     private ArrayList<IlJeong_list_p> cList;
     private IlJeong_Adapter_p mAdapter;
+    ImageButton backBtn;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     logIn loginInstance = new logIn();
@@ -46,12 +48,13 @@ public class IlJeong_P extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_il_jeong_p);
+        backBtn = findViewById(R.id.backBtn);
 
-        Toolbar record_toolbar=findViewById(R.id.feedback_p_toolbar);
-        record_toolbar.setTitleTextColor(Color.WHITE);
-        setSupportActionBar(record_toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("상담 일정");
+        //Toolbar record_toolbar=findViewById(R.id.feedback_p_toolbar);
+        //record_toolbar.setTitleTextColor(Color.WHITE);
+        //setSupportActionBar(record_toolbar);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setTitle("상담 일정");
 
 
 //        Button btnInsert=(Button)findViewById(R.id.btn);
@@ -134,6 +137,8 @@ public class IlJeong_P extends AppCompatActivity {
                 });
 
 
+
+
                 Record_list_p pHistory=new Record_list_p(list_click.getDate_year(), list_click.getDate_month(), list_click.getDate_day(), list_click.getDate_hour(), list_click.getDate_week(),
                         list_click.getStudent_name(), list_click.getCounseling_form());
                 //Record_list sHistory=new Record_list(list_click.getDate_year(), list_click.getDate_month(), list_click.getDate_day(), list_click.getDate_hour(), list_click.getDate_week(),
@@ -196,6 +201,14 @@ public class IlJeong_P extends AppCompatActivity {
             }
         });
 
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(), MainScreen_P.class);
+                startActivity(intent);
+            }
+        });
+
 
 
     }
@@ -251,14 +264,14 @@ public class IlJeong_P extends AppCompatActivity {
 
 
 
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch(item.getItemId()){
-            case android.R.id.home:{
-                finish();
-                return true;
-            }
-        }
-        return super.onOptionsItemSelected(item);
-    }
+    //public boolean onOptionsItemSelected(MenuItem item){
+        //switch(item.getItemId()){
+            //case android.R.id.home:{
+                //finish();
+                //return true;
+            //}
+        //}
+        //return super.onOptionsItemSelected(item);
+    //}
 
 }

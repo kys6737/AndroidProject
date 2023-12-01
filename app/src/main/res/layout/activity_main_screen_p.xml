@@ -41,7 +41,7 @@
         android:id="@+id/line"
         android:layout_width="wrap_content"
         android:layout_height="1dp"
-        android:background="#888888"
+        android:background="#82CBC4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />

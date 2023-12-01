@@ -6,12 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -36,6 +38,7 @@ public class feedback_s extends AppCompatActivity {
     String mykey;
     int year, month, day;
     long x;
+    ImageButton backBtn;
 
     TextView time_when;
     TextView professor_who;
@@ -50,11 +53,11 @@ public class feedback_s extends AppCompatActivity {
         setContentView(R.layout.activity_feedback_s);
 
 
-        Toolbar feedback_toolbar=findViewById(R.id.feedback_toolbar);
-        feedback_toolbar.setTitleTextColor(Color.WHITE);
-        setSupportActionBar(feedback_toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("상세 정보");
+        //Toolbar feedback_toolbar=findViewById(R.id.feedback_toolbar);
+        //feedback_toolbar.setTitleTextColor(Color.WHITE);
+        //setSupportActionBar(feedback_toolbar);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setTitle("상세 정보");
 
 
         time_when=findViewById(R.id.time_when);
@@ -63,6 +66,7 @@ public class feedback_s extends AppCompatActivity {
 
         feedback_record=findViewById(R.id.feedback_record);
         add_btn=findViewById(R.id.add);
+        backBtn = findViewById(R.id.backBtn);
 
         Bundle extras=getIntent().getExtras();
 
@@ -98,6 +102,14 @@ public class feedback_s extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(), Record_S.class);
+                startActivity(intent);
             }
         });
 
@@ -194,13 +206,13 @@ public class feedback_s extends AppCompatActivity {
         });
     }
 
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch(item.getItemId()){
-            case android.R.id.home:{
-                finish();
-                return true;
-            }
-        }
-        return super.onOptionsItemSelected(item);
-    }
+    //public boolean onOptionsItemSelected(MenuItem item){
+        //switch(item.getItemId()){
+            //case android.R.id.home:{
+                //finish();
+                //return true;
+            //}
+        //}
+        //return super.onOptionsItemSelected(item);
+    //}
 }

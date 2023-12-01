@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +27,7 @@ import java.util.List;
 
 
 public class ConsultRequest_S_1 extends AppCompatActivity {
+    ImageButton backBtn;
     private Calendar selectedCalendar;
     private Calendar currentCalendar;
     private int selectedDate_year;
@@ -68,6 +70,7 @@ public class ConsultRequest_S_1 extends AppCompatActivity {
     private String StringMonth;
     private String StringDay;
     private String StringTime;
+
 
 
 
@@ -210,12 +213,13 @@ public class ConsultRequest_S_1 extends AppCompatActivity {
         });
 
 
-        Toolbar record_toolbar=findViewById(R.id.toolbar);
-        record_toolbar.setTitleTextColor(Color.WHITE);
-        setSupportActionBar(record_toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("상담 신청");
+        //Toolbar record_toolbar=findViewById(R.id.toolbar);
+        //record_toolbar.setTitleTextColor(Color.WHITE);
+        //setSupportActionBar(record_toolbar);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setTitle("상담 신청");
 
+        backBtn = findViewById(R.id.backBtn);
         calendarView = findViewById(R.id.calendarView);
         nextButton = findViewById(R.id.nextButton);
         button0900 = findViewById(R.id.button0900);
@@ -1127,6 +1131,15 @@ public class ConsultRequest_S_1 extends AppCompatActivity {
             }
         });
 
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(), MainScreen_S.class);
+                startActivity(intent);
+            }
+        });
+
+
 
     }
 
@@ -1196,15 +1209,16 @@ public class ConsultRequest_S_1 extends AppCompatActivity {
 
 
 
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch(item.getItemId()){
-            case android.R.id.home:{
-                finish();
-                return true;
-            }
-        }
-        return super.onOptionsItemSelected(item);
-    }
+
+    //public boolean onOptionsItemSelected(MenuItem item){
+        //switch(item.getItemId()){
+            //case android.R.id.home:{
+                //finish();
+                //return true;
+            //}
+        //}
+        //return super.onOptionsItemSelected(item);
+    //}
 
 
 

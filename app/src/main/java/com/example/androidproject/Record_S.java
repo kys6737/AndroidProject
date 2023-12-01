@@ -34,6 +34,8 @@ public class Record_S extends AppCompatActivity {
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference;
 
+    logIn loginInstance = new logIn();
+
     String msg;
     long count;
     String mykey;
@@ -52,7 +54,7 @@ public class Record_S extends AppCompatActivity {
 //        Bundle extras=getIntent().getExtras();
 //        mykey=extras.getString("private_key");
 
-        mykey="187740328";   //로그인부터 해서 intent로 값 넘겨받기
+        mykey=loginInstance.getPrivate_key();   //로그인부터 해서 intent로 값 넘겨받기
         databaseReference = database.getReference(mykey);
 
 
@@ -78,7 +80,7 @@ public class Record_S extends AppCompatActivity {
                 mArrayList.clear();
                 for(int i=1; i<=count+1; i++){
                     String icount=String.valueOf(i);
-                    databaseReference.child("history").child(icount).child("content").addListenerForSingleValueEvent(new ValueEventListener() {
+                    databaseReference.child("history").child(icount).child("content").addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
 //                    mArrayList.clear();

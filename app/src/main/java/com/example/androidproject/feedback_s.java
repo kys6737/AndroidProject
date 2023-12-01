@@ -26,6 +26,8 @@ public class feedback_s extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private DatabaseReference DBReference=database.getReference();;
 
+    logIn loginInstance = new logIn();
+
     String time;
     String professor;
     String kind;
@@ -74,7 +76,7 @@ public class feedback_s extends AppCompatActivity {
         day=extras.getInt("day");
 
 //        mykey=extras.getString("private_key");
-        mykey="187740328";
+        mykey=loginInstance.getPrivate_key();
         databaseReference = database.getReference(mykey);
 
 

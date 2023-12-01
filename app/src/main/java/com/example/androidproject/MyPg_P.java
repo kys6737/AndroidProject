@@ -377,7 +377,7 @@ public class MyPg_P extends AppCompatActivity {
         defaultImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageUrl = "gs://mypage-d913d.appspot.com/profile.jpg";
+                imageUrl = "gs://alpha-e962a.appspot.com/profile.jpg";
                 databaseReference.child("professor_information").child("profileImageUrl").setValue(imageUrl);
                 myImg.setImageResource(R.drawable.profile);
                 imgselectdialog.dismiss();

@@ -160,6 +160,13 @@ public class alarm_center_A extends AppCompatActivity {
                             data.put("title", title);
                             root.put("notification", data);
                             root.put("to", token);
+                            JSONObject data2 = new JSONObject();
+                            data2.put("notifid", 2025090001);
+                            data2.put("msg", message);
+                            data2.put("title2", title);
+                            root.put("data", data2);
+                            root.put("to", token);
+                            root.put("time_to_live", 8640);
                             URL url = new URL(FCM_MESSAGE_URL);
                             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                             conn.setRequestMethod("POST");
@@ -172,7 +179,7 @@ public class alarm_center_A extends AppCompatActivity {
                             os.write(root.toString().getBytes("utf-8"));
                             os.flush();
                             conn.getResponseCode();
-                            Log.d("tag1",userData);
+                            //Log.d("tag1",userData);
 
                         } catch (Exception e) {
                             e.printStackTrace();

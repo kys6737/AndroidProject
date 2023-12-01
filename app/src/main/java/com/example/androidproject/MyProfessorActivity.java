@@ -2,11 +2,13 @@ package com.example.androidproject;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,12 +23,13 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 public class MyProfessorActivity extends AppCompatActivity {
-    Button backBtn;
+    ImageButton backBtn;
     ImageView myImg;
     TextView name, laboratory,school,major, phone, mail, zoom;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     FirebaseStorage storage;
+    String code;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +37,13 @@ public class MyProfessorActivity extends AppCompatActivity {
         setContentView(R.layout.myprofessor_layout);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("187740328");
+
+        logIn loginPageInstance = new logIn();
+        code = loginPageInstance.getPrivate_key();
+        databaseReference = firebaseDatabase.getReference(code);
+
         storage=FirebaseStorage.getInstance();
+
         backBtn=findViewById(R.id.backBtn);
         myImg=findViewById(R.id.myImg);
         laboratory =findViewById(R.id.laboratory);
@@ -72,6 +80,7 @@ public class MyProfessorActivity extends AppCompatActivity {
 
                     // 프로필 이미지 URL을 가져와서 이미지 설정
                     String imageUrl = dataSnapshot.child("professor_information").child("profileImageUrl").getValue(String.class);
+
                     if (imageUrl != null && !imageUrl.isEmpty()) {
                         // 이미지 URL이 존재하면 이미지를 다운로드하여 설정
                         downloadImageAndSetToImageView(imageUrl);
@@ -88,7 +97,8 @@ public class MyProfessorActivity extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent=new Intent(getApplicationContext(), MainScreen_S.class);
+                startActivity(intent);
             }
         });
 

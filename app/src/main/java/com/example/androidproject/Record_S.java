@@ -114,17 +114,27 @@ public class Record_S extends AppCompatActivity {
 
                 Intent intent=new Intent(getBaseContext(), feedback_s.class);
 
-                intent.putExtra("time", list_click.getDate_year()+"."
-                        +list_click.getDate_month()+"."
-                        +list_click.getDate_day()
-                        +"("+list_click.getDate_week()+")"
-                        +"  "+list_click.getDate_hour());
+                if(list_click.getDate_hour()%1 != 0) {
+                    intent.putExtra("time", list_click.getDate_year() + "."
+                            + list_click.getDate_month() + "."
+                            + list_click.getDate_day()
+                            + "(" + list_click.getDate_week() + ")"
+                            + "  " + (int)list_click.getDate_hour() + ":30");
+                }
+                else{
+                    intent.putExtra("time", list_click.getDate_year() + "."
+                            + list_click.getDate_month() + "."
+                            + list_click.getDate_day()
+                            + "(" + list_click.getDate_week() + ")"
+                            + "  " + (int)list_click.getDate_hour() + ":00");
+                }
                 intent.putExtra("professor", list_click.getProfessor_name());
                 intent.putExtra("kind", list_click.getCounseling_form());
                 intent.putExtra("f", list_click.getReview());
 
                 intent.putExtra("year", list_click.getDate_year());
                 intent.putExtra("month", list_click.getDate_month());
+                intent.putExtra("day", list_click.getDate_day());
 
 //                intent.putExtra("private_key", mykey);
 

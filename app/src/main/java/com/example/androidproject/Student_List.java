@@ -184,7 +184,9 @@ public class Student_List extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case android.R.id.home:{
-                finish();
+                Intent intent = new Intent(Student_List.this, MainScreen_P.class);
+                startActivity(intent);
+
                 return true;
             }
         }

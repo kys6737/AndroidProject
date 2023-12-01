@@ -188,6 +188,7 @@ public class ConsultRequest_S_2 extends AppCompatActivity {
                 reservation.setType(selectedType);
                 String question = questionEditText.getText().toString();
                 reservation.setQuestion(question);
+                reservation.setState("완료");
 //                Log.d("ReservationDebug", "studentName: " + reservation.getStudentName() + ", Date: " + reservation.getDate() + ", Time: " + reservation.getTime() +
 //                        ", Type: " + reservation.getType() );
                 ReservationApplication reservationApplication = (ReservationApplication) getApplication();

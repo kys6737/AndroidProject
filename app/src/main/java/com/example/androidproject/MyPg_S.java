@@ -1,7 +1,5 @@
 package com.example.androidproject;
 
-
-
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -41,18 +39,21 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class MyPg_S extends AppCompatActivity {
-    Button backBtn, editBtn, editCompleteBtn, logoutBtn;
-    ImageButton changeImgBtn;
+    Button  editBtn, editCompleteBtn, logoutBtn;
+    ImageButton changeImgBtn, backBtn;
     ImageView myImg;
     EditText editPhone, editMail;
     TextView status, subMajor, phone, mail, name, schoolNum, school;
     Switch onOff;
     Dialog editdialog, logoutdialog, logoutcheckdialog, imgselectdialog;
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference, databaseReference1;
     FirebaseStorage storage;
-    String Storage_path = "user_image/";
+    String Storage_path = "student_image/";
     String Image_FileName="profile_image";
+    String editedPhone, editedMail;
+    String getcode;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,14 +61,11 @@ public class MyPg_S extends AppCompatActivity {
         setContentView(R.layout.mypg_s);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-        /*
-        LoginPage loginPageInstance = new LoginPage();
-        String privateCode = loginPageInstance.getPrivateCode();
 
-        databaseReference = firebaseDatabase.getReference(privateCode);
-        */
+        logIn loginPageInstance = new logIn();
+        getcode = loginPageInstance.getPrivate_key();
+        databaseReference = firebaseDatabase.getReference(getcode);
 
-        databaseReference = firebaseDatabase.getReference("187740328");
         storage=FirebaseStorage.getInstance();
 
         backBtn=findViewById(R.id.backBtn);
@@ -99,19 +97,19 @@ public class MyPg_S extends AppCompatActivity {
 
 
         // ValueEventListener 추가하여 Firebase에서 데이터 검색
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("student_information").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // 데이터가 존재하는지 확인
                 if (dataSnapshot.exists()) {
                     // 데이터 검색 및 TextViews 업데이트
-                    String firebaseName = dataSnapshot.child("student_information").child("name").getValue(String.class);
-                    String firebaseSchoolNum = String.valueOf(dataSnapshot.child("student_information").child("student_number").getValue());
-                    String firebaseSchool = dataSnapshot.child("student_information").child("belong").getValue(String.class);
-                    String firebaseStatus = dataSnapshot.child("student_information").child("status").getValue(String.class);
-                    String firebaseSubMajor = dataSnapshot.child("student_information").child("double_minor_linkedmajor").getValue(String.class);
-                    String firebasePhone = dataSnapshot.child("student_information").child("phone_number").getValue(String.class);
-                    String firebaseEmail = dataSnapshot.child("student_information").child("email").getValue(String.class);
+                    String firebaseName = dataSnapshot.child("name").getValue(String.class);
+                    String firebaseSchoolNum = String.valueOf(dataSnapshot.child("student_number").getValue());
+                    String firebaseSchool = dataSnapshot.child("belong").getValue(String.class);
+                    String firebaseStatus = dataSnapshot.child("state").getValue(String.class);
+                    String firebaseSubMajor = dataSnapshot.child("subMajor").getValue(String.class);
+                    String firebasePhone = dataSnapshot.child("phone_number").getValue(String.class);
+                    String firebaseEmail = dataSnapshot.child("email").getValue(String.class);
 
                     // 검색된 데이터로 TextViews 업데이트
                     name.setText(firebaseName);
@@ -130,7 +128,7 @@ public class MyPg_S extends AppCompatActivity {
                         // 이미지 URL이 존재하면 이미지를 다운로드하여 설정
                         downloadImageAndSetToImageView(imageUrl);
                     }
-                    Boolean lastAlarmStatus = dataSnapshot.child("student_information").child("alarm").getValue(Boolean.class);
+                    Boolean lastAlarmStatus = dataSnapshot.child("alarm").getValue(Boolean.class);
                     // lastAlarmStatus 값에 따라 스위치 상태를 설정
                     if (lastAlarmStatus != null) {
                         onOff.setChecked(lastAlarmStatus);
@@ -143,11 +141,11 @@ public class MyPg_S extends AppCompatActivity {
         });
 
 
-
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent=new Intent(getApplicationContext(), MainScreen_S.class);
+                startActivity(intent);
             }
         });
         editBtn.setOnClickListener(new View.OnClickListener() {
@@ -162,11 +160,12 @@ public class MyPg_S extends AppCompatActivity {
             public void onClick(View v) {
                 setTextStatus(0);
                 showEditDialog();
-                String editedPhone = editPhone.getText().toString();
-                String editedMail = editMail.getText().toString();
+                editedPhone = editPhone.getText().toString();
+                editedMail = editMail.getText().toString();
 
                 databaseReference.child("student_information").child("phone_number").setValue(editedPhone);
                 databaseReference.child("student_information").child("email").setValue(editedMail);
+                UpdateToProfessorEdit();
             }
         });
 
@@ -213,6 +212,78 @@ public class MyPg_S extends AppCompatActivity {
                     // 이미지 다운로드 실패
                     Toast.makeText(MyPg_S.this, "이미지 다운로드에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 });
+    }
+    public void UpdateToProfessorEdit(){
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String privateKey_P =String.valueOf(dataSnapshot.child("professor_private_key").getValue(Integer.class));
+                databaseReference1 = firebaseDatabase.getReference(privateKey_P);
+
+                databaseReference1.child("student_information").addListenerForSingleValueEvent(new ValueEventListener() {@Override
+                public void onDataChange(DataSnapshot Snapshot) {
+                    for (DataSnapshot studentSnapshot : Snapshot.getChildren()) {
+                        String studentPrivateKey = String.valueOf(studentSnapshot.child("private_key").getValue(Integer.class));
+                        Toast.makeText(MyPg_S.this, studentPrivateKey, Toast.LENGTH_SHORT).show();
+
+                        if (getcode.equals(studentPrivateKey)) {
+                            // 원하는 작업 수행
+                            databaseReference1.child("student_information").child(studentSnapshot.getKey()).child("phone_number").setValue(editedPhone);
+                            databaseReference1.child("student_information").child(studentSnapshot.getKey()).child("email").setValue(editedMail);
+
+                            break;
+                        }
+                    }
+                }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // 데이터 읽기가 실패했을 때 호출
+                        System.out.println("Error: " + databaseError.getMessage());
+                    }
+                });
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // 데이터 읽기가 실패했을 때 호출됩니다.
+                System.out.println("Error: " + databaseError.getMessage());
+            }
+        });
+    }
+    public void UpdateToProfessorImage(String imageUrl){
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String privateKey_P =String.valueOf(dataSnapshot.child("professor_private_key").getValue(Integer.class));
+
+                databaseReference1 = firebaseDatabase.getReference(privateKey_P);
+                databaseReference1.child("student_information").addListenerForSingleValueEvent(new ValueEventListener() {@Override
+                public void onDataChange(DataSnapshot Snapshot) {
+                    for (DataSnapshot studentSnapshot : Snapshot.getChildren()) {
+                        String studentPrivateKey = String.valueOf(studentSnapshot.child("private_key").getValue(Integer.class));
+
+                        if (getcode.equals(studentPrivateKey)) {
+                            // 원하는 작업 수행
+                            databaseReference1.child("student_information").child(studentSnapshot.getKey()).child("profileImageUrl").setValue(imageUrl);
+
+                            break;
+                        }
+                    }
+                }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // 데이터 읽기가 실패했을 때 호출
+                        System.out.println("Error: " + databaseError.getMessage());
+                    }
+                });
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // 데이터 읽기가 실패했을 때 호출됩니다.
+                System.out.println("Error: " + databaseError.getMessage());
+            }
+        });
     }
 
 
@@ -262,7 +333,7 @@ public class MyPg_S extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         logoutcheckdialog.dismiss();
-                        Intent intent = new Intent(getApplicationContext(),logIn.class);
+                        Intent intent = new Intent(getApplicationContext(), logIn.class);
                         startActivity(intent);
 
                     }
@@ -311,8 +382,9 @@ public class MyPg_S extends AppCompatActivity {
         defaultImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String defaultImageUrl = "gs://mypage-d913d.appspot.com/profile.jpg";
+                String defaultImageUrl = "gs://alpha-e962a.appspot.com/profile.jpg";
                 databaseReference.child("student_information").child("profileImageUrl").setValue(defaultImageUrl);
+                UpdateToProfessorImage(defaultImageUrl);
                 myImg.setImageResource(R.drawable.profile); // 이미지 뷰를 기본 이미지로 설정
                 imgselectdialog.dismiss();
             }
@@ -355,6 +427,7 @@ public class MyPg_S extends AppCompatActivity {
                         // 여기서 imageUrl을 사용하여 필요한 작업을 수행하세요.
                         // 데이터베이스에 저장
                         databaseReference.child("student_information").child("profileImageUrl").setValue(imageUrl);
+                        UpdateToProfessorImage(imageUrl);
                     });
                 })
                 .addOnFailureListener(e -> {
@@ -397,6 +470,7 @@ public class MyPg_S extends AppCompatActivity {
                         // 여기서 imageUrl을 사용하여 필요한 작업을 수행하세요.
                         // 데이터베이스에 저장
                         databaseReference.child("student_information").child("profileImageUrl").setValue(imageUrl);
+                        UpdateToProfessorImage(imageUrl);
                     });
                 })
                 .addOnFailureListener(e -> {
@@ -404,6 +478,4 @@ public class MyPg_S extends AppCompatActivity {
                     Toast.makeText(MyPg_S.this, "이미지 업로드에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 });
     }
-
-
 }

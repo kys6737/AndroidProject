@@ -58,9 +58,9 @@ public class logIn extends AppCompatActivity {
                                 Intent intent=new Intent(getApplicationContext(), MainScreen_S.class);
 
 ////                                내 로그인 코드 전달(string 형태)
-//                                intent.putExtra("private_key", private_key);
+//                                intent.putExtra("private_key", private_key);//학생(내꺼)
 ////                                로그인 코드에 대한 상대 코드 값 전달
-//                                intent.putExtra("your_key", your_key);
+//                                intent.putExtra("your_key", your_key);//교수
 
                                 startActivity(intent);
                             }

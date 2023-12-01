@@ -18,6 +18,7 @@ public class Reservation implements Parcelable {
     private String StringTime;
     private String counseling_form;
     private String question;
+    private String state;
 
     private static final long serialVersionUID = 1L;
 
@@ -37,6 +38,7 @@ public class Reservation implements Parcelable {
         StringMonth = in.readString();
         StringDay = in.readString();
         StringTime = in.readString();
+        state = in.readString();
 
     }
 
@@ -107,6 +109,10 @@ public class Reservation implements Parcelable {
         public String getStringTime() {return StringTime;}
         public void setStringTime(String StringTime){this.StringTime = StringTime;}
 
+        public String getState() {return state;}
+        public void setState(String state){this.state=state;}
+
+
 
 
     @Override
@@ -126,5 +132,6 @@ public class Reservation implements Parcelable {
         parcel.writeString(StringMonth);
         parcel.writeString(StringDay);
         parcel.writeString(StringTime);
+        parcel.writeString(state);
         }
 }

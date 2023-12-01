@@ -62,11 +62,20 @@ public class CustomAdapter_p extends RecyclerView.Adapter<CustomAdapter_p.ViewHo
         holder.who.setGravity(Gravity.LEFT);
         holder.what.setGravity(Gravity.LEFT);
 
-        holder.when.setText(String.valueOf(cList.get(position).getDate_year())+"."
-                +String.valueOf(cList.get(position).getDate_month())+"."
-                +String.valueOf(cList.get(position).getDate_day())
-                +"("+String.valueOf(cList.get(position).getDate_week())+")"
-                +"  "+String.valueOf(cList.get(position).getDate_hour()));
+        if(cList.get(position).getDate_hour()%1 != 0) {
+            holder.when.setText(String.valueOf(cList.get(position).getDate_year()) + "."
+                    + String.valueOf(cList.get(position).getDate_month()) + "."
+                    + String.valueOf(cList.get(position).getDate_day())
+                    + "(" + String.valueOf(cList.get(position).getDate_week()) + ")"
+                    + "  " + (int)(cList.get(position).getDate_hour()) + ":30");
+        }
+        else{
+            holder.when.setText(String.valueOf(cList.get(position).getDate_year()) + "."
+                    + String.valueOf(cList.get(position).getDate_month()) + "."
+                    + String.valueOf(cList.get(position).getDate_day())
+                    + "(" + String.valueOf(cList.get(position).getDate_week()) + ")"
+                    + "  " + (int)(cList.get(position).getDate_hour()) + ":00");
+        }
         holder.who.setText(cList.get(position).getStudent_name());
         holder.what.setText(cList.get(position).getCounseling_form());
     }

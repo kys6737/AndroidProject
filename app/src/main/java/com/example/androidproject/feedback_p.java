@@ -85,8 +85,10 @@ public class feedback_p extends AppCompatActivity {
                             if (snapshot.exists()) {
                                 feedback_list read_list = snapshot.getValue(feedback_list.class);
                                 feedback_list call_list = new feedback_list(read_list.getKey(), read_list.getReview());
-                                mArrayList.add(call_list);
 
+                                if(call_list.getReview()!=null && !call_list.getReview().equals("")) {
+                                    mArrayList.add(call_list);
+                                }
                                 mAdapter.notifyDataSetChanged();
                             } else {
                             }

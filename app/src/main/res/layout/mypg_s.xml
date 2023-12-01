@@ -15,23 +15,22 @@
         android:background="#82CBC4"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
+        app:title="        마이페이지"
+        app:titleTextColor="#ffffff"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+
+    <ImageButton
         android:id="@+id/backBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#00FFFFFF"
-        android:layout_marginStart="10dp"
-        android:text="마이페이지"
-        android:textSize="20dp"
-        android:textColor="@color/white"
+        android:layout_marginStart="5dp"
+        android:backgroundTint="#00FFFFFF"
+        android:src="@drawable/back_icon"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar"
         app:layout_constraintStart_toStartOf="@id/toolbar"
-        app:layout_constraintTop_toTopOf="@id/toolbar"
-        />
+        app:layout_constraintTop_toTopOf="@id/toolbar" />
 
     <View
         android:id="@+id/semiBG"

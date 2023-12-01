@@ -32,9 +32,8 @@ public class feedback_s extends AppCompatActivity {
     String msg;
     String pf_key;
     String mykey;
-    String feedback_key;
-    int year, month;
-    boolean flag;
+    int year, month, day;
+    long x;
 
     TextView time_when;
     TextView professor_who;
@@ -72,6 +71,7 @@ public class feedback_s extends AppCompatActivity {
 
         year=extras.getInt("year");
         month=extras.getInt("month");
+        day=extras.getInt("day");
 
 //        mykey=extras.getString("private_key");
         mykey="187740328";
@@ -125,7 +125,7 @@ public class feedback_s extends AppCompatActivity {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     Record_list list=snapshot.getValue(Record_list.class);
-                                    if(list.getDate_year()==year && list.getDate_month()==month){
+                                    if(list.getDate_year()==year && list.getDate_month()==month && list.getDate_day()==day){
                                         databaseReference.child("history").child(num2).child("content").child("review").setValue(msg);
                                     }
                                 }
@@ -147,25 +147,27 @@ public class feedback_s extends AppCompatActivity {
 
 //                databaseReference.child("history").child("1").child("content").child("review").setValue(msg);
 
-                flag=false;
-                DBReference.child(pf_key).child("review").addValueEventListener(new ValueEventListener() {
+
+                DBReference.child(pf_key).child("review").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         long count=snapshot.getChildrenCount();
 
-                        for(int i=1; i<=count; i++){
-                            String icount=String.valueOf(i);
-                            DBReference.child(pf_key).child("review").child(icount).child("key").addListenerForSingleValueEvent(new ValueEventListener() {
+                        for(x=1; x<=count; x++){
+                            String icount=String.valueOf(x);
+                            DBReference.child(pf_key).child("review").child(icount).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     if (snapshot.exists()) {
-                                        int keying=snapshot.getValue(Integer.class);
-                                        feedback_key=String.valueOf(keying);
+                                        feedback_list review=snapshot.getValue(feedback_list.class);
+                                        int keying=review.getKey();
+                                        String feedback_key=String.valueOf(keying);
+
                                         if(feedback_key.equals(mykey)){
-                                            flag=true;
                                             DBReference.child(pf_key).child("review").child(icount).child("review").setValue(msg);
+                                            x=count+1;
                                         }
-                                    } else {
+
                                     }
                                 }
 
@@ -174,12 +176,6 @@ public class feedback_s extends AppCompatActivity {
                                 }
                             });
                         }
-
-//                        if(flag==false){
-//                            String path=String.valueOf(count+1);
-//                            feedback_list new_f=new feedback_list(Integer.valueOf(mykey), msg);
-//                            DBReference.child(pf_key).child("review").child(path).setValue(new_f);
-//                        }
                     }
 
                     @Override

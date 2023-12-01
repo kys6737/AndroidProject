@@ -2,15 +2,16 @@ package com.example.androidproject;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.Group;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.ImageButton;
 import android.widget.ScrollView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -24,7 +25,8 @@ import java.util.Calendar;
 public class DaySchedule extends AppCompatActivity {
     CalendarView calendarView;
     Button btn0900, btn0930, btn1000, btn1030, btn1100, btn1130, btn1200, btn1230, btn1300, btn1330, btn1400, btn1430, btn1500, btn1530, btn1600, btn1630, btn1700, btn1730;
-    Button allSelect, completeBtn, backBtn;
+    Button allSelect, completeBtn;
+    ImageButton backBtn;
     ScrollView scrollView;
     int Month, Date;
     int btn0900Clicked = 0, btn0930Clicked = 0, btn1000Clicked = 0, btn1030Clicked = 0, btn1100Clicked = 0, btn1130Clicked = 0, btn1200Clicked = 0, btn1230Clicked = 0, btn1300Clicked = 0, btn1330Clicked = 0, btn1400Clicked = 0, btn1430Clicked = 0, btn1500Clicked = 0, btn1530Clicked = 0, btn1600Clicked = 0, btn1630Clicked = 0, btn1700Clicked = 0, btn1730Clicked = 0;
@@ -32,7 +34,7 @@ public class DaySchedule extends AppCompatActivity {
     Dialog schedule_dialog;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
-
+    String code;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +42,10 @@ public class DaySchedule extends AppCompatActivity {
         setContentView(R.layout.dayschedule);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("2021145818/Timetable/fluctuations");
+        logIn loginPageInstance = new logIn();
+        code = loginPageInstance.getPrivate_key();
+        databaseReference = firebaseDatabase.getReference(code);
+        databaseReference = databaseReference.child("Timetable/fluctuations");
 
 
         calendarView=findViewById(R.id.calendarView);
@@ -117,7 +122,8 @@ public class DaySchedule extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent=new Intent(getApplicationContext(), FixedSchedule_P.class);
+                startActivity(intent);
             }
         });
 

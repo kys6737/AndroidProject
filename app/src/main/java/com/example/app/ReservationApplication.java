@@ -42,6 +42,7 @@ public class ReservationApplication extends Application {
             databaseReference1.child("Date_week").setValue(currentReservation.getDate_week());
             databaseReference1.child("counseling_form").setValue(currentReservation.getType());
             databaseReference1.child("question").setValue(currentReservation.getQuestion());
+            databaseReference1.child("state").setValue(currentReservation.getState());
 
             databaseReference2.child("Date_year").setValue(currentReservation.getDate_year());
             databaseReference2.child("Date_month").setValue(currentReservation.getDate_month());
@@ -50,6 +51,7 @@ public class ReservationApplication extends Application {
             databaseReference2.child("Date_week").setValue(currentReservation.getDate_week());
             databaseReference2.child("counseling_form").setValue(currentReservation.getType());
             databaseReference2.child("question").setValue(currentReservation.getQuestion());
+            databaseReference2.child("state").setValue(currentReservation.getState());
 
 
 

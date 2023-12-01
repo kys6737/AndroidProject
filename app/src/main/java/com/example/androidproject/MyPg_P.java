@@ -1,6 +1,5 @@
 package com.example.androidproject;
 
-
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -39,22 +38,27 @@ import com.google.firebase.storage.StorageReference;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MyPg_P extends AppCompatActivity {
-    Button backBtn, editBtn, editCompleteBtn, logoutBtn;
-    ImageButton changeImgBtn;
+    Button editBtn, editCompleteBtn, logoutBtn;
+    ImageButton changeImgBtn, backBtn;
     ImageView myImg;
-
     EditText editPhone, editMail, editZoom;
     TextView name, laboratory,school,major, phone, mail, zoom;
     Switch onOff;
     Dialog editdialog, logoutdialog, logoutcheckdialog, imgselectdialog;
 
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference, databaseReference1;
     FirebaseStorage storage;
-    String Storage_path = "user_image/";
+    String Storage_path = "professor_image/";
     String Image_FileName="profile_image";
+    String imageUrl;
+    String editedPhone, editedMail, editedZoom;
+    StorageReference storageRef;
+    String getcode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +66,11 @@ public class MyPg_P extends AppCompatActivity {
         setContentView(R.layout.mypg_p);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("2021145818");
+
+        logIn loginPageInstance = new logIn();
+        getcode = loginPageInstance.getPrivate_key();
+        databaseReference = firebaseDatabase.getReference(getcode);
+
         storage=FirebaseStorage.getInstance();
 
         backBtn=findViewById(R.id.backBtn);
@@ -93,20 +101,22 @@ public class MyPg_P extends AppCompatActivity {
         imgselectdialog=new Dialog(MyPg_P.this);
         imgselectdialog.setContentView(R.layout.imgselectdialog);
 
+        List<String> studentPrivateKeys = new ArrayList<>();
+
         // ValueEventListener 추가하여 Firebase에서 데이터 검색
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("professor_information").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // 데이터가 존재하는지 확인
                 if (dataSnapshot.exists()) {
                     // 데이터 검색 및 TextViews 업데이트
-                    String firebaseName = dataSnapshot.child("professor_information").child("name").getValue(String.class);
-                    String firebaseSchool = String.valueOf(dataSnapshot.child("professor_information").child("belong").getValue());
-                    String firebaseMajor = dataSnapshot.child("professor_information").child("major").getValue(String.class);
-                    String firebaseLaboratory = dataSnapshot.child("professor_information").child("laboratory_location").getValue(String.class);
-                    String firebasePhone = dataSnapshot.child("professor_information").child("phone_number").getValue(String.class);
-                    String firebaseEmail = dataSnapshot.child("professor_information").child("email").getValue(String.class);
-                    String firebaseZoom = dataSnapshot.child("professor_information").child("Zoom_link").getValue(String.class);
+                    String firebaseName = dataSnapshot.child("name").getValue(String.class);
+                    String firebaseSchool = String.valueOf(dataSnapshot.child("belong").getValue());
+                    String firebaseMajor = dataSnapshot.child("major").getValue(String.class);
+                    String firebaseLaboratory = dataSnapshot.child("laboratory_location").getValue(String.class);
+                    String firebasePhone = dataSnapshot.child("phone_number").getValue(String.class);
+                    String firebaseEmail = dataSnapshot.child("email").getValue(String.class);
+                    String firebaseZoom = dataSnapshot.child("Zoom_link").getValue(String.class);
 
                     // 검색된 데이터로 TextViews 업데이트
                     name.setText(firebaseName);
@@ -121,7 +131,7 @@ public class MyPg_P extends AppCompatActivity {
                     editZoom.setText(firebaseZoom);
 
                     // 프로필 이미지 URL을 가져와서 이미지 설정
-                    String imageUrl = dataSnapshot.child("professor_information").child("profileImageUrl").getValue(String.class);
+                    imageUrl = dataSnapshot.child("professor_information").child("profileImageUrl").getValue(String.class);
                     if (imageUrl != null && !imageUrl.isEmpty()) {
                         // 이미지 URL이 존재하면 이미지를 다운로드하여 설정
                         downloadImageAndSetToImageView(imageUrl);
@@ -141,7 +151,8 @@ public class MyPg_P extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent=new Intent(getApplicationContext(), MainScreen_P.class);
+                startActivity(intent);
             }
         });
         editBtn.setOnClickListener(new View.OnClickListener() {
@@ -156,13 +167,15 @@ public class MyPg_P extends AppCompatActivity {
             public void onClick(View v) {
                 setTextStatus(0);
                 showEditDialog();
-                String editedPhone = editPhone.getText().toString();
-                String editedMail = editMail.getText().toString();
-                String editedZoom = editZoom.getText().toString();
+                editedPhone = editPhone.getText().toString();
+                editedMail = editMail.getText().toString();
+                editedZoom = editZoom.getText().toString();
 
                 databaseReference.child("professor_information").child("phone_number").setValue(editedPhone);
                 databaseReference.child("professor_information").child("email").setValue(editedMail);
                 databaseReference.child("professor_information").child("Zoom_link").setValue(editedZoom);
+                UpdateToStudentEdit();
+
             }
         });
 
@@ -192,6 +205,62 @@ public class MyPg_P extends AppCompatActivity {
             }
         });
     }
+
+    public void UpdateToStudentEdit() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // 데이터가 변경될 때 호출됩니다.
+                // dataSnapshot에서 하위 노드 개수를 가져옵니다.
+                int numberOfChildren = (int) dataSnapshot.child("student_private_key").getChildrenCount();
+
+                // numberOfChildren 개의 student_private_key 하위 노드들의 값을 저장하고 출력
+                List<String> values = new ArrayList<>(numberOfChildren);
+                for (DataSnapshot childSnapshot : dataSnapshot.child("student_private_key").getChildren()) {
+                    String value = String.valueOf(childSnapshot.getValue(Integer.class));
+                    values.add(value);
+                }
+                for(int i=0; i<values.size(); i++ ){
+                    databaseReference1 = firebaseDatabase.getReference(values.get(i));
+                    databaseReference1.child("professor_information").child("phone_number").setValue(editedPhone);
+                    databaseReference1.child("professor_information").child("email").setValue(editedMail);
+                    databaseReference1.child("professor_information").child("Zoom_link").setValue(editedZoom);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // 데이터 읽기가 실패했을 때 호출됩니다.
+                System.out.println("Error: " + databaseError.getMessage());
+            }
+        });
+    }
+    public void UpdateToStudentImg(String imageUrl) {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // 데이터가 변경될 때 호출됩니다.
+                // dataSnapshot에서 하위 노드 개수를 가져옵니다.
+                int numberOfChildren = (int) dataSnapshot.child("student_private_key").getChildrenCount();
+
+                // numberOfChildren 개의 student_private_key 하위 노드들의 값을 저장하고 출력
+                List<String> values = new ArrayList<>();
+                for (DataSnapshot childSnapshot : dataSnapshot.child("student_private_key").getChildren()) {
+                    String value =String.valueOf(childSnapshot.getValue(Integer.class));
+                    values.add(value);
+                }
+                for(int i=0; i<values.size(); i++ ){
+                    databaseReference1 = firebaseDatabase.getReference(values.get(i));
+                    databaseReference1.child("professor_information").child("profileImageUrl").setValue(imageUrl);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // 데이터 읽기가 실패했을 때 호출됩니다.
+                System.out.println("Error: " + databaseError.getMessage());
+            }
+        });
+    }
+
     private void downloadImageAndSetToImageView(String imageUrl) {
         // Firebase Storage 레퍼런스 설정
         StorageReference storageRef = storage.getReferenceFromUrl(imageUrl);
@@ -259,7 +328,7 @@ public class MyPg_P extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         logoutcheckdialog.dismiss();
-                        Intent intent = new Intent(getApplicationContext(),logIn.class);
+                        Intent intent = new Intent(getApplicationContext(), logIn.class);
                         startActivity(intent);
 
                     }
@@ -292,7 +361,6 @@ public class MyPg_P extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("image/*");
                 startActivityResult.launch(intent);
-
                 imgselectdialog.dismiss();
             }
         });
@@ -309,10 +377,11 @@ public class MyPg_P extends AppCompatActivity {
         defaultImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String defaultImageUrl = "gs://mypage-d913d.appspot.com/profile.jpg";
-                databaseReference.child("professor_information").child("profileImageUrl").setValue(defaultImageUrl);
+                imageUrl = "gs://mypage-d913d.appspot.com/profile.jpg";
+                databaseReference.child("professor_information").child("profileImageUrl").setValue(imageUrl);
                 myImg.setImageResource(R.drawable.profile);
                 imgselectdialog.dismiss();
+                UpdateToStudentImg(imageUrl);
             }
         });
     }
@@ -342,7 +411,7 @@ public class MyPg_P extends AppCompatActivity {
 
     private void uploadImageToFirebaseStorage(Uri imageUri) {
         // Firebase Storage 레퍼런스 설정
-        StorageReference storageRef = storage.getReference().child(Storage_path + Image_FileName);
+        storageRef = storage.getReference().child(Storage_path + Image_FileName);
 
         // 이미지 업로드
         storageRef.putFile(imageUri)
@@ -354,6 +423,7 @@ public class MyPg_P extends AppCompatActivity {
                         // 여기서 imageUrl을 사용하여 필요한 작업을 수행하세요.
                         // 데이터베이스에 저장
                         databaseReference.child("professor_information").child("profileImageUrl").setValue(imageUrl);
+                        UpdateToStudentImg(imageUrl);
                     });
                 })
                 .addOnFailureListener(e -> {
@@ -378,7 +448,7 @@ public class MyPg_P extends AppCompatActivity {
             });
     private void uploadBitmapToFirebaseStorage(Bitmap bitmap) {
         // Firebase Storage 레퍼런스 설정
-        StorageReference storageRef = storage.getReference().child(Storage_path + Image_FileName);
+        storageRef = storage.getReference().child(Storage_path + Image_FileName);
 
         // 비트맵을 JPEG 형식으로 변환
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -391,10 +461,11 @@ public class MyPg_P extends AppCompatActivity {
                     // 이미지 업로드 성공
                     storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
                         // 다운로드 URL을 얻은 후, 이를 사용하여 이미지 표시 또는 데이터베이스에 저장
-                        String imageUrl = uri.toString();
+                        imageUrl = uri.toString();
                         // 여기서 imageUrl을 사용하여 필요한 작업을 수행하세요.
                         // 데이터베이스에 저장
                         databaseReference.child("professor_information").child("profileImageUrl").setValue(imageUrl);
+                        UpdateToStudentImg(imageUrl);
                     });
                 })
                 .addOnFailureListener(e -> {

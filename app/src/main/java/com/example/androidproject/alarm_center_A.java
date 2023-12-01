@@ -239,30 +239,30 @@ public class alarm_center_A extends AppCompatActivity {
         setContentView(R.layout.alarm_center);
         askNotificationPermission();
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-//      FirebaseMessaging.getInstance().getToken()
-//                .addOnCompleteListener(new OnCompleteListener<String>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<String> task) {
-//                        if (!task.isSuccessful()) {
-//                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
-//                            return;
-//                        }
-//
-//                        // Get new FCM registration token
-//                        String token = task.getResult();
-//                        database.child("test").child("token3").setValue(token);
-//                        database.child("2021145818").child("alarm").child("token").setValue(token);
-//                        // Log and toast
-//
-//                        Toast.makeText(alarm_center_A.this, token, Toast.LENGTH_SHORT).show();
-//                    }
-//                });
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+                        database.child("test").child("token3").setValue(token);
+                        database.child("187740328").child("alarm").child("token").setValue(token);
+                        // Log and toast
+
+                        Toast.makeText(alarm_center_A.this, token, Toast.LENGTH_SHORT).show();
+                    }
+                });
 
         //alarm1(false,"상담취소","김영수","2021145818",
         //        2023,11,27);
         //alarm(true,"상담취소","2021145818","187740328",
         //        2023,11,27);
-        alarm_("상담취소","187740328","2021145818",
+        alarm("상담취소","2021145818","187740328",
                 2023,11,27);
         click();
 
@@ -373,7 +373,7 @@ public class alarm_center_A extends AppCompatActivity {
 
     }
 
-    public void alarm3 (Boolean student_professor, String Classification, String sender_name, String receiver_name,  String token,
+    public void alarm4 (Boolean student_professor, String Classification, String sender_name, String receiver_name,  String token,
                         String key, int date_year, int date_month, int date_hour){
         if(student_professor) {//to student
             DatabaseReference database11 = FirebaseDatabase.getInstance().getReference();
@@ -481,7 +481,7 @@ public class alarm_center_A extends AppCompatActivity {
 
         }
     }
-    public void alarm2(Boolean student_professor, String Classification, String sender_name, String token, String key,
+    public void alarm3(Boolean student_professor, String Classification, String sender_name, String token, String key,
                        int date_year, int date_month, int date_hour){//학생이름 가져오기
         if(student_professor) {//professor to student
             DatabaseReference database10 = FirebaseDatabase.getInstance().getReference();
@@ -492,7 +492,7 @@ public class alarm_center_A extends AppCompatActivity {
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     student_information temp = snapshot.getValue(student_information.class);
                                     String student_name = temp.name;
-                                    alarm3 (student_professor, Classification, sender_name, student_name , token
+                                    alarm4 (student_professor, Classification, sender_name, student_name , token
                                             , key, date_year, date_month,date_hour);
                                 }
 
@@ -513,7 +513,7 @@ public class alarm_center_A extends AppCompatActivity {
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     professor_information temp = snapshot.getValue(professor_information.class);
                                     String professor_name = temp.name;
-                                    alarm3 (student_professor, Classification, sender_name, professor_name , token
+                                    alarm4 (student_professor, Classification, sender_name, professor_name , token
                                             , key, date_year, date_month,date_hour);
                                 }
 
@@ -528,7 +528,7 @@ public class alarm_center_A extends AppCompatActivity {
     }
 
 
-    public void alarm1(Boolean student_professor, String Classification, String sender_name, String key,
+    public void alarm2(Boolean student_professor, String Classification, String sender_name, String key,
                        int date_year, int date_month, int date_hour){
 
         DatabaseReference database10 = FirebaseDatabase.getInstance().getReference();
@@ -540,7 +540,7 @@ public class alarm_center_A extends AppCompatActivity {
                                 GenericTypeIndicator<String> t = new GenericTypeIndicator<String>() {};
                                 String temp = snapshot.getValue(t);
 
-                                alarm2 (student_professor, Classification, sender_name, temp
+                                alarm3 (student_professor, Classification, sender_name, temp
                                         , key, date_year, date_month, date_hour);
                             }
 
@@ -551,8 +551,8 @@ public class alarm_center_A extends AppCompatActivity {
                         });
     }
 
-    public void alarm(Boolean student_professor, String Classification, String sender_key, String receiver_key,
-                      int date_year, int date_month, int date_hour){//sender이름 가져오기
+    public void alarm1(Boolean student_professor, String Classification, String sender_key, String receiver_key,
+                       int date_year, int date_month, int date_hour){//sender이름 가져오기
         if(student_professor) {//professor to student
             DatabaseReference database10 = FirebaseDatabase.getInstance().getReference();
             database10.child(sender_key).child("professor_information")
@@ -562,7 +562,7 @@ public class alarm_center_A extends AppCompatActivity {
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     professor_information temp = snapshot.getValue(professor_information.class);
                                     String professor_name = temp.name;
-                                    alarm1(student_professor, Classification, professor_name, receiver_key
+                                    alarm2(student_professor, Classification, professor_name, receiver_key
                                             , date_year, date_month, date_hour);
                                 }
 
@@ -583,7 +583,7 @@ public class alarm_center_A extends AppCompatActivity {
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     student_information temp = snapshot.getValue(student_information.class);
                                     String student_name = temp.name;
-                                    alarm1 (student_professor, Classification, student_name, receiver_key
+                                    alarm2 (student_professor, Classification, student_name, receiver_key
                                             , date_year, date_month, date_hour);
                                 }
 
@@ -596,16 +596,16 @@ public class alarm_center_A extends AppCompatActivity {
         }
 
     }
-    public void alarm_(String Classification, String sender_key, String receiver_key,
-                       int date_year, int date_month, int date_hour){//sender이름 가져오기
+    public void alarm(String Classification, String sender_key, String receiver_key,
+                      int date_year, int date_month, int date_hour){//sender이름 가져오기
         //professor to student
 
         if(sender_key.length() > receiver_key.length()) {
-            alarm(true, Classification, sender_key, receiver_key
+            alarm1(true, Classification, sender_key, receiver_key
                     , date_year, date_month, date_hour);
         }
         else{
-            alarm(false, Classification, sender_key, receiver_key
+            alarm1(false, Classification, sender_key, receiver_key
                     , date_year, date_month, date_hour);
 
         }

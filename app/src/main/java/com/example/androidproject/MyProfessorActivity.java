@@ -55,7 +55,7 @@ public class MyProfessorActivity extends AppCompatActivity {
         major=findViewById(R.id.major);
 
         // ValueEventListener 추가하여 Firebase에서 데이터 검색
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // 데이터가 존재하는지 확인

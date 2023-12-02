@@ -58,7 +58,7 @@ public class MyStudent_P extends AppCompatActivity {
         email=findViewById(R.id.email);
 
 
-        databaseReference.child("student_information").addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("student_information").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // 데이터가 존재하는지 확인

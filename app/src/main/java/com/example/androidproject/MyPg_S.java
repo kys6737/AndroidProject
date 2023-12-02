@@ -224,7 +224,6 @@ public class MyPg_S extends AppCompatActivity {
                 public void onDataChange(DataSnapshot Snapshot) {
                     for (DataSnapshot studentSnapshot : Snapshot.getChildren()) {
                         String studentPrivateKey = String.valueOf(studentSnapshot.child("private_key").getValue(Integer.class));
-                        Toast.makeText(MyPg_S.this, studentPrivateKey, Toast.LENGTH_SHORT).show();
 
                         if (getcode.equals(studentPrivateKey)) {
                             // 원하는 작업 수행

@@ -192,14 +192,16 @@ public class MyPg_P extends AppCompatActivity {
 
         onOff.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener(){
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked){
+                String onOff;
                 if(isChecked){
-                    Toast.makeText(MyPg_P.this,"알림 ON",Toast.LENGTH_SHORT).show();
                     databaseReference.child("professor_information").child("alarm").setValue(true);
+                    onOff = "알림 On";
                 }
                 else {
-                    Toast.makeText(MyPg_P.this,"알림 OFF",Toast.LENGTH_SHORT).show();
                     databaseReference.child("professor_information").child("alarm").setValue(false);
+                    onOff = "알림 Off";
                 }
+                Toast.makeText(MyPg_P.this,onOff,Toast.LENGTH_SHORT).show();
             }
         });
         changeImgBtn.setOnClickListener(new View.OnClickListener() {

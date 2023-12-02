@@ -49,8 +49,8 @@ public class MyPg_S extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference, databaseReference1;
     FirebaseStorage storage;
-    String Storage_path = "student_image/";
-    String Image_FileName="profile_image";
+    String Storage_path;
+    String Image_FileName;
     String editedPhone, editedMail;
     String getcode;
 
@@ -66,6 +66,8 @@ public class MyPg_S extends AppCompatActivity {
         getcode = loginPageInstance.getPrivate_key();
         databaseReference = firebaseDatabase.getReference(getcode);
 
+        Storage_path=getcode+"/";
+        Image_FileName="profile_image";
         storage=FirebaseStorage.getInstance();
 
         backBtn=findViewById(R.id.backBtn);
@@ -128,6 +130,9 @@ public class MyPg_S extends AppCompatActivity {
                         // 이미지 URL이 존재하면 이미지를 다운로드하여 설정
                         downloadImageAndSetToImageView(imageUrl);
                     }
+                    else{
+                        Toast.makeText(MyPg_S.this,"실패",Toast.LENGTH_SHORT).show();
+                    }
                     Boolean lastAlarmStatus = dataSnapshot.child("alarm").getValue(Boolean.class);
                     // lastAlarmStatus 값에 따라 스위치 상태를 설정
                     if (lastAlarmStatus != null) {
@@ -178,14 +183,16 @@ public class MyPg_S extends AppCompatActivity {
 
         onOff.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener(){
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked){
+                String onOff;
                 if(isChecked){
-                    Toast.makeText(MyPg_S.this,"알림 ON",Toast.LENGTH_SHORT).show();
                     databaseReference.child("student_information").child("alarm").setValue(true);
+                    onOff = "알림 On";
                 }
                 else {
-                    Toast.makeText(MyPg_S.this,"알림 OFF",Toast.LENGTH_SHORT).show();
                     databaseReference.child("student_information").child("alarm").setValue(false);
+                    onOff = "알림 Off";
                 }
+                Toast.makeText(MyPg_S.this,onOff,Toast.LENGTH_SHORT).show();
             }
         });
         changeImgBtn.setOnClickListener(new View.OnClickListener() {

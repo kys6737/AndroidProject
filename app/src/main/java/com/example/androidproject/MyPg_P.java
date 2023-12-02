@@ -131,12 +131,16 @@ public class MyPg_P extends AppCompatActivity {
                     editZoom.setText(firebaseZoom);
 
                     // 프로필 이미지 URL을 가져와서 이미지 설정
-                    imageUrl = dataSnapshot.child("professor_information").child("profileImageUrl").getValue(String.class);
+                    imageUrl = dataSnapshot.child("profileImageUrl").getValue(String.class);
+
                     if (imageUrl != null && !imageUrl.isEmpty()) {
                         // 이미지 URL이 존재하면 이미지를 다운로드하여 설정
                         downloadImageAndSetToImageView(imageUrl);
                     }
-                    Boolean lastAlarmStatus = dataSnapshot.child("professor_information").child("alarm").getValue(Boolean.class);
+                    else{
+                        Toast.makeText(MyPg_P.this,"실패",Toast.LENGTH_SHORT).show();
+                    }
+                    Boolean lastAlarmStatus = dataSnapshot.child("alarm").getValue(Boolean.class);
                     // lastAlarmStatus 값에 따라 스위치 상태를 설정
                     if (lastAlarmStatus != null) {
                         onOff.setChecked(lastAlarmStatus);

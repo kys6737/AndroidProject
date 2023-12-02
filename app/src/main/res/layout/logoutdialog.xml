@@ -19,10 +19,9 @@
         android:id="@+id/noticeLogoutCheckMsg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
+        android:layout_marginTop="30dp"
         android:text="로그아웃 하시겠습니까?"
-        android:textSize="23dp"
-        app:layout_constraintBottom_toBottomOf="@id/noticeLogoutCheck"
+        android:textSize="25dp"
         app:layout_constraintEnd_toEndOf="@id/noticeLogoutCheck"
         app:layout_constraintStart_toStartOf="@+id/noticeLogoutCheck"
         app:layout_constraintTop_toTopOf="@id/noticeLogoutCheck"
@@ -32,25 +31,23 @@
         android:id="@+id/yesBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/btnshape_green"
         android:text="예"
         android:textColor="@color/white"
-        android:background="@drawable/btnshape_green"
-        app:layout_constraintTop_toBottomOf="@id/noticeLogoutCheckMsg"
-        app:layout_constraintStart_toStartOf="@id/noticeLogoutCheck"
         app:layout_constraintBottom_toBottomOf="@id/noticeLogoutCheck"
         app:layout_constraintEnd_toStartOf="@id/noBtn"
-        />
+        app:layout_constraintStart_toStartOf="@id/noticeLogoutCheck" />
 
     <Button
         android:id="@+id/noBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="아니오"
+        android:layout_marginBottom="30dp"
         android:background="@drawable/btnshape_gray"
-        app:layout_constraintTop_toBottomOf="@id/noticeLogoutCheckMsg"
-        app:layout_constraintStart_toEndOf="@id/yesBtn"
+        android:text="아니오"
         app:layout_constraintBottom_toBottomOf="@id/noticeLogoutCheck"
         app:layout_constraintEnd_toEndOf="@id/noticeLogoutCheck"
-        />
+        app:layout_constraintStart_toEndOf="@id/yesBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

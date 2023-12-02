@@ -35,10 +35,11 @@ public class IlJeong_S extends AppCompatActivity {
     private IlJeong_Adapter mAdapter;
     ImageButton backBtn;
 
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
     logIn loginInstance = new logIn();
     String getcode = loginInstance.getPrivate_key();
-    private DatabaseReference databaseReference = database.getReference(getcode);
+    private DatabaseReference databaseReference;
+
+    boolean anyValidItem = false;
 
 
 
@@ -47,6 +48,22 @@ public class IlJeong_S extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_il_jeong_s);
         backBtn = findViewById(R.id.backBtn);
+
+        try{
+            if(getcode != null){
+                databaseReference = FirebaseDatabase.getInstance().getReference(getcode);
+                if(databaseReference == null){
+                    throw new NullPointerException("databaseReference가 null입니다.");
+                }
+            } else{
+                Toast.makeText(IlJeong_S.this, "getcode가 null입니다.", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(IlJeong_S.this, "Exception: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+
 
         //Toolbar record_toolbar=findViewById(R.id.feedback_p_toolbar);
         //record_toolbar.setTitleTextColor(Color.WHITE);
@@ -115,18 +132,21 @@ public class IlJeong_S extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 cList.clear();
+                IlJeong_list read_list = snapshot.getValue(IlJeong_list.class);
                 if (snapshot.exists()) {
-                    IlJeong_list read_list = snapshot.getValue(IlJeong_list.class);
-                    Log.d("FirebaseData", "Data: " + read_list.toString());
-                    IlJeong_list call_list = new IlJeong_list(read_list.getDate_day(), read_list.getDate_hour(), read_list.getDate_month(), read_list.getDate_week(), read_list.getDate_year(), read_list.getProfessor_name(), read_list.getProfessor_number(), read_list.getClassification(), read_list.getCounseling_content(), read_list.getCounseling_form(), read_list.getCounseling_group(), read_list.getState(), read_list.getQuestion());
-                    cList.add(call_list);
-                    mAdapter.notifyDataSetChanged();
-                    //if("취소".equals(read_list.getState())){
-                        //Toast.makeText(getApplicationContext(), "예약된 상담이 없습니다.", Toast.LENGTH_SHORT).show();
-                    //}
-                } else {
+                    if(read_list != null && !"취소".equals(read_list.getState())){
+                        anyValidItem = true;
+                        Log.d("FirebaseData", "Data: " + read_list.toString());
+                        IlJeong_list call_list = new IlJeong_list(read_list.getDate_day(), read_list.getDate_hour(), read_list.getDate_month(), read_list.getDate_week(), read_list.getDate_year(), read_list.getProfessor_name(), read_list.getProfessor_number(), read_list.getClassification(), read_list.getCounseling_content(), read_list.getCounseling_form(), read_list.getCounseling_group(), read_list.getState(), read_list.getQuestion());
+                        cList.add(call_list);
+                    }
 
+                } else {
                 }
+                if(!anyValidItem){
+                    Toast.makeText(getApplicationContext(), "예약된 상담이 없습니다.", Toast.LENGTH_SHORT).show();
+                }
+                mAdapter.notifyDataSetChanged();
             }
 
 
@@ -191,13 +211,13 @@ public class IlJeong_S extends AppCompatActivity {
 
 
     //public boolean onOptionsItemSelected(MenuItem item){
-        //switch(item.getItemId()){
-            //case android.R.id.home:{
-                //finish();
-                //return true;
-            //}
-        //}
-        //return super.onOptionsItemSelected(item);
+    //switch(item.getItemId()){
+    //case android.R.id.home:{
+    //finish();
+    //return true;
+    //}
+    //}
+    //return super.onOptionsItemSelected(item);
     //}
 
 }

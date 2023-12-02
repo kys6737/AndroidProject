@@ -331,8 +331,6 @@ public class DaySchedule extends AppCompatActivity {
                 okBtn.setOnClickListener(new View.OnClickListener(){
 
                     public void onClick(View v){
-                        completeBtn.setClickable(false);
-                        completeBtn.setBackgroundResource(R.drawable.unavailablenextbutton);
                         schedule_dialog.dismiss();
                     }
                 });

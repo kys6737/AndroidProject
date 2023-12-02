@@ -78,9 +78,9 @@ public class IlJeong_Adapter extends RecyclerView.Adapter<IlJeong_Adapter.ViewHo
         } else {
             holder.itemView.setVisibility(View.VISIBLE);
 
-            holder.when.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
-            holder.who.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
-            holder.what.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
+            //holder.when.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
+            //holder.who.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
+            //holder.what.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
 
             holder.when.setGravity(Gravity.LEFT);
             holder.who.setGravity(Gravity.LEFT);

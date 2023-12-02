@@ -65,9 +65,9 @@ public class IlJeong_Adapter_p extends RecyclerView.Adapter<IlJeong_Adapter_p.Vi
             return; // 뷰를 숨기면서 메서드를 종료
         }
 
-        holder.when.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
-        holder.who.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
-        holder.what.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
+        //holder.when.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
+        //holder.who.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
+        //holder.what.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
 
         holder.when.setGravity(Gravity.LEFT);
         holder.who.setGravity(Gravity.LEFT);

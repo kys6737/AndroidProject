@@ -82,7 +82,6 @@ public class Student_List extends AppCompatActivity {
         }));
 
 //        -------------------------------------------------------------------------------------
-        count=0;
         databaseReference.child("student_private_key").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -90,35 +89,35 @@ public class Student_List extends AppCompatActivity {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     int temp=dataSnapshot.getValue(Integer.class);
                     yourkeyList.add(temp);
-                    count++;
                 }
 
                 if(!yourkeyList.isEmpty()){
-                    for(int i=0; i<count; i++){
+                    for(int i=0; i<yourkeyList.size(); i++){
                         int element= yourkeyList.get(i);
-                        String element_s=String.valueOf(element);
 
-                        String j=String.valueOf(i+1);
-                        databaseReference.child("student_information").child(j).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if(snapshot.exists()){
-                                    StudentList_list list=snapshot.getValue(StudentList_list.class);
-                                    if(element==list.getPrivate_key()){
-                                        StudentList_list call_list=new StudentList_list(list.getProfileImageUrl(), list.getName(), list.getPrivate_key());
-                                        mArrayList.add(call_list);
+                        for(int x=1; x<=yourkeyList.size(); x++) {
+                            String j = String.valueOf(x);
+                            databaseReference.child("student_information").child(j).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (snapshot.exists()) {
+                                        StudentList_list list = snapshot.getValue(StudentList_list.class);
+                                        if (element == list.getPrivate_key()) {
+                                            StudentList_list call_list = new StudentList_list(list.getProfileImageUrl(), list.getName(), list.getPrivate_key());
+                                            mArrayList.add(call_list);
 
-                                        mAdapter.notifyDataSetChanged();
+                                            mAdapter.notifyDataSetChanged();
+                                        }
+
                                     }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
 
                                 }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
+                            });
+                        }
                     }
                 }
             }

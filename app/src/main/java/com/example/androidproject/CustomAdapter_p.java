@@ -54,27 +54,27 @@ public class CustomAdapter_p extends RecyclerView.Adapter<CustomAdapter_p.ViewHo
     @Override   // ViewHolder안의 내용을 position에 해당되는 데이터로 교체한다.
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        holder.when.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
-        holder.who.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
-        holder.what.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
+        //holder.when.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
+        //holder.who.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
+        //holder.what.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
 
         holder.when.setGravity(Gravity.LEFT);
         holder.who.setGravity(Gravity.LEFT);
         holder.what.setGravity(Gravity.LEFT);
 
         if(cList.get(position).getDate_hour()%1 != 0) {
-            holder.when.setText(String.valueOf(cList.get(position).getDate_year()) + "."
-                    + String.valueOf(cList.get(position).getDate_month()) + "."
+            holder.when.setText(String.valueOf(cList.get(position).getDate_year()) + "-"
+                    + String.valueOf(cList.get(position).getDate_month()) + "-"
                     + String.valueOf(cList.get(position).getDate_day())
                     + "(" + String.valueOf(cList.get(position).getDate_week()) + ")"
-                    + "  " + (int)(cList.get(position).getDate_hour()) + ":30");
+                    + " " + (int)(cList.get(position).getDate_hour()) + ":30");
         }
         else{
-            holder.when.setText(String.valueOf(cList.get(position).getDate_year()) + "."
-                    + String.valueOf(cList.get(position).getDate_month()) + "."
+            holder.when.setText(String.valueOf(cList.get(position).getDate_year()) + "-"
+                    + String.valueOf(cList.get(position).getDate_month()) + "-"
                     + String.valueOf(cList.get(position).getDate_day())
                     + "(" + String.valueOf(cList.get(position).getDate_week()) + ")"
-                    + "  " + (int)(cList.get(position).getDate_hour()) + ":00");
+                    + " " + (int)(cList.get(position).getDate_hour()) + ":00");
         }
         holder.who.setText(cList.get(position).getStudent_name());
         holder.what.setText(cList.get(position).getCounseling_form());

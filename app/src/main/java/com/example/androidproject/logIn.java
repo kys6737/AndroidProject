@@ -45,8 +45,8 @@ public class logIn extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.exists()) {
-                            int you = snapshot.getValue(Integer.class);
-                            your_key=String.valueOf(you);
+                            //int you = snapshot.getValue(Integer.class);
+                            //your_key=String.valueOf(you);
 
 
                             try{  //private_key 정수 변환

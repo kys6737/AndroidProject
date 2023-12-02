@@ -4,6 +4,7 @@ package com.example.androidproject;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,7 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 public class DetailIlJeongP extends AppCompatActivity {
 
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference, SdatabaseReference;
+    DatabaseReference databaseReference, SdatabaseReference, flucdatabaseReference;
 
     TextView day_db, pro_db, kind_db;
     TextView questionBox;
@@ -48,7 +49,7 @@ public class DetailIlJeongP extends AppCompatActivity {
 
         backBtn = findViewById(R.id.backBtn);
 
-        day_db = findViewById(R.id.day_db);
+        day_db = findViewById(R.id.time_when);
         pro_db = findViewById(R.id.pro_db);
         kind_db = findViewById(R.id.kind_db);
         questionBox = findViewById(R.id.questionbox);
@@ -130,6 +131,12 @@ public class DetailIlJeongP extends AppCompatActivity {
 
                         // 다이얼로그 생성
                         final AlertDialog yesalertDialog = yesbuilder.create();
+                        Intent intent1 = getIntent();
+                        int month = intent1.getIntExtra("dm", 0 );
+                        float hour = intent1.getFloatExtra("dh", 0);
+                        int day = intent1.getIntExtra("dd", 0);
+                        String tag = null;
+                        Log.d(tag, "month is" + hour);
 
                         Button ok = yesdialogView.findViewById(R.id.OK);
 
@@ -160,6 +167,83 @@ public class DetailIlJeongP extends AppCompatActivity {
 
                                     SdatabaseReference = firebaseDatabase.getReference(studentkey);
                                     SdatabaseReference.child("Schedule_Management/2021145818/content").child("state").setValue("취소");
+
+                                    flucdatabaseReference = firebaseDatabase.getReference("2021145818/Timetable/fluctuations2").child(String.valueOf(month)).child(String.valueOf(day));
+                                    Log.d("FirebaseData22", flucdatabaseReference.toString());
+
+                                    flucdatabaseReference.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            if(snapshot.exists()){
+
+                                                String fluc = snapshot.getValue(String.class);
+                                                Log.d(fluc, "fluc is"+ fluc);
+                                                if(fluc != null && !fluc.isEmpty()){
+                                                    if(snapshot.exists()){
+                                                        if(hour == 9){
+                                                            fluc = "0" + fluc.substring(1);
+                                                        }
+                                                        if(hour == 9.5){
+                                                            fluc = fluc.substring(0,1) + "0" + fluc.substring(2);
+                                                        }
+                                                        if(hour == 10){
+                                                            fluc = fluc.substring(0,2) + "0" + fluc.substring(3);
+                                                        }
+                                                        if(hour == 10.5){
+                                                            fluc = fluc.substring(0,3) + "0" + fluc.substring(4);
+                                                        }
+                                                        if(hour == 11){
+                                                            fluc = fluc.substring(0,4) + "0" + fluc.substring(5);
+                                                        }
+                                                        if(hour == 11.5){
+                                                            fluc = fluc.substring(0,5) + "0" + fluc.substring(6);
+                                                        }
+                                                        if(hour == 12){
+                                                            fluc = fluc.substring(0,6) + "0" + fluc.substring(7);
+                                                        }
+                                                        if(hour == 12.5){
+                                                            fluc = fluc.substring(0,7) + "0" + fluc.substring(8);
+                                                        }
+                                                        if(hour == 13){
+                                                            fluc = fluc.substring(0,8) + "0" + fluc.substring(9);
+                                                        }
+                                                        if(hour == 13.5){
+                                                            fluc = fluc.substring(0,9) + "0" + fluc.substring(10);
+                                                        }
+                                                        if(hour == 14){
+                                                            fluc = fluc.substring(0,10) + "0" + fluc.substring(11);
+                                                        }
+                                                        if(hour == 14.5){
+                                                            fluc = fluc.substring(0,11) + "0" + fluc.substring(12);
+                                                        }
+                                                        if(hour == 15){
+                                                            fluc = fluc.substring(0,12) + "0" + fluc.substring(13);
+                                                        }
+                                                        if(hour == 15.5){
+                                                            fluc = fluc.substring(0,13) + "0" + fluc.substring(14);
+                                                        }
+                                                        if(hour == 16){
+                                                            fluc = fluc.substring(0,14) + "0" + fluc.substring(15);
+                                                        }
+                                                        if(hour == 16.5){
+                                                            fluc = fluc.substring(0,15) + "0" + fluc.substring(16);
+                                                        }
+                                                        if(hour == 17){
+                                                            fluc = fluc.substring(0,16) + "0" + fluc.substring(17);
+                                                        }
+                                                        if(hour == 17.5){
+                                                            fluc = fluc.substring(0,17) + "0";
+                                                        }
+                                                    }
+                                                }flucdatabaseReference.setValue(fluc);
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
                                 }
                             }
                         });
@@ -175,12 +259,12 @@ public class DetailIlJeongP extends AppCompatActivity {
 
     //@Override
     //public boolean onOptionsItemSelected(MenuItem item) {
-        //switch (item.getItemId()) {
-            //case android.R.id.home:
-                //finish(); // 뒤로가기 버튼 눌렀을 때 현재 액티비티 종료
-                //return true;
-            //default:
-                //return super.onOptionsItemSelected(item);
-        //}
+    //switch (item.getItemId()) {
+    //case android.R.id.home:
+    //finish(); // 뒤로가기 버튼 눌렀을 때 현재 액티비티 종료
+    //return true;
+    //default:
+    //return super.onOptionsItemSelected(item);
+    //}
     //}
 }

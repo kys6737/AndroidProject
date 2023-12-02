@@ -68,7 +68,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/day_db"
+        android:id="@+id/time_when"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="110dp"
@@ -102,34 +102,37 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="180dp"
+        android:layout_marginTop="28dp"
         android:text="작성한 질문"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/kind" />
 
-    <TextView
+    <android.widget.TextView
         android:id="@+id/questionbox"
-        android:layout_width="385dp"
-        android:layout_height="367dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/edge"
-        android:ems="10"
+        android:layout_width="match_parent"
+        android:layout_height="270dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/rectangularedittext"
+        android:gravity="start"
         android:inputType="textMultiLine"
-        android:text="질문상자"
+        android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/question" />
 
     <Button
         android:id="@+id/cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="25dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/buttonshape"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/availablenextbutton"
         android:onClick="PopupClicked"
         android:text="상담 취소"
-        android:textColor="#22B14B"
-        android:textSize="10sp"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/questionbox"
         app:layout_constraintTop_toBottomOf="@+id/questionbox" />

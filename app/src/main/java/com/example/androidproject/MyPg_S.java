@@ -123,7 +123,7 @@ public class MyPg_S extends AppCompatActivity {
                     editMail.setText(firebaseEmail);
 
                     // 프로필 이미지 URL을 가져와서 이미지 설정
-                    String imageUrl = dataSnapshot.child("student_information").child("profileImageUrl").getValue(String.class);
+                    String imageUrl = dataSnapshot.child("profileImageUrl").getValue(String.class);
                     if (imageUrl != null && !imageUrl.isEmpty()) {
                         // 이미지 URL이 존재하면 이미지를 다운로드하여 설정
                         downloadImageAndSetToImageView(imageUrl);

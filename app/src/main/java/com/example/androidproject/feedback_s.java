@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -89,8 +90,9 @@ public class feedback_s extends AppCompatActivity {
         kind_what.setText(kind);
         feedback_record.setText(msg);
 
-        AlertDialog.Builder builder=new AlertDialog.Builder(this);
-        builder.setTitle("").setMessage("후기가 등록되었습니다.");
+        //AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        //builder.setTitle("").setMessage("후기가 등록되었습니다.");
+
 
         databaseReference.child("professor_private_key").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -113,17 +115,42 @@ public class feedback_s extends AppCompatActivity {
             }
         });
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // 사용자 정의 레이아웃을 설정
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog2, null);
+        builder.setView(dialogView);
+
 
         add_btn.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
-                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                //builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                   // @Override
+                    //public void onClick(DialogInterface dialog, int which) {
+
+                    //}
+                //});
+                //AlertDialog alertDialog=builder.create();
+                //alertDialog.show();
+
+
+                final AlertDialog dialog = builder.create();
+                // 사용자 정의 레이아웃 내부의 뷰를 참조
+                TextView confirmTextView = dialogView.findViewById(R.id.confirmTextView);
+                Button yesButton = dialogView.findViewById(R.id.yesButton);
+
+                // 메시지 설정
+                confirmTextView.setText("후기가 등록되었습니다.");
+
+                yesButton.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(View v) {
+                        dialog.dismiss();
 
                     }
                 });
-                AlertDialog alertDialog=builder.create();
-                alertDialog.show();
+                dialog.show();
 
                 msg=feedback_record.getText().toString();
 

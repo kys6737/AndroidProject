@@ -18,6 +18,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -29,6 +31,8 @@ public class Adapter_student_list extends RecyclerView.Adapter<Adapter_student_l
 
     private ArrayList<StudentList_list> cList;
     private Context mContext;
+
+    static FirebaseStorage storage;
 
     //===== 뷰홀더 클래스 =====================================================
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -42,6 +46,8 @@ public class Adapter_student_list extends RecyclerView.Adapter<Adapter_student_l
 
             s_photo.setBackground(new ShapeDrawable(new OvalShape()));
             s_photo.setClipToOutline(true);
+
+            storage=FirebaseStorage.getInstance();
         }
     }
     //========================================================================
@@ -74,11 +80,21 @@ public class Adapter_student_list extends RecyclerView.Adapter<Adapter_student_l
         holder.s_name.setGravity(Gravity.LEFT);
         holder.s_name.setText(cList.get(position).getName());
 
-        Glide.with(mContext).asBitmap()
-                .load(cList.get(position).getProfileImageUrl())
-                .error(R.drawable.profile)  //url이 없을 때 보여줄 이미지 설정
-//                .override(300, 300)      //이미지 크기 설정이라는데 크기 안바뀌는 듯
-                .into(holder.s_photo);
+        StorageReference storageRef = storage.getReferenceFromUrl(cList.get(position).getProfileImageUrl());
+
+        // 이미지 다운로드
+        final long ONE_MEGABYTE = 1024 * 1024;
+        storageRef.getBytes(ONE_MEGABYTE)
+                .addOnSuccessListener(bytes -> {
+                    // 이미지 다운로드 성공
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                    holder.s_photo.setImageBitmap(bitmap);
+                })
+                .addOnFailureListener(e -> {
+                    // 이미지 다운로드 실패
+//                    Toast.makeText(MyPg_P.this, "이미지 다운로드에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                });
+
 
     }
 

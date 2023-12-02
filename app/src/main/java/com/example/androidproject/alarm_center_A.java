@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
@@ -37,7 +38,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class alarm_center_A extends AppCompatActivity {
+    ImageButton backBtn;
     public static class professor_information{
+
         public int private_key = 1;
 
         public String name = "name";
@@ -238,6 +241,13 @@ public class alarm_center_A extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alarm_center);
         askNotificationPermission();
+        backBtn = findViewById(R.id.backBtn);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {

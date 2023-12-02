@@ -175,6 +175,12 @@ public class IlJeong_P extends AppCompatActivity {
 
                         databaseReference.child("history").child("2023_2").child(list_click.getStudent_key()).child("content").setValue(pHistory);
                         //DBReference.child(list_click.getStudent_key()).child("history").child(String.valueOf(countH)).child("content").setValue(sHistory);
+
+
+                        databaseReference.child("Schedule_Management").child(list_click.getStudent_key()).child("content").child("state").setValue("취소");
+                        DBReference.child(list_click.getStudent_key()).child("Schedule_Management").child("2021145818").child("content").child("state").setValue("취소");
+                        //cList.remove(cList.get(position));
+
                         Toast.makeText(IlJeong_P.this, "상담 내역에 저장되었습니다.", Toast.LENGTH_SHORT).show();
 
                         DBReference.child(list_click.getStudent_key()).child("history").child("value").setValue(countH+1);

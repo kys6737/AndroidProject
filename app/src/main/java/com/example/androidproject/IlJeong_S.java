@@ -144,7 +144,6 @@ public class IlJeong_S extends AppCompatActivity {
                 } else {
                 }
                 if(!anyValidItem){
-                    Toast.makeText(getApplicationContext(), "예약된 상담이 없습니다.", Toast.LENGTH_SHORT).show();
                 }
                 mAdapter.notifyDataSetChanged();
             }

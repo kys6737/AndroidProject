@@ -130,9 +130,7 @@ public class MyPg_S extends AppCompatActivity {
                         // 이미지 URL이 존재하면 이미지를 다운로드하여 설정
                         downloadImageAndSetToImageView(imageUrl);
                     }
-                    else{
-                        Toast.makeText(MyPg_S.this,"실패",Toast.LENGTH_SHORT).show();
-                    }
+
                     Boolean lastAlarmStatus = dataSnapshot.child("alarm").getValue(Boolean.class);
                     // lastAlarmStatus 값에 따라 스위치 상태를 설정
                     if (lastAlarmStatus != null) {
@@ -186,13 +184,10 @@ public class MyPg_S extends AppCompatActivity {
                 String onOff;
                 if(isChecked){
                     databaseReference.child("student_information").child("alarm").setValue(true);
-                    onOff = "알림 On";
                 }
                 else {
                     databaseReference.child("student_information").child("alarm").setValue(false);
-                    onOff = "알림 Off";
                 }
-                Toast.makeText(MyPg_S.this,onOff,Toast.LENGTH_SHORT).show();
             }
         });
         changeImgBtn.setOnClickListener(new View.OnClickListener() {
@@ -217,7 +212,6 @@ public class MyPg_S extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> {
                     // 이미지 다운로드 실패
-                    Toast.makeText(MyPg_S.this, "이미지 다운로드에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 });
     }
     public void UpdateToProfessorEdit(){
@@ -245,14 +239,12 @@ public class MyPg_S extends AppCompatActivity {
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                         // 데이터 읽기가 실패했을 때 호출
-                        System.out.println("Error: " + databaseError.getMessage());
                     }
                 });
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // 데이터 읽기가 실패했을 때 호출됩니다.
-                System.out.println("Error: " + databaseError.getMessage());
             }
         });
     }
@@ -438,7 +430,6 @@ public class MyPg_S extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> {
                     // 이미지 업로드 실패
-                    Toast.makeText(MyPg_S.this, "이미지 업로드에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 });
     }
 
@@ -481,7 +472,6 @@ public class MyPg_S extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> {
                     // 이미지 업로드 실패
-                    Toast.makeText(MyPg_S.this, "이미지 업로드에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 });
     }
 }

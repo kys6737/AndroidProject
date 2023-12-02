@@ -194,7 +194,6 @@ public class IlJeong_P extends AppCompatActivity {
                 noButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(getApplicationContext(), "상담이 아직 완료되지 않았습니다.", Toast.LENGTH_SHORT).show();
 
                         dialog.dismiss();
 

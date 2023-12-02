@@ -117,7 +117,6 @@ public class MyProfessorActivity extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> {
                     // 이미지 다운로드 실패
-                    Toast.makeText(MyProfessorActivity.this, "이미지 다운로드에 실패했습니다.", Toast.LENGTH_SHORT).show();
-                });
+                   });
     }
 }
